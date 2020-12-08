@@ -1,0 +1,76 @@
+import React from "react";
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import config from "../config.js"
+import { Redirect } from "react-router"
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+
+export function receiveLogin() {
+    return {
+        type: LOGIN_SUCCESS
+    };
+}
+
+function loginError(payload) {
+    return {
+        type: LOGIN_FAILURE,
+        payload,
+    };
+}
+
+function requestLogout() {
+    return {
+        type: LOGOUT_REQUEST,
+    };
+}
+
+export function receiveLogout() {
+    return {
+        type: LOGOUT_SUCCESS,
+    };
+}
+
+// Logs the user out
+export function logoutUser() {
+    return (dispatch) => {
+        dispatch(requestLogout());
+        localStorage.removeItem('authenticated');
+        dispatch(receiveLogout());
+    };
+}
+
+export function loginUser(creds) {
+    return (dispatch) => {
+
+        // dispatch(receiveLogin());
+
+        if (creds.email.length > 0 && creds.password.length > 0) {
+          axios.post(config.baseURLApi+'login', {email: creds.email, password: creds.password})
+              .then(function (response) {
+                  if (response.data.message==='No user found') {
+                      Swal.fire({
+                          icon: 'success',
+                          text: 'No user found',
+                          showConfirmButton: true,
+                          timer: 3500
+                      });
+                  }
+                  else {
+                    dispatch(receiveLogin());
+                    localStorage.setItem('authenticated', true);
+                    window.location.reload(false)
+                  }
+              })
+              .catch(function (error) {
+                  // handle error
+                  console.log(error);
+                  dispatch(loginError(error));
+              })
+        } else {
+            dispatch(loginError('Something was wrong. Try again'));
+        }
+    }
+}
