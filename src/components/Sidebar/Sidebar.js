@@ -89,7 +89,7 @@ class Sidebar extends React.Component {
                   height={"24px"}
                 />
               )}
-            </LinksGroup> 
+            </LinksGroup>
             <LinksGroup
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
@@ -116,6 +116,60 @@ class Sidebar extends React.Component {
             header="Blog"
             isHeader
             link="/app/main/blog"
+            index="main"
+          >
+          <img
+            src={accountIcon}
+            alt="lightDashboard"
+            width={"24px"}
+            height={"24px"}
+          />
+          </LinksGroup>
+
+          <LinksGroup
+            onActiveSidebarItemChange={activeItem =>
+              this.props.dispatch(changeActiveSidebarItem(activeItem))
+            }
+            activeItem={this.props.activeItem}
+            header="Doctor"
+            isHeader
+            link="/app/main/doctor"
+            index="main"
+          >
+          <img
+            src={accountIcon}
+            alt="lightDashboard"
+            width={"24px"}
+            height={"24px"}
+          />
+          </LinksGroup>
+
+          <LinksGroup
+            onActiveSidebarItemChange={activeItem =>
+              this.props.dispatch(changeActiveSidebarItem(activeItem))
+            }
+            activeItem={this.props.activeItem}
+            header="Patient"
+            isHeader
+            link="/app/main/patient"
+            index="main"
+          >
+          <img
+            src={accountIcon}
+            alt="lightDashboard"
+            width={"24px"}
+            height={"24px"}
+          />
+          </LinksGroup>
+
+          <LinksGroup
+            onActiveSidebarItemChange={activeItem =>
+              this.props.dispatch(changeActiveSidebarItem(activeItem))
+            }
+            activeItem={this.props.activeItem}
+            header="Test"
+            isHeader
+            link="/app/main/test"
             index="main"
           >
           <img

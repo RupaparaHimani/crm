@@ -1,0 +1,6 @@
+{
+  "name": "doctor",
+  "version": "1.0.0",
+  "main": "Doctor.js",
+  "license": "MIT"
+}

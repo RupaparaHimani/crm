@@ -20,6 +20,9 @@ import BreadcrumbHistory from "../BreadcrumbHistory";
 import Typography from "../../pages/typography";
 import Counsellor from "../../pages/counsellor/Counsellor";
 import Blog from "../../pages/blog/Blog";
+import Doctor from "../../pages/doctor/Doctor";
+import Patient from "../../pages/patient/Patient";
+import Test from "../../pages/test/Test";
 import Maps from "../../pages/maps";
 import Notifications from "../../pages/notifications/Notifications";
 import Icons from "../../pages/icons";
@@ -124,6 +127,9 @@ class Layout extends React.Component {
                       component={Counsellor}
                     />
                     <Route path="/app/main/blog" exact component={Blog} />
+                    <Route path="/app/main/doctor" exact component={Doctor} />
+                    <Route path="/app/main/patient" exact component={Patient} />
+                    <Route path="/app/main/test" exact component={Test} />
                     <Route path={"/app/typography"} component={Typography} />
                     <Route path={"/app/tables"} component={Tables} />
                     <Route path={"/app/ui/maps"} component={Maps} />

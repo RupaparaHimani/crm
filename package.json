@@ -64,6 +64,7 @@
     "echarts": "^4.4.0",
     "echarts-for-react": "^2.0.15-beta.1",
     "email-validator": "^2.0.4",
+    "file-saver": "^2.0.5",
     "font-awesome": "4.7.0",
     "glyphicons-halflings": "^1.9.1",
     "line-awesome": "github:icons8/line-awesome",
