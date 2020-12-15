@@ -22,7 +22,22 @@ class Doctor extends React.Component {
       email: '',
       number: '',
       password: '',
-      confirm_password: ''
+      confirm_password: '',
+      toTimeMon : '',
+      fromTimeMon : '',
+      toTimeTue : '',
+      fromTimeTue : '',
+      toTimeWen : '',
+      fromTimeWen : '',
+      toTimeThr : '',
+      fromTimeThr : '',
+      toTimeFri : '',
+      fromTimeFri : '',
+      toTimeSat : '',
+      fromTimeSat : '',
+      toTimeSun : '',
+      fromTimeSun : '',
+      schedule : ''
     }
   }
 
@@ -47,6 +62,27 @@ class Doctor extends React.Component {
 
   createUser = (event) => {
     event.preventDefault();
+      // var Mon = [this.state.toTimeMon,this.state.fromTimeMon];
+      // var Tue = [this.state.toTimeTue,this.state.fromTimeTue];
+      // var Wen = [this.state.toTimeWen,this.state.fromTimeWen];
+      // var Thr = [this.state.toTimeThr,this.state.fromTimeThr];
+      // var Fri = [this.state.toTimeFri,this.state.fromTimeFri];
+      // var Sat = [this.state.toTimeSat,this.state.fromTimeSat];
+      // var Sun = [this.state.toTimeSun,this.state.fromTimeSun];
+      // var schedule = [Mon,Tue,Wen,Thr,Fri,Sat,Sun];
+
+      var Mon = {'Monday' : this.state.toTimeMon +' - ' +this.state.fromTimeMon};
+      var Tue = {'Tuesday' : this.state.toTimeTue +' - ' +this.state.fromTimeTue};
+      var Wen = {'Wensday' : this.state.toTimeWen +' - ' +this.state.toTimeWen};
+      var Thr = {'Thrusday' : this.state.toTimeThr +' - ' +this.state.toTimeThr};
+      var Fri = {'Friday' : this.state.toTimeFri +' - ' +this.state.toTimeFri};
+      var Sat = {'Saturday' : this.state.toTimeSat +' - ' +this.state.toTimeSat};
+      var Sun = {'Sunday' : this.state.toTimeSun +' - ' +this.state.fromTimeSun};
+
+      var schedule = {Mon,Tue};
+
+      console.log("schedule",Mon,Tue,Wen,Thr,Fri,Sat,Sun)
+      // return false
 
       if (this.state.fname==='' || this.state.lname==='' || this.state.email==='' || this.state.number==='') {
         toast.error("Please enter all the fields!");
@@ -89,6 +125,14 @@ class Doctor extends React.Component {
   }
   onConfirmPasswordChange = event => {
     this.setState({ confirm_password: event.target.value})
+  }
+
+  onNameChangeFun = (e,name) => {
+    // var time = this.state.toMonTime +' - '+ this.state.fromMonTime;
+    
+    this.setState({[name]: e.target.value})
+
+
   }
 
 
@@ -203,6 +247,132 @@ class Doctor extends React.Component {
                 </div>
               </Col>
               </> : '' }
+              </Row>
+              <Row>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <h3>Monday</h3>
+                  </div>
+                </Col>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <input type="time" className="form-control" id="toTimeMon" name="toTimeMon"  value={ this.state.toTimeMon} onChange={(event) => this.onNameChangeFun(event,'toTimeMon')}/>
+
+                  </div>
+                </Col>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <input type="time" className="form-control" id="fromTimeMon" name="fromTimeMon"  value={ this.state.fromTimeMon} onChange={(event) => this.onNameChangeFun(event,'fromTimeMon')}/>
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <h3>Tuesday</h3>
+                  </div>
+                </Col>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <input type="time" className="form-control" id="toTimeTue" name="toTimeTue"  value={ this.state.toTimeTue} onChange={(event) => this.onNameChangeFun(event,'toTimeTue')}/>
+
+                  </div>
+                </Col>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <input type="time" className="form-control" id="fromTimeMon" name="fromTimeMon"  value={ this.state.fromMonTime} onChange={(event) => this.onNameChangeFun(event,'fromTimeMon')}/>
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <h3>Wensday</h3>
+                  </div>
+                </Col>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <input type="time" className="form-control" id="toTimeWen" name="toTimeWen"  value={ this.state.toTimeWen} onChange={(event) => this.onNameChangeFun(event,'toTimeWen')}/>
+
+                  </div>
+                </Col>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <input type="time" className="form-control" id="fromTimeWen" name="fromTimeWen"  value={ this.state.fromTimeWen} onChange={(event) => this.onNameChangeFun(event,'fromTimeWen')}/>
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <h3>Thrusday</h3>
+                  </div>
+                </Col>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <input type="time" className="form-control" id="toTimeThr" name="toTimeThr"  value={ this.state.toTimeThr} onChange={(event) => this.onNameChangeFun(event,'toTimeThr')}/>
+
+                  </div>
+                </Col>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <input type="time" className="form-control" id="fromTimeThr" name="fromTimeThr"  value={ this.state.fromTimeThr} onChange={(event) => this.onNameChangeFun(event,'fromTimeThr')}/>
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <h3>Friday</h3>
+                  </div>
+                </Col>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <input type="time" className="form-control" id="toTimeFri" name="toTimeFri"  value={ this.state.toTimeFri} onChange={(event) => this.onNameChangeFun(event,'toTimeFri')}/>
+
+                  </div>
+                </Col>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <input type="time" className="form-control" id="fromTimeFri" name="fromTimeFri"  value={ this.state.fromTimeFri} onChange={(event) => this.onNameChangeFun(event,'fromTimeFri')}/>
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <h3>Saturday</h3>
+                  </div>
+                </Col>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <input type="time" className="form-control" id="toTimeSat" name="toTimeSat"  value={ this.state.toTimeSat} onChange={(event) => this.onNameChangeFun(event,'toTimeSat')}/>
+
+                  </div>
+                </Col>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <input type="time" className="form-control" id="fromTimeSat" name="fromTimeSat"  value={ this.state.fromTimeSat} onChange={(event) => this.onNameChangeFun(event,'fromTimeSat')}/>
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <h3>Sunday</h3>
+                  </div>
+                </Col>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <input type="time" className="form-control" id="toTimeSun" name="toTimeSun"  value={ this.state.toTimeSun} onChange={(event) => this.onNameChangeFun(event,'toTimeSun')}/>
+
+                  </div>
+                </Col>
+                <Col xl={4}>
+                  <div className="form-group">
+                    <input type="time" className="form-control" id="fromTimeSun" name="fromTimeSun"  value={ this.state.fromTimeSun} onChange={(event) => this.onNameChangeFun(event,'fromTimeSun')}/>
+                  </div>
+                </Col>
               </Row>
             </ModalBody>
           <ModalFooter>
