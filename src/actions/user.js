@@ -164,7 +164,7 @@ export function createUser(userData) {
     return (dispatch) => {
         if (userData.email.length > 0 && userData.password.length > 0) {
             let self = this;
-              axios.post(config.baseURLApi+'sign-up', {email: userData.email, fname: userData.fname, lname: userData.lname, number: userData.number, password: userData.password, user_type: userData.user_type, type: userData.type})
+              axios.post(config.baseURLApi+'sign-up', {email: userData.email, fname: userData.fname, lname: userData.lname, number: userData.number, password: userData.password, user_type: userData.user_type, type: userData.type, schedule : userData.schedule})
                   .then(function (response) {
                       Swal.fire({
                           icon: 'success',
@@ -191,7 +191,7 @@ export function createUser(userData) {
 export function updateUser(userData) {
     return (dispatch) => {
       let self = this;
-        axios.post(config.baseURLApi+'update', {id: userData.id, email: userData.email, fname: userData.fname, lname: userData.lname, number: userData.number})
+        axios.post(config.baseURLApi+'update', {id: userData.id, email: userData.email, fname: userData.fname, lname: userData.lname, number: userData.number, schedule : userData.schedule})
             .then(function (response) {
                 Swal.fire({
                     icon: 'success',
