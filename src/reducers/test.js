@@ -4,12 +4,14 @@ import {
   FETCH_TESTS_FAILURE,
   EDIT_TESTS_SUCCESS,
   FETCH_PAID_TESTS_SUCCESS,
-  CREATE_PAID_TEST_SUCCESS
+  CREATE_PAID_TEST_SUCCESS,
+  UPDATE_TEST_PDF_SUCCESS
 } from '../actions/test';
 
 const initialState = {
   tests: [],
-  paid_tests: []
+  paid_tests: [],
+  temp: [],
 };
 
 export default function testReducer(state = initialState, action) {
@@ -34,19 +36,17 @@ export default function testReducer(state = initialState, action) {
           paid_tests: [...state.paid_tests, action.payload.paid_tests]
       });
 
+    case UPDATE_TEST_PDF_SUCCESS:
+        return Object.assign({}, state, {
+            paid_tests: state.paid_tests.map(obj => action.payload.test.find(o => o.id === obj.id) || obj)
+        });
+
     case FETCH_PAID_TESTS_SUCCESS:
       return Object.assign({}, state, {
           paid_tests: action.payload.paid_tests,
       });
 
     case FETCH_TESTS_FAILURE:
-      // The request failed. It's done. So set loading to "false".
-      // Save the error, so we can display it somewhere.
-      // Since it failed, we don't have tests to display anymore, so set `tests` empty.
-      //
-      // This is all up to you and your app though:
-      // maybe you want to keep the tests around!
-      // Do whatever seems right for your use case.
       return {
         ...state,
         loading: false,

@@ -7,6 +7,7 @@ export const EDIT_TESTS_SUCCESS = 'EDIT_TESTS_SUCCESS';
 export const FETCH_TESTS_FAILURE = 'FETCH_TESTS_FAILURE';
 export const FETCH_PAID_TESTS_SUCCESS = 'FETCH_PAID_TESTS_SUCCESS';
 export const CREATE_PAID_TEST_SUCCESS = 'CREATE_PAID_TEST_SUCCESS';
+export const UPDATE_TEST_PDF_SUCCESS = 'UPDATE_TEST_PDF_SUCCESS';
 
 export const fetchTestsBegin = () => ({
   type: FETCH_TESTS_BEGIN
@@ -15,6 +16,11 @@ export const fetchTestsBegin = () => ({
 export const fetchTestsSuccess = (tests, ary) => ({
   type: FETCH_TESTS_SUCCESS,
   payload: { tests, ary }
+});
+
+export const updateTestPdfSuccess = (test) => ({
+  type: UPDATE_TEST_PDF_SUCCESS,
+  payload: { test }
 });
 
 export const createPaidTestSuccess = (paid_tests) => ({
@@ -141,4 +147,17 @@ function handleErrors(response) {
     throw Error(response.statusText);
   }
   return response;
+}
+
+export function updateTestPdf(data) {
+  return (dispatch) => {
+    axios.post(config.baseURLApi+'update_pdf', {user_id: data.user_id, pdf_blob: data.blob, order_id: data.order_id})
+      .then(function (response) {
+        console.log("respose from action", response);
+        dispatch(updateTestPdfSuccess(response.data.test))
+      })
+    .catch((error) => {
+      dispatch(fetchTestsFailure(error))
+    });
+    }
 }

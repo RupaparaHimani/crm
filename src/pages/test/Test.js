@@ -6,14 +6,13 @@ import axios from "axios";
 import s from "./Dashboard.module.scss";
 import Widget from "../../components/Widget";
 import stocksImg from "../../images/stocks.svg";
-import { fetchTests, fetchPaidTests, createTest } from "../../actions/test";
+import { fetchTests, fetchPaidTests, createTest, updateTestPdf } from "../../actions/test";
 import { fetchOfflineUsers } from "../../actions/user";
 import ReactQuill from 'react-quill';
 import { toast, ToastContainer } from 'react-toastify';
 import FileSaver from 'file-saver';
 import Swal from 'sweetalert2';
 var validator = require("email-validator");
-
 
 class Test extends React.Component {
   constructor() {
@@ -22,6 +21,7 @@ class Test extends React.Component {
       modal: false,
       user: 0,
       test: 0,
+      url: '',
       selectedFile: null
     }
   }
@@ -32,45 +32,23 @@ class Test extends React.Component {
     this.props.dispatch(fetchOfflineUsers());
   }
 
-  onFileChange = event => {
-    Swal.fire({
-        icon: 'error',
-        type: 'error',
-        text: 'Work In progress',
-        showConfirmButton: true,
-    });
-    // this.setState({ selectedFile: event.target.files[0]})
-    // Set File Type
-  // setFileType('pdf');
+  onFileChange = (event, user_id, order_id) => {
+    // event.preventDefault()
+    console.log(user_id, order_id);
+    var selectedFile = event.target.files[0]
+    var url = URL.createObjectURL(new Blob([selectedFile] , {type:'application/pdf'}))
+    this.setState({ selectedFileURL: url})
+    this.props.dispatch(updateTestPdf({user_id: user_id, order_id: order_id, blob: url}));
 
-  // File Reader
-  // const reader = new FileReader();
+    console.log(url);
 
-  // File Reader: On Load
-  // reader.onload = () => {
 
-    // File Data (Binary String)
-    // const fileData = reader.result;
-
-    // HOW CAN I CONVERT THE BINARY STRING TO TEXT?
-    // HOW CAN I CONVERT THE BINARY STRING TO TEXT?
-    // HOW CAN I CONVERT THE BINARY STRING TO TEXT?
-
-    // Parsed Results
-    // const parsedResults = null;
-
-    // Set File
-    // setFile(parsedResults);
-  // };
-
-  // File Reader: Read As Binary String
-  // reader.readAsBinaryString(acceptedFiles[0]);
+    // FileSaver.saveAs(url, "test_result.pdf");
   }
 
   createSelectItemsUser = () => {
      let items = [];
      for (let i = 0; i < this.props.users.length; i++) {
-       console.log(i);
         items.push(<option key={this.props.users[i].id} value={this.props.users[i].id} >{this.props.users[i].first_name} {this.props.users[i].last_name}</option>);
      }
 
@@ -139,13 +117,19 @@ class Test extends React.Component {
 
   pdf_download = (event, pdf_blob) => {
     event.preventDefault();
-    var blob = new Blob([pdf_blob], {type: 'application/pdf'});
-    FileSaver.saveAs(blob, "test_result.pdf");
+    console.log(pdf_blob);
+    if(pdf_blob.includes("blob:")){
+      FileSaver.saveAs(blob, "test_result.pdf");
+    }else{
+      var blob = new Blob([pdf_blob], {type: 'application/pdf'});
+      FileSaver.saveAs(blob, "test_result.pdf");
+    }
   }
 
   render() {
+    console.log(this.state);
     const { tests, paid_tests, users } = this.props;
-    console.log("paid_tests", this.state);
+    console.log("paid_tests", paid_tests);
     return (
       <div className={s.root}>
       <ToastContainer />
@@ -181,11 +165,10 @@ class Test extends React.Component {
                         {this.get_test_name(row.testID)}
                       </td>
                       <td >
-                        {row.pdf_blob != null ? <a onClick={(e) => this.pdf_download(e, row.pdf_blob)}> Download </a> :
+                        {row.pdf_blob != null && row.pdf_blob != "" ? <a onClick={(e) => this.pdf_download(e, row.pdf_blob)}> Download </a> :
                           <>
-                            <a onClick={(event) => this.onFileChange(event)}> Upload Result </a>
-                            {/*}<input type="file" id="actual-btn" style={{display:'none'}} onChange={(event) => this.onFileChange(event)}/>
-                            <label for="actual-btn" style={{cursor: 'pointer'}}>Upload Result</label> */}
+                            <input type="file" id={row.id} style={{display:'none'}} onChange={(event) => this.onFileChange(event, row.userID, row.id)}/>
+                            <label for={row.id} style={{cursor: 'pointer'}}>Upload Result</label>
                           </>
                         }
                       </td>
