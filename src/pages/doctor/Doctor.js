@@ -53,7 +53,9 @@ class Doctor extends React.Component {
       toTimeSun2 : '',
       fromTimeSun2 : '',
 
-      schedule : ''
+      schedule : '',
+
+      sData : []
     }
   }
 
@@ -65,12 +67,58 @@ class Doctor extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     console.log("state from props", nextProps);
     if ( nextProps.user != null && nextProps.edit == true && prevState.id != nextProps.user.id ) {
+      var data = nextProps.user.schedule !== null ? JSON.parse(nextProps.user.schedule) : '';
+      console.log("data",data)
       return {
         id: nextProps.user.id,
         fname: nextProps.user.first_name,
         lname: nextProps.user.last_name,
         email: nextProps.user.email,
         number: nextProps.user.number,
+        sData : nextProps.user.schedule != null ? data.length > 0 ? data[0].shiftone[0] : '' : '',
+        toTimeMon1 : nextProps.user.schedule != null ? data.length > 0 ? data[0].shiftone[0] : '' : '',
+        fromTimeMon1 : nextProps.user.schedule != null ? data.length > 0 ? data[0].shiftone[1] : '' : '',
+
+        toTimeTue1 : nextProps.user.schedule != null ? data.length > 0 ? data[1].shiftone[0] : '' : '',
+        fromTimeTue1 : nextProps.user.schedule != null ? data.length > 0 ? data[1].shiftone[1] : '' : '',
+
+        toTimeWen1 : nextProps.user.schedule != null ? data.length > 0 ? data[2].shiftone[0] : '' : '',
+        fromTimeWen1 : nextProps.user.schedule != null ? data.length > 0 ? data[2].shiftone[1] : '' : '',
+
+        toTimeThr1 : nextProps.user.schedule != null ? data.length > 0 ? data[3].shiftone[0] : '' : '',
+        fromTimeThr1 : nextProps.user.schedule != null ? data.length > 0 ? data[3].shiftone[1] : '' : '',
+
+        toTimeFri1 : nextProps.user.schedule != null ? data.length > 0 ? data[4].shiftone[0] : '' : '',
+        fromTimeFri1 : nextProps.user.schedule != null ? data.length > 0 ? data[4].shiftone[1] : '' : '',
+
+        toTimeSat1 : nextProps.user.schedule != null ? data.length > 0 ? data[5].shiftone[0] : '' : '',
+        fromTimeSat1 : nextProps.user.schedule != null ? data.length > 0 ? data[5].shiftone[1] : '' : '',
+
+        toTimeSun1 : nextProps.user.schedule != null ? data.length > 0 ? data[6].shiftone[0] : '' : '',
+        fromTimeSun1 : nextProps.user.schedule != null ? data.length > 0 ? data[6].shiftone[1] : '' : '',
+
+
+        toTimeMon2 : nextProps.user.schedule != null ? data.length > 0 ? data[0].shifttwo[0] : '' : '',
+        fromTimeMon2 : nextProps.user.schedule != null ? data.length > 0 ? data[0].shifttwo[1] : '' : '',
+
+        toTimeTue2 : nextProps.user.schedule != null ? data.length > 0 ? data[1].shifttwo[0] : '' : '',
+        fromTimeTue2 : nextProps.user.schedule != null ? data.length > 0 ? data[1].shifttwo[1] : '' : '',
+
+        toTimeWen2 : nextProps.user.schedule != null ? data.length > 0 ? data[2].shifttwo[0] : '' : '',
+        fromTimeWen2 : nextProps.user.schedule != null ? data.length > 0 ? data[2].shifttwo[1] : '' : '',
+
+        toTimeThr2 : nextProps.user.schedule != null ? data.length > 0 ? data[3].shifttwo[0] : '' : '',
+        fromTimeThr2 : nextProps.user.schedule != null ? data.length > 0 ? data[3].shifttwo[1] : '' : '',
+
+        toTimeFri2 : nextProps.user.schedule != null ? data.length > 0 ? data[4].shifttwo[0] : '' : '',
+        fromTimeFri2 : nextProps.user.schedule != null ? data.length > 0 ? data[4].shifttwo[1] : '' : '',
+
+        toTimeSat2 : nextProps.user.schedule != null ? data.length > 0 ? data[5].shifttwo[0] : '' : '',
+        fromTimeSat2 : nextProps.user.schedule != null ? data.length > 0 ? data[5].shifttwo[1] : '' : '',
+
+        toTimeSun2 : nextProps.user.schedule != null ? data.length > 0 ? data[6].shifttwo[0] : '' : '',
+        fromTimeSun2 : nextProps.user.schedule != null ? data.length > 0 ? data[6].shifttwo[1] : '' : '',
+
       };
     }
     return null;
@@ -109,6 +157,7 @@ class Doctor extends React.Component {
       // var Sat = {'Saturday' : this.state.toTimeSat1 +' - ' +this.state.toTimeSat1};
       // var Sun = {'Sunday' : this.state.toTimeSun1 +' - ' +this.state.fromTimeSun1};
 
+      // var schedule = this.state.sData;//[Mon,Tue,Wen,Thr,Fri,Sat,Sun];
       var schedule = [Mon,Tue,Wen,Thr,Fri,Sat,Sun];
 
       console.log("schedule",schedule)
@@ -168,7 +217,50 @@ class Doctor extends React.Component {
 
 
   toggle = () => {
-    this.setState({ id : 0, title: '', description: '', imgurl: '' })
+    this.setState({ 
+      id : 0, 
+      title: '', 
+      description: '', 
+      imgurl: '',
+      fname: '',
+      lname: '',
+      email: '',
+      number: '',
+      password: '',
+      confirm_password: '',
+      toTimeMon1 : '',
+      fromTimeMon1 : '',
+      toTimeTue1 : '',
+      fromTimeTue1 : '',
+      toTimeWen1 : '',
+      fromTimeWen1 : '',
+      toTimeThr1 : '',
+      fromTimeThr1 : '',
+      toTimeFri1 : '',
+      fromTimeFri1 : '',
+      toTimeSat1 : '',
+      fromTimeSat1 : '',
+      toTimeSun1 : '',
+      fromTimeSun1 : '',
+
+      toTimeMon2 : '',
+      fromTimeMon2 : '',
+      toTimeTue2 : '',
+      fromTimeTue2 : '',
+      toTimeWen2 : '',
+      fromTimeWen2 : '',
+      toTimeThr2 : '',
+      fromTimeThr2 : '',
+      toTimeFri2 : '',
+      fromTimeFri2 : '',
+      toTimeSat2 : '',
+      fromTimeSat2 : '',
+      toTimeSun2 : '',
+      fromTimeSun2 : '',
+
+      schedule : '', 
+      sData : []
+    })
     this.setState({ modal: !this.state.modal})
   }
 
@@ -186,7 +278,7 @@ class Doctor extends React.Component {
   render() {
     const { users, user } = this.props;
     console.log("userrrrr", users);
-    // console.log("userrrrr", this.state);
+    console.log("toTimeMon1", this.state.toTimeMon1);
     return (
       <div className={s.root}>
       <ToastContainer />

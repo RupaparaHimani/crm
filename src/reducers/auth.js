@@ -1,11 +1,12 @@
 import {
-    LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS, CREATE_USER_SUCCESS, CREATE_USER_FAILURE, FETCH_USERS_SUCCESS, FETCH_USERS_FAILURE, FETCH_USER_SUCCESS, FETCH_USER_FAILURE, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE, DELETE_USER_SUCCESS, DELETE_USER_FAILURE, FETCH_OFFLINE_USERS_SUCCESS
+    LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS, CREATE_USER_SUCCESS, CREATE_USER_FAILURE, FETCH_USERS_SUCCESS, FETCH_USERS_FAILURE, FETCH_USER_SUCCESS, FETCH_USER_FAILURE, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE, DELETE_USER_SUCCESS, DELETE_USER_FAILURE, FETCH_OFFLINE_USERS_SUCCESS, FETCH_DOCTORS_USERS_SUCCESS
 } from '../actions/user';
 
 const authenticated = localStorage.getItem('authenticated');
 export default function auth(state = {
     users: [],
     offline_users: [],
+    doctors : [],
     user: null,
     error: null,
     edit: false,
@@ -68,6 +69,12 @@ export default function auth(state = {
             return Object.assign({}, state, {
                 offline_users: action.payload.all_users,
             });
+
+        case FETCH_DOCTORS_USERS_SUCCESS:
+            return Object.assign({}, state, {
+                doctors: action.payload.doctors,
+            });
+            
 
         case FETCH_USERS_SUCCESS:
             return Object.assign({}, state, {

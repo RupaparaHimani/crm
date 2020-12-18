@@ -144,6 +144,7 @@ class Sidebar extends React.Component {
           />
           </LinksGroup>
 
+        
           <LinksGroup
             onActiveSidebarItemChange={activeItem =>
               this.props.dispatch(changeActiveSidebarItem(activeItem))
@@ -152,6 +153,24 @@ class Sidebar extends React.Component {
             header="Patient"
             isHeader
             link="/app/main/patient"
+            index="main"
+          >
+          <img
+            src={accountIcon}
+            alt="lightDashboard"
+            width={"24px"}
+            height={"24px"}
+          />
+          </LinksGroup>
+
+          <LinksGroup
+            onActiveSidebarItemChange={activeItem =>
+              this.props.dispatch(changeActiveSidebarItem(activeItem))
+            }
+            activeItem={this.props.activeItem}
+            header="Appoiment"
+            isHeader
+            link="/app/main/appoiment"
             index="main"
           >
           <img

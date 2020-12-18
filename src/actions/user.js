@@ -18,6 +18,7 @@ export const DELETE_USER_FAILURE = 'DELETE_USER_FAILURE';
 export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
 export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE';
 export const FETCH_OFFLINE_USERS_SUCCESS = 'FETCH_OFFLINE_USERS_SUCCESS';
+export const FETCH_DOCTORS_USERS_SUCCESS = 'FETCH_DOCTORS_USERS_SUCCESS';
 
 export function receiveLogin() {
     return {
@@ -59,6 +60,15 @@ export function fetchOfflineUsersSuccess(all_users) {
         payload: { all_users }
     };
 }
+
+export function fetchDoctorsSuccess(doctors) {
+    return {
+        type: FETCH_DOCTORS_USERS_SUCCESS,
+        payload: { doctors }
+    };
+}
+
+
 
 function createUserError(payload) {
     return {
@@ -234,6 +244,22 @@ export function fetchOfflineUsers() {
             .then(function (response) {
               console.log("fetch user response", response);
                 dispatch(fetchOfflineUsersSuccess(response.data.users));
+                // window.location.assign('/');
+            })
+            .catch(function (error) {
+                console.log(error);
+                dispatch(fetchUsersError(error));
+            })
+    }
+}
+
+export function fetchDoctors() {
+    return (dispatch) => {
+      let self = this;
+        axios.get(config.baseURLApi+`doctors`)
+            .then(function (response) {
+              console.log("fetch user response", response);
+                dispatch(fetchDoctorsSuccess(response.data.users));
                 // window.location.assign('/');
             })
             .catch(function (error) {
