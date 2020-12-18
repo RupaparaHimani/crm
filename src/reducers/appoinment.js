@@ -49,7 +49,7 @@ export default function appoinmentReducer(state = initialState, action) {
     case UPDATE_APPOINMENT_SUCCESS:
       var index = state.appoinments.findIndex(function(o){
            if (o.id === action.payload.appoinment.id){
-             o.userID = action.payload.appoinment.userID
+             o.patientID = action.payload.appoinment.patientID
              o.doctorID = action.payload.appoinment.doctorID
              o.date = action.payload.appoinment.date
              o.time = action.payload.appoinment.time

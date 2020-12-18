@@ -208,7 +208,7 @@ class Doctor extends React.Component {
 
   onNameChangeFun = (e,name) => {
     // var time = this.state.toMonTime +' - '+ this.state.fromMonTime;
-    
+
     this.setState({[name]: e.target.value})
 
 
@@ -272,7 +272,9 @@ class Doctor extends React.Component {
 
   onDelete = (event, id) => {
     event.preventDefault();
-    this.props.dispatch(deleteUser({id: id}));
+    if (window.confirm("Delete the item?")) {
+      this.props.dispatch(deleteUser({id: id}));
+    }
   }
 
   render() {
