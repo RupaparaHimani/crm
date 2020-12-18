@@ -193,7 +193,7 @@ class Appoiment extends React.Component {
    {
      event.preventDefault();
      this.props.dispatch(createAppoinment({
-       user_id: this.state.user_Patient, 
+        patient_id: this.state.user_Patient, 
        doctor_id: this.state.user_Doctor,
        date : this.state.ShiftDate,
        time : this.state.Doctor_shift
