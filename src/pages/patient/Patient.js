@@ -104,7 +104,9 @@ class Patient extends React.Component {
 
   onDelete = (event, id) => {
     event.preventDefault();
-    this.props.dispatch(deleteUser({id: id}));
+    if (window.confirm("Delete the item?")) {
+      this.props.dispatch(deleteUser({id: id}));
+    }
   }
 
   render() {

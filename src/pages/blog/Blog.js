@@ -79,7 +79,9 @@ class Counsellor extends React.Component {
 
   onDelete = (event, id) => {
     event.preventDefault();
-    this.props.dispatch(deleteBlog({id: id}));
+    if (window.confirm("Delete the item?")) {
+      this.props.dispatch(deleteBlog({id: id}));
+    }
     window.location.reload();
   }
 
