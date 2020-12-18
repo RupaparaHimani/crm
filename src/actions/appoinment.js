@@ -6,7 +6,8 @@ export const FETCH_APPOINMENT_SUCCESS = 'FETCH_APPOINMENT_SUCCESS';
 export const EDIT_APPOINMENT_SUCCESS = 'EDIT_APPOINMENT_SUCCESS';
 export const FETCH_APPOINMENT_FAILURE = 'FETCH_APPOINMENT_FAILURE';
 export const CREATE_APPOINMENT_SUCCESS = 'CREATE_APPOINMENT_SUCCESS';
-export const UPDATE_APPOINMENT_PDF_SUCCESS = 'UPDATE_APPOINMENT_PDF_SUCCESS';
+export const UPDATE_APPOINMENT_SUCCESS = 'UPDATE_APPOINMENT_SUCCESS';
+export const DELETE_APPOINMENT_SUCCESS = 'DELETE_APPOINMENT_SUCCESS';
 
 export const fetchAppoinmentBegin = () => ({
   type: FETCH_APPOINMENT_BEGIN
@@ -17,8 +18,8 @@ export const fetchAppoinmentSuccess = (appoinments) => ({
   payload: { appoinments }
 });
 
-export const updateAppoinmentPdfSuccess = (appoinment) => ({
-  type: UPDATE_APPOINMENT_PDF_SUCCESS,
+export const updateAppoinmentSuccess = (appoinment) => ({
+  type: UPDATE_APPOINMENT_SUCCESS,
   payload: { appoinment }
 });
 
@@ -27,15 +28,21 @@ export const createAppoinmentSuccess = (appoinment) => ({
   payload: { appoinment }
 });
 
-export const editAppoinmentSuccess = (appoinments, ary) => ({
+export const deleteAppoinmentSuccess = (appoinment_id) => ({
+  type: DELETE_APPOINMENT_SUCCESS,
+  payload: { appoinment_id }
+});
+
+export const editAppoinmentSuccess = (appoinment) => ({
   type: EDIT_APPOINMENT_SUCCESS,
-  payload: { appoinments, ary }
+  payload: { appoinment }
 });
 
 export const fetchAppoinmentFailure = error => ({
   type: FETCH_APPOINMENT_FAILURE,
   payload: { error }
 });
+
 
 export function fetchAppoinment() {
   return (dispatch) => {
@@ -54,7 +61,7 @@ export function createAppoinment(data) {
   console.log(config.baseURLApi+"create_appoinment");
   return (dispatch) => {
   let self = this;
-    axios.post(config.baseURLApi+'create_appoinment', {user_id: data.user_id, doctor_id: data.doctor_id, date: data.date, time: data.time})
+    axios.post(config.baseURLApi+'create_appoinment', {patient_id: data.user_id, doctor_id: data.doctor_id, date: data.date, time: data.time})
       .then(function (response) {
           Swal.fire({
               icon: 'success',
@@ -75,9 +82,10 @@ export function createAppoinment(data) {
 
 export function updateAppoinment(data) {
   return (dispatch) => {
-    axios.post( config.baseURLApi+"updateAppoinment/", {id: data.id, title: data.title, description: data.description})
+    axios.post( config.baseURLApi+"update_appoinment/", {id: data.id, patient_id: data.user_id, doctor_id: data.doctor_id, date: data.date, time: data.time})
     .then((response) => {
-      window.location.reload();
+      console.log("After===update==", response);
+      dispatch(updateAppoinmentSuccess(response.data.appoinment));
     })
     .catch((error) => {
       dispatch(fetchAppoinmentFailure(error))
@@ -92,12 +100,8 @@ export function getAppoinment(data) {
       url: config.baseURLApi+"get_appoinment/"+data.id,
       })
     .then((response) => {
-      const mimeType = 'image/*';
-      const buffer = response.data.data.image;
-      const b64 = new Buffer(buffer).toString('base64')
-      var ary=`data:${mimeType};base64,${b64}`
-
-      dispatch(editAppoinmentSuccess(response.data.data, ary));
+      console.log(response);
+      dispatch(editAppoinmentSuccess(response.data.data));
       return response.data.data;
     })
     .catch((error) => {
@@ -113,6 +117,7 @@ export function deleteAppoinment(data) {
       url: config.baseURLApi+"delete_appoinment/"+data.id,
       })
     .then((response) => {
+      dispatch(deleteAppoinmentSuccess(response.data.id));
       return response.data.data;
     })
     .catch((error) => {
@@ -126,17 +131,4 @@ function handleErrors(response) {
     throw Error(response.statusText);
   }
   return response;
-}
-
-export function updateAppoinmentPdf(data) {
-  return (dispatch) => {
-    axios.post(config.baseURLApi+'update_pdf', {user_id: data.user_id, pdf_blob: data.blob, order_id: data.order_id})
-      .then(function (response) {
-        console.log("respose from action", response);
-        dispatch(updateAppoinmentPdfSuccess(response.data.appoinment))
-      })
-    .catch((error) => {
-      dispatch(fetchAppoinmentFailure(error))
-    });
-    }
 }

@@ -3,12 +3,14 @@ import {
   FETCH_APPOINMENT_SUCCESS,
   FETCH_APPOINMENT_FAILURE,
   CREATE_APPOINMENT_SUCCESS,
-  UPDATE_APPOINMENT_PDF_SUCCESS
+  UPDATE_APPOINMENT_SUCCESS,
+  EDIT_APPOINMENT_SUCCESS,
+  DELETE_APPOINMENT_SUCCESS
 } from '../actions/appoinment';
 
 const initialState = {
   appoinments: [],
-  paid_appoinments: [],
+  appoinment: null,
   temp: [],
 };
 
@@ -34,10 +36,29 @@ export default function appoinmentReducer(state = initialState, action) {
           appoinments: [...state.appoinments, action.payload.appoinment]
       });
 
-    case UPDATE_APPOINMENT_PDF_SUCCESS:
-        return Object.assign({}, state, {
-            paid_appoinments: state.paid_appoinments.map(obj => action.payload.appoinment.find(o => o.id === obj.id) || obj)
-        });
+    case EDIT_APPOINMENT_SUCCESS:
+      return Object.assign({}, state, {
+          appoinment: action.payload.appoinment
+      });
+
+    case DELETE_APPOINMENT_SUCCESS:
+      return Object.assign({}, state, {
+          appoinments: [...state.appoinments.filter(a=>a.id !==  parseInt(action.payload.appoinment_id))]
+      });
+
+    case UPDATE_APPOINMENT_SUCCESS:
+      var index = state.appoinments.findIndex(function(o){
+           if (o.id === action.payload.appoinment.id){
+             o.userID = action.payload.appoinment.userID
+             o.doctorID = action.payload.appoinment.doctorID
+             o.date = action.payload.appoinment.date
+             o.time = action.payload.appoinment.time
+           }
+      })
+      return Object.assign({}, state, {
+          appoinment: null,
+          appoinments: state.appoinments
+      });
 
     case FETCH_APPOINMENT_FAILURE:
       return {
@@ -47,7 +68,7 @@ export default function appoinmentReducer(state = initialState, action) {
         appoinments: []
       };
 
-    
+
     default:
       // ALWAYS have a default case in a reducer
       return state;
