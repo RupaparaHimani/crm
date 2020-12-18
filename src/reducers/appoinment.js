@@ -12,6 +12,7 @@ const initialState = {
   appoinments: [],
   appoinment: null,
   temp: [],
+  edit: false,
 };
 
 export default function appoinmentReducer(state = initialState, action) {
@@ -38,7 +39,8 @@ export default function appoinmentReducer(state = initialState, action) {
 
     case EDIT_APPOINMENT_SUCCESS:
       return Object.assign({}, state, {
-          appoinment: action.payload.appoinment
+          appoinment: action.payload.appoinment,
+          edit: true
       });
 
     case DELETE_APPOINMENT_SUCCESS:

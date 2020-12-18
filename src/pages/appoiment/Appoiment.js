@@ -78,10 +78,28 @@ class Appoiment extends React.Component {
   // reader.readAsBinaryString(acceptedFiles[0]);
   }
 
-  onEdit = (event, id) => {
+  onEdit = (event, row) => {
     event.preventDefault();
-    this.props.dispatch(getAppoinment({id: id}));
-    this.setState({ modal: true, id : id })
+    this.props.dispatch(getAppoinment({id: row.id}));
+
+
+    this.setState({ modal: true})
+    var date = new Date(row.date);
+    var formated_Date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()-1}`
+
+    this.setState({ 
+      id: row.id,
+      user_Patient: row.patientID,
+      user_Doctor: row.doctorID,
+      ShiftDate: formated_Date,
+      Doctor_shift: row.time,
+    })
+    // this.createShiftItemsForDoctors()
+    var weekday = ["Sunday", "Monday", "Tuesday", "Wensday", "Thrusday", "Friday", "Saturday"];
+    var date = new Date(row.date);
+     var n =  date.getDay()
+     var weekDAy = weekday[n];
+     this.setState({weekDay: weekDAy});
   }
 
   onDelete = (event, id) => {
@@ -100,7 +118,7 @@ class Appoiment extends React.Component {
 
      return items;
    }
-   
+
    createSelectItemsDoctors = () => {
 
     console.log("this.props.doctors",this.props.doctors)
@@ -129,14 +147,14 @@ class Appoiment extends React.Component {
             }
 
           }
-        
+
       }
 
-      
+
     }
     return items;
     // this.setState({AllShift : items})
-    
+
   }
   createSelectItemsTest = () => {
      let items = [];
@@ -164,7 +182,7 @@ class Appoiment extends React.Component {
     this.setState({ShiftDate: e.target.value});
     var weekday = ["Sunday", "Monday", "Tuesday", "Wensday", "Thrusday", "Friday", "Saturday"];
 
-    
+
     var date = new Date(e.target.value);
      var n =  date.getDay()
      var weekDAy = weekday[n];
@@ -177,7 +195,7 @@ class Appoiment extends React.Component {
     //  this.createShiftItemsForDoctors()
       // alert([this.state.user_Doctor,weekDAy, day, month, year].join('/'));
 
-      
+
       // let items = [];
       //   for (let i = 0; i < this.props.doctors.length; i++) {
 
@@ -193,14 +211,14 @@ class Appoiment extends React.Component {
       //         }
 
       //       }
-          
+
       //   }
 
       //   // return items;
       // }
 
       // this.setState({AllShift: items});
-      
+
    }
 
    createAppoinment = (event) =>
@@ -210,45 +228,44 @@ class Appoiment extends React.Component {
      if(this.props.appoinment == null && this.state.id == 0){
 
         this.props.dispatch(createAppoinment({
-          patient_id: this.state.user_Patient, 
+          patient_id: this.state.user_Patient,
           doctor_id: this.state.user_Doctor,
           date : this.state.ShiftDate,
           time : this.state.Doctor_shift
-          
+
           }));
-      
+
       }else{
         this.props.dispatch(updateAppoinment({
           id : this.state.id,
-          patient_id: this.state.user_Patient, 
+          patient_id: this.state.user_Patient,
           doctor_id: this.state.user_Doctor,
           date : this.state.ShiftDate,
           time : this.state.Doctor_shift
-          
+
           }));
       }
 
-     
+
      this.setState({modal: false})
    }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if ( nextProps.appoinment != null && nextProps.edit == true && prevState.id != nextProps.appoinment.id ) {
-
-      console.log("nextProps.appoinment",nextProps.appoinment)
-      var date = new Date(nextProps.appoinment.date);
-
-      var formated_Date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
-      return {
-        id: nextProps.appoinment.id,
-        user_Patient: nextProps.appoinment.patient_id,
-        user_Doctor: nextProps.appoinment.doctor_id,
-        ShiftDate: formated_Date,
-        Doctor_shift: nextProps.appoinment.time,
-      };
-    }
-    return null;
-  }
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   console.log("--", nextProps);
+  //   if ( nextProps.appoinment != null  && prevState.id != nextProps.appoinment.id ) {
+  //     console.log("nextProps.appoinment",nextProps.appoinment);
+  //     var date = new Date(nextProps.appoinment.date);
+  //     var formated_Date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+  //     return {
+  //       id: nextProps.appoinment.id,
+  //       user_Patient: nextProps.appoinment.patientID,
+  //       user_Doctor: nextProps.appoinment.doctorID,
+  //       ShiftDate: formated_Date,
+  //       Doctor_shift: nextProps.appoinment.time,
+  //     };
+  //   }
+  //   return null;
+  // }
 
   get_user_name = (condition) => {
     // console.log(condition);
@@ -259,19 +276,18 @@ class Appoiment extends React.Component {
     return fname
     };
 
-    get_test_name = (condition) => {
-      // console.log(condition);
-      let name = '';
-        this.props.tests.filter((e) => e.id === condition).map((key, i) => (
-          name = key.name
-        ))
-      return name
-      };
-
+  get_doctor_name = (condition) => {
+    // console.log(condition);
+    let fname = '';
+      this.props.doctors.filter((e) => e.id === condition).map((key, i) => (
+        fname = key.first_name + " " + key.last_name
+      ))
+    return fname
+    };
   toggle = () => {
-    this.setState({ 
-      title: '', 
-      description: '', 
+    this.setState({
+      title: '',
+      description: '',
       imgurl: '',
       Date : '',
       user_Doctor : 0,
@@ -282,12 +298,6 @@ class Appoiment extends React.Component {
       id : 0
     })
     this.setState({ modal: !this.state.modal})
-  }
-
-  pdf_download = (event, pdf_blob) => {
-    event.preventDefault();
-    var blob = new Blob([pdf_blob], {type: 'application/pdf'});
-    FileSaver.saveAs(blob, "test_result.pdf");
   }
 
   render() {
@@ -324,10 +334,10 @@ class Appoiment extends React.Component {
                       <td>{row.id}</td>
                       <td>
                         {/* {this.get_user_name(row.userID)} */}
-                        {row.patientID}
+                        {this.get_user_name(row.patientID)}
                       </td>
                       <td>
-                      {row.doctorID}
+                        {this.get_doctor_name(row.doctorID)}
                         {/* {this.get_test_name(row.testID)} */}
                       </td>
                       <td>
@@ -339,7 +349,7 @@ class Appoiment extends React.Component {
                         {/* {this.get_test_name(row.testID)} */}
                       </td>
                       <td>
-                        <a onClick={event => this.onEdit(event, row.id)}><img src={require("../../images/edit.png")} width="20" height="25" /></a>
+                        <a onClick={event => this.onEdit(event, row)}><img src={require("../../images/edit.png")} width="20" height="25" /></a>
                         <a onClick={event => this.onDelete(event, row.id)}><img src={require("../../images/delete.png")} width="40" height="25"/></a>
                       </td>
                     </tr>

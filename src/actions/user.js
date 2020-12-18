@@ -208,7 +208,7 @@ export function updateUser(userData) {
                     type: 'success',
                     text: 'Update successfully!',
                     showConfirmButton: true,
-                    timer: 3500
+                    timer: 2000
                 });
                 console.log("updat done");
                 console.log(response.data.user);

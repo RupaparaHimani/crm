@@ -85,7 +85,15 @@ export function updateAppoinment(data) {
     axios.post( config.baseURLApi+"update_appoinment", {id: data.id, patient_id: data.patient_id, doctor_id: data.doctor_id, date: data.date, time: data.time})
     .then((response) => {
       console.log("After===update==", response);
+      Swal.fire({
+        icon: 'success',
+        type: 'success',
+        text: 'Update successfully!',
+        showConfirmButton: true,
+        timer: 3500
+    });
       dispatch(updateAppoinmentSuccess(response.data.appoinment));
+      dispatch(fetchAppoinment(response.data.appoinment));
     })
     .catch((error) => {
       dispatch(fetchAppoinmentFailure(error))
@@ -101,7 +109,7 @@ export function getAppoinment(data) {
       })
     .then((response) => {
       console.log(response);
-      dispatch(editAppoinmentSuccess(response.data.data));
+      dispatch(editAppoinmentSuccess(response.data.appoinment));
       return response.data.data;
     })
     .catch((error) => {
