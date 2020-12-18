@@ -234,11 +234,16 @@ class Appoiment extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if ( nextProps.appoinment != null && nextProps.edit == true && prevState.id != nextProps.appoinment.id ) {
+
+      console.log("nextProps.appoinment",nextProps.appoinment)
+      var date = new Date(nextProps.appoinment.date);
+
+      var formated_Date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
       return {
         id: nextProps.appoinment.id,
         user_Patient: nextProps.appoinment.patient_id,
         user_Doctor: nextProps.appoinment.doctor_id,
-        ShiftDate: nextProps.appoinment.date,
+        ShiftDate: formated_Date,
         Doctor_shift: nextProps.appoinment.time,
       };
     }
