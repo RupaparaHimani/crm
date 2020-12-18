@@ -100,7 +100,7 @@ class Appoiment extends React.Component {
 
      return items;
    }
-   
+
    createSelectItemsDoctors = () => {
 
     console.log("this.props.doctors",this.props.doctors)
@@ -129,14 +129,14 @@ class Appoiment extends React.Component {
             }
 
           }
-        
+
       }
 
-      
+
     }
     return items;
     // this.setState({AllShift : items})
-    
+
   }
   createSelectItemsTest = () => {
      let items = [];
@@ -164,7 +164,7 @@ class Appoiment extends React.Component {
     this.setState({ShiftDate: e.target.value});
     var weekday = ["Sunday", "Monday", "Tuesday", "Wensday", "Thrusday", "Friday", "Saturday"];
 
-    
+
     var date = new Date(e.target.value);
      var n =  date.getDay()
      var weekDAy = weekday[n];
@@ -177,7 +177,7 @@ class Appoiment extends React.Component {
     //  this.createShiftItemsForDoctors()
       // alert([this.state.user_Doctor,weekDAy, day, month, year].join('/'));
 
-      
+
       // let items = [];
       //   for (let i = 0; i < this.props.doctors.length; i++) {
 
@@ -193,14 +193,14 @@ class Appoiment extends React.Component {
       //         }
 
       //       }
-          
+
       //   }
 
       //   // return items;
       // }
 
       // this.setState({AllShift: items});
-      
+
    }
 
    createAppoinment = (event) =>
@@ -210,34 +210,36 @@ class Appoiment extends React.Component {
      if(this.props.appoinment == null && this.state.id == 0){
 
         this.props.dispatch(createAppoinment({
-          patient_id: this.state.user_Patient, 
+          patient_id: this.state.user_Patient,
           doctor_id: this.state.user_Doctor,
           date : this.state.ShiftDate,
           time : this.state.Doctor_shift
-          
+
           }));
-      
+
       }else{
         this.props.dispatch(updateAppoinment({
           id : this.state.id,
-          patient_id: this.state.user_Patient, 
+          patient_id: this.state.user_Patient,
           doctor_id: this.state.user_Doctor,
           date : this.state.ShiftDate,
           time : this.state.Doctor_shift
-          
+
           }));
       }
 
-     
+
      this.setState({modal: false})
    }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if ( nextProps.appoinment != null && nextProps.edit == true && prevState.id != nextProps.appoinment.id ) {
+    console.log("--", nextProps);
+    if ( nextProps.appoinment != null && prevState.id != nextProps.appoinment.id ) {
+      console.log("=");
       return {
         id: nextProps.appoinment.id,
-        user_Patient: nextProps.appoinment.patient_id,
-        user_Doctor: nextProps.appoinment.doctor_id,
+        user_Patient: nextProps.appoinment.patientID,
+        user_Doctor: nextProps.appoinment.doctorID,
         ShiftDate: nextProps.appoinment.date,
         Doctor_shift: nextProps.appoinment.time,
       };
@@ -254,19 +256,18 @@ class Appoiment extends React.Component {
     return fname
     };
 
-    get_test_name = (condition) => {
-      // console.log(condition);
-      let name = '';
-        this.props.tests.filter((e) => e.id === condition).map((key, i) => (
-          name = key.name
-        ))
-      return name
-      };
-
+  get_doctor_name = (condition) => {
+    // console.log(condition);
+    let fname = '';
+      this.props.doctors.filter((e) => e.id === condition).map((key, i) => (
+        fname = key.first_name + " " + key.last_name
+      ))
+    return fname
+    };
   toggle = () => {
-    this.setState({ 
-      title: '', 
-      description: '', 
+    this.setState({
+      title: '',
+      description: '',
       imgurl: '',
       Date : '',
       user_Doctor : 0,
@@ -277,12 +278,6 @@ class Appoiment extends React.Component {
       id : 0
     })
     this.setState({ modal: !this.state.modal})
-  }
-
-  pdf_download = (event, pdf_blob) => {
-    event.preventDefault();
-    var blob = new Blob([pdf_blob], {type: 'application/pdf'});
-    FileSaver.saveAs(blob, "test_result.pdf");
   }
 
   render() {
@@ -319,10 +314,10 @@ class Appoiment extends React.Component {
                       <td>{row.id}</td>
                       <td>
                         {/* {this.get_user_name(row.userID)} */}
-                        {row.patientID}
+                        {this.get_user_name(row.patientID)}
                       </td>
                       <td>
-                      {row.doctorID}
+                        {this.get_doctor_name(row.doctorID)}
                         {/* {this.get_test_name(row.testID)} */}
                       </td>
                       <td>
