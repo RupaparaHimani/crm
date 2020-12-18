@@ -101,7 +101,7 @@ export function getAppoinment(data) {
       })
     .then((response) => {
       console.log(response);
-      dispatch(editAppoinmentSuccess(response.data.data));
+      dispatch(editAppoinmentSuccess(response.data.appoinment));
       return response.data.data;
     })
     .catch((error) => {
