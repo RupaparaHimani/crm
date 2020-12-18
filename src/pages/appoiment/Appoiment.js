@@ -6,7 +6,7 @@ import axios from "axios";
 import s from "./Dashboard.module.scss";
 import Widget from "../../components/Widget";
 import stocksImg from "../../images/stocks.svg";
-import { createAppoinment,fetchAppoinment } from "../../actions/appoinment";
+import { createAppoinment,fetchAppoinment, getAppoinment, deleteAppoinment, updateAppoinment } from "../../actions/appoinment";
 import { fetchOfflineUsers,fetchDoctors } from "../../actions/user";
 import ReactQuill from 'react-quill';
 import { toast, ToastContainer } from 'react-toastify';
@@ -30,7 +30,8 @@ class Appoiment extends React.Component {
       user_Patient : 0,
       weekDay : '',
       Doctor_shift : '',
-      AllShift : []
+      AllShift : [],
+      id : 0,
     }
   }
 
@@ -75,6 +76,19 @@ class Appoiment extends React.Component {
 
   // File Reader: Read As Binary String
   // reader.readAsBinaryString(acceptedFiles[0]);
+  }
+
+  onEdit = (event, id) => {
+    event.preventDefault();
+    this.props.dispatch(getAppoinment({id: id}));
+    this.setState({ modal: true, id : id })
+  }
+
+  onDelete = (event, id) => {
+    event.preventDefault();
+    if (window.confirm("Delete the item?")) {
+      this.props.dispatch(deleteAppoinment({id: id}));
+    }
   }
 
   createSelectItemsUser = () => {
@@ -192,28 +206,44 @@ class Appoiment extends React.Component {
    createAppoinment = (event) =>
    {
      event.preventDefault();
-     this.props.dispatch(createAppoinment({
-        patient_id: this.state.user_Patient, 
-       doctor_id: this.state.user_Doctor,
-       date : this.state.ShiftDate,
-       time : this.state.Doctor_shift
+
+     if(this.props.appoinment == null && this.state.id == 0){
+
+        this.props.dispatch(createAppoinment({
+          patient_id: this.state.user_Patient, 
+          doctor_id: this.state.user_Doctor,
+          date : this.state.ShiftDate,
+          time : this.state.Doctor_shift
+          
+          }));
       
-      }));
+      }else{
+        this.props.dispatch(updateAppoinment({
+          id : this.state.id,
+          patient_id: this.state.user_Patient, 
+          doctor_id: this.state.user_Doctor,
+          date : this.state.ShiftDate,
+          time : this.state.Doctor_shift
+          
+          }));
+      }
+
+     
      this.setState({modal: false})
    }
 
-  // static getDerivedStateFromProps(nextProps, prevState) {
-    // if ( nextProps.user != null && nextProps.edit == true && prevState.id != nextProps.user.id ) {
-    //   return {
-    //     id: nextProps.user.id,
-    //     fname: nextProps.user.first_name,
-    //     lname: nextProps.user.last_name,
-    //     email: nextProps.user.email,
-    //     number: nextProps.user.number,
-    //   };
-    // }
-    // return null;
-  // }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if ( nextProps.appoinment != null && nextProps.edit == true && prevState.id != nextProps.appoinment.id ) {
+      return {
+        id: nextProps.appoinment.id,
+        user_Patient: nextProps.appoinment.patient_id,
+        user_Doctor: nextProps.appoinment.doctor_id,
+        ShiftDate: nextProps.appoinment.date,
+        Doctor_shift: nextProps.appoinment.time,
+      };
+    }
+    return null;
+  }
 
   get_user_name = (condition) => {
     // console.log(condition);
@@ -243,7 +273,8 @@ class Appoiment extends React.Component {
       user_Patient : 0,
       weekDay : '',
       Doctor_shift : '',
-      AllShift : [] 
+      AllShift : [] ,
+      id : 0
     })
     this.setState({ modal: !this.state.modal})
   }
@@ -284,7 +315,7 @@ class Appoiment extends React.Component {
                 </thead>
                 <tbody>
                   {appoinments.map(row => (
-                    <tr key={row.id} className={ row.pdf_blob == null ? s.borderRed : ''}>
+                    <tr key={row.id} >
                       <td>{row.id}</td>
                       <td>
                         {/* {this.get_user_name(row.userID)} */}
@@ -369,7 +400,8 @@ const mapStateToProps = state => ({
   // paid_tests: state.test.paid_tests,
   users : state.auth.offline_users,
   doctors : state.auth.doctors,
-  appoinments : state.appoinment.appoinments
+  appoinments : state.appoinment.appoinments,
+  appoinment : state.appoinment.appoinment
 
 });
 

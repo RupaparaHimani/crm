@@ -82,7 +82,7 @@ export function createAppoinment(data) {
 
 export function updateAppoinment(data) {
   return (dispatch) => {
-    axios.post( config.baseURLApi+"update_appoinment/", {id: data.id, patient_id: data.patient_id, doctor_id: data.doctor_id, date: data.date, time: data.time})
+    axios.post( config.baseURLApi+"update_appoinment", {id: data.id, patient_id: data.patient_id, doctor_id: data.doctor_id, date: data.date, time: data.time})
     .then((response) => {
       console.log("After===update==", response);
       dispatch(updateAppoinmentSuccess(response.data.appoinment));
