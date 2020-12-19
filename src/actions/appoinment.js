@@ -61,7 +61,7 @@ export function createAppoinment(data) {
   console.log(config.baseURLApi+"create_appoinment");
   return (dispatch) => {
   let self = this;
-    axios.post(config.baseURLApi+'create_appoinment', {patient_id: data.patient_id, doctor_id: data.doctor_id, date: data.date, time: data.time})
+    axios.post(config.baseURLApi+'create_appoinment', {patient_id: data.patient_id, doctor_id: data.doctor_id, date: data.date, time: data.time, interval_time: data.interval_time})
       .then(function (response) {
           Swal.fire({
               icon: 'success',
@@ -82,7 +82,7 @@ export function createAppoinment(data) {
 
 export function updateAppoinment(data) {
   return (dispatch) => {
-    axios.post( config.baseURLApi+"update_appoinment", {id: data.id, patient_id: data.patient_id, doctor_id: data.doctor_id, date: data.date, time: data.time})
+    axios.post( config.baseURLApi+"update_appoinment", {id: data.id, patient_id: data.patient_id, doctor_id: data.doctor_id, date: data.date, time: data.time, interval_time: data.interval_time})
     .then((response) => {
       console.log("After===update==", response);
       Swal.fire({

@@ -88,7 +88,7 @@ class Appoiment extends React.Component {
     var date = new Date(row.date);
     var formated_Date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()-1}`
 
-    this.setState({ 
+    this.setState({
       id: row.id,
       user_Patient: row.patientID,
       user_Doctor: row.doctorID,
