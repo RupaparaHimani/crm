@@ -23,6 +23,7 @@ import Blog from "../../pages/blog/Blog";
 import Doctor from "../../pages/doctor/Doctor";
 import Patient from "../../pages/patient/Patient";
 import Appoiment from "../../pages/appoiment/Appoiment";
+import Programe from "../../pages/programe/Programe";
 import Test from "../../pages/test/Test";
 import Maps from "../../pages/maps";
 import Notifications from "../../pages/notifications/Notifications";
@@ -131,6 +132,7 @@ class Layout extends React.Component {
                     <Route path="/app/main/doctor" exact component={Doctor} />
                     <Route path="/app/main/patient" exact component={Patient} />
                     <Route path="/app/main/appoiment" exact component={Appoiment} />
+                    <Route path="/app/main/programe" exact component={Programe} />
                     <Route path="/app/main/test" exact component={Test} />
                     <Route path={"/app/typography"} component={Typography} />
                     <Route path={"/app/tables"} component={Tables} />
