@@ -30,6 +30,7 @@ class Appoiment extends React.Component {
       user_Patient : 0,
       weekDay : '',
       Doctor_shift : '',
+      Interval_Time : '',
       AllShift : [],
       id : 0,
     }
@@ -111,6 +112,7 @@ class Appoiment extends React.Component {
 
   createSelectItemsUser = () => {
      let items = [];
+     items.push(<option key={-1} value='' >Select Patients</option>);
      for (let i = 0; i < this.props.users.length; i++) {
        console.log(i);
         items.push(<option key={this.props.users[i].id} value={this.props.users[i].id} >{this.props.users[i].first_name} {this.props.users[i].last_name}</option>);
@@ -123,6 +125,7 @@ class Appoiment extends React.Component {
 
     console.log("this.props.doctors",this.props.doctors)
     let items = [];
+    items.push(<option key={-1} value='' >Select Doctors</option>);
     for (let i = 0; i < this.props.doctors.length; i++) {
       console.log(i);
        items.push(<option key={this.props.doctors[i].id} value={this.props.doctors[i].id} >{this.props.doctors[i].first_name} {this.props.doctors[i].last_name}</option>);
@@ -133,6 +136,7 @@ class Appoiment extends React.Component {
 
   createShiftItemsForDoctors = () => {
       let items = [];
+      items.push(<option key={-1} value='' >Select Shift</option>);
       for (let i = 0; i < this.props.doctors.length; i++) {
 
         if(this.props.doctors[i].id == this.state.user_Doctor){
@@ -164,6 +168,41 @@ class Appoiment extends React.Component {
      return items;
    }
 
+   createIntervalTimeForDoctors = () => {
+
+    
+    
+    // var j = [];
+    // var l = parseInt(res[0]);
+    // var m = 0;
+    // for(var i = 0; i < resTime; i++ ){
+    //   l = parseInt(res[0]) + i + 1;
+    //   m = parseInt(res[0]) + i;
+      
+    //   j.push('<li>'+m+'-'+l+'</li>');
+    // }
+    
+
+      let items = [];
+      var k = this.state.Doctor_shift;
+      var res = k.split(" - ");
+      var resTime = parseInt(res[1]) - parseInt(res[0]);
+      var j = [];
+      var l = parseInt(res[0]);
+      var m = 0;
+
+      if(resTime > 0){
+        for (let i = 0;  i < resTime; i++) {
+          l = parseInt(res[0]) + i + 1;
+          m = parseInt(res[0]) + i;
+          var opt = m+'-'+l;
+            items.push(<option key={i} value={opt}>{opt}</option>);
+        }
+      }
+        
+      return items;
+   }
+
    onDropdownSelectedUser(e) {
      console.log("THE VAL", e.target.value);
      this.setState({user_Patient: e.target.value})
@@ -176,6 +215,13 @@ class Appoiment extends React.Component {
 
    onDropdownShiftItemsForDoctors(e) {
     this.setState({Doctor_shift: e.target.value})
+
+    console.log("Doctor_shift",e.target.value)
+
+  }
+
+  onDropdownIntervalTimeForDoctors(e) {
+    this.setState({Interval_Time: e.target.value})
   }
 
    SelectDate = (e)=>{
@@ -231,7 +277,8 @@ class Appoiment extends React.Component {
           patient_id: this.state.user_Patient,
           doctor_id: this.state.user_Doctor,
           date : this.state.ShiftDate,
-          time : this.state.Doctor_shift
+          time : this.state.Doctor_shift,
+          interval_time : this.state.Interval_Time
 
           }));
 
@@ -241,7 +288,8 @@ class Appoiment extends React.Component {
           patient_id: this.state.user_Patient,
           doctor_id: this.state.user_Doctor,
           date : this.state.ShiftDate,
-          time : this.state.Doctor_shift
+          time : this.state.Doctor_shift,
+          interval_time : this.state.Interval_Time
 
           }));
       }
@@ -294,10 +342,28 @@ class Appoiment extends React.Component {
       user_Patient : 0,
       weekDay : '',
       Doctor_shift : '',
+      Interval_Time : '',
+      ShiftDate : '', 
       AllShift : [] ,
       id : 0
     })
     this.setState({ modal: !this.state.modal})
+
+    // var date = new Date();
+    // var formated_Date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()-1}`
+
+    // this.setState({ 
+    //   user_Patient: this.state.patientID,
+    //   user_Doctor: this.state.doctorID,
+    //   ShiftDate: formated_Date,
+    //   Doctor_shift: this.state.time,
+    // })
+    // // this.createShiftItemsForDoctors()
+    // var weekday = ["Sunday", "Monday", "Tuesday", "Wensday", "Thrusday", "Friday", "Saturday"];
+    // var date = new Date(date);
+    //  var n =  date.getDay()
+    //  var weekDAy = weekday[n];
+    //  this.setState({weekDay: weekDAy});
   }
 
   render() {
@@ -396,6 +462,16 @@ class Appoiment extends React.Component {
               value={this.state.Doctor_shift}
               >
                   {this.createShiftItemsForDoctors()}
+                  {/* {this.state.AllShift} */}
+              </Input>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="Doctors">Interval Time</label>
+              <Input  type="select" onChange={(e) => this.onDropdownIntervalTimeForDoctors(e)}  label="Doctors"
+              value={this.state.Interval_Time}
+              >
+                  {this.createIntervalTimeForDoctors()}
                   {/* {this.state.AllShift} */}
               </Input>
             </div>
