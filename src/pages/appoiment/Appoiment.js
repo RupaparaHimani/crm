@@ -30,7 +30,7 @@ class Appoiment extends React.Component {
       user_Patient : 0,
       weekDay : '',
       Doctor_shift : '',
-      Interval_Time : '',
+      interval_time : '',
       AllShift : [],
       id : 0,
     }
@@ -94,6 +94,7 @@ class Appoiment extends React.Component {
       user_Doctor: row.doctorID,
       ShiftDate: formated_Date,
       Doctor_shift: row.time,
+      interval_time : row.interval_time
     })
     // this.createShiftItemsForDoctors()
     var weekday = ["Sunday", "Monday", "Tuesday", "Wensday", "Thrusday", "Friday", "Saturday"];
@@ -221,7 +222,14 @@ class Appoiment extends React.Component {
   }
 
   onDropdownIntervalTimeForDoctors(e) {
-    this.setState({Interval_Time: e.target.value})
+    this.setState({interval_time: e.target.value})
+  }
+
+  convertDateFormate = (val) =>{
+    var date = new Date(val);
+
+    var formatedDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+    return formatedDate;
   }
 
    SelectDate = (e)=>{
@@ -278,7 +286,7 @@ class Appoiment extends React.Component {
           doctor_id: this.state.user_Doctor,
           date : this.state.ShiftDate,
           time : this.state.Doctor_shift,
-          interval_time : this.state.Interval_Time
+          interval_time : this.state.interval_time
 
           }));
 
@@ -289,7 +297,7 @@ class Appoiment extends React.Component {
           doctor_id: this.state.user_Doctor,
           date : this.state.ShiftDate,
           time : this.state.Doctor_shift,
-          interval_time : this.state.Interval_Time
+          interval_time : this.state.interval_time
 
           }));
       }
@@ -342,7 +350,7 @@ class Appoiment extends React.Component {
       user_Patient : 0,
       weekDay : '',
       Doctor_shift : '',
-      Interval_Time : '',
+      interval_time : '',
       ShiftDate : '', 
       AllShift : [] ,
       id : 0
@@ -391,6 +399,7 @@ class Appoiment extends React.Component {
                     <th className="hidden-sm-down">Doctor</th>
                     <th className="hidden-sm-down">Date</th>
                     <th className="hidden-sm-down">Shift</th>
+                    <th className="hidden-sm-down">Time</th>
                     <th />
                   </tr>
                 </thead>
@@ -407,11 +416,15 @@ class Appoiment extends React.Component {
                         {/* {this.get_test_name(row.testID)} */}
                       </td>
                       <td>
-                      {row.date}
+                      {this.convertDateFormate(row.date)}
                         {/* {this.get_test_name(row.testID)} */}
                       </td>
                       <td>
                       {row.time}
+                        {/* {this.get_test_name(row.testID)} */}
+                      </td>
+                      <td>
+                      {row.interval_time}
                         {/* {this.get_test_name(row.testID)} */}
                       </td>
                       <td>
@@ -469,7 +482,7 @@ class Appoiment extends React.Component {
             <div className="form-group">
               <label htmlFor="Doctors">Interval Time</label>
               <Input  type="select" onChange={(e) => this.onDropdownIntervalTimeForDoctors(e)}  label="Doctors"
-              value={this.state.Interval_Time}
+              value={this.state.interval_time}
               >
                   {this.createIntervalTimeForDoctors()}
                   {/* {this.state.AllShift} */}
