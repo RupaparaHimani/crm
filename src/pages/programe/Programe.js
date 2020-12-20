@@ -7,6 +7,7 @@ import s from "./Dashboard.module.scss";
 import Widget from "../../components/Widget";
 import stocksImg from "../../images/stocks.svg";
 import { createAppoinment,fetchAppoinment, getAppoinment, deleteAppoinment, updateAppoinment } from "../../actions/appoinment";
+import { fetchOrderedProgram,getAllPrograms } from "../../actions/program";
 import { fetchOfflineUsers,fetchDoctors } from "../../actions/user";
 import ReactQuill from 'react-quill';
 import { toast, ToastContainer } from 'react-toastify';
@@ -22,6 +23,7 @@ class Programe extends React.Component {
     super();
     this.state = {
       modal: false,
+      modal1 : false,
       user: 0,
       test: 0,
       selectedFile: null,
@@ -32,12 +34,18 @@ class Programe extends React.Component {
       Doctor_shift : '',
       interval_time : '',
       AllShift : [],
+      allProgram : [],
+      session_schedule : [],
       id : 0,
+      programeID : '',
+      userID : '',
+      session: 0
     }
   }
 
   componentDidMount() {
-    // this.props.dispatch(fetchTests());
+    this.props.dispatch(fetchOrderedProgram());
+    this.props.dispatch(getAllPrograms());
     this.props.dispatch(fetchOfflineUsers());
     this.props.dispatch(fetchAppoinment());
     this.props.dispatch(fetchDoctors());
@@ -51,61 +59,41 @@ class Programe extends React.Component {
         text: 'Work In progress',
         showConfirmButton: true,
     });
-    // this.setState({ selectedFile: event.target.files[0]})
-    // Set File Type
-  // setFileType('pdf');
-
-  // File Reader
-  // const reader = new FileReader();
-
-  // File Reader: On Load
-  // reader.onload = () => {
-
-    // File Data (Binary String)
-    // const fileData = reader.result;
-
-    // HOW CAN I CONVERT THE BINARY STRING TO TEXT?
-    // HOW CAN I CONVERT THE BINARY STRING TO TEXT?
-    // HOW CAN I CONVERT THE BINARY STRING TO TEXT?
-
-    // Parsed Results
-    // const parsedResults = null;
-
-    // Set File
-    // setFile(parsedResults);
-  // };
-
-  // File Reader: Read As Binary String
-  // reader.readAsBinaryString(acceptedFiles[0]);
   }
 
   clickOnRow = (val) =>{
-    alert(this.get_doctor_name(val.doctorID));
+    alert(this.get_program_name(val.programID));
   }
 
   onEdit = (event, row) => {
     event.preventDefault();
-    this.props.dispatch(getAppoinment({id: row.id}));
+    // this.props.dispatch(getAppoinment({id: row.id}));
 
 
-    this.setState({ modal: true})
-    var date = new Date(row.date);
-    var formated_Date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()-1}`
-
-    this.setState({
-      id: row.id,
-      user_Patient: row.patientID,
-      user_Doctor: row.doctorID,
-      ShiftDate: formated_Date,
-      Doctor_shift: row.time,
-      interval_time : row.interval_time
+    this.setState({ 
+      modal1: true,
+      id : row.id,
+      programeID : row.programID,
+      userID : row.userID,
+      session: row.purpose
     })
-    // this.createShiftItemsForDoctors()
-    var weekday = ["Sunday", "Monday", "Tuesday", "Wensday", "Thrusday", "Friday", "Saturday"];
-    var date = new Date(row.date);
-     var n =  date.getDay()
-     var weekDAy = weekday[n];
-     this.setState({weekDay: weekDAy});
+    // var date = new Date(row.date);
+    // var formated_Date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()-1}`
+
+    // this.setState({
+    //   id: row.id,
+    //   user_Patient: row.patientID,
+    //   user_Doctor: row.doctorID,
+    //   ShiftDate: formated_Date,
+    //   Doctor_shift: row.time,
+    //   interval_time : row.interval_time
+    // })
+    // // this.createShiftItemsForDoctors()
+    // var weekday = ["Sunday", "Monday", "Tuesday", "Wensday", "Thrusday", "Friday", "Saturday"];
+    // var date = new Date(row.date);
+    //  var n =  date.getDay()
+    //  var weekDAy = weekday[n];
+    //  this.setState({weekDay: weekDAy});
   }
 
   onDelete = (event, id) => {
@@ -162,7 +150,6 @@ class Programe extends React.Component {
 
     }
     return items;
-    // this.setState({AllShift : items})
 
   }
   createSelectItemsTest = () => {
@@ -174,19 +161,6 @@ class Programe extends React.Component {
    }
 
    createIntervalTimeForDoctors = () => {
-
-    
-    
-    // var j = [];
-    // var l = parseInt(res[0]);
-    // var m = 0;
-    // for(var i = 0; i < resTime; i++ ){
-    //   l = parseInt(res[0]) + i + 1;
-    //   m = parseInt(res[0]) + i;
-      
-    //   j.push('<li>'+m+'-'+l+'</li>');
-    // }
-    
 
       let items = [];
       var k = this.state.Doctor_shift;
@@ -250,32 +224,6 @@ class Programe extends React.Component {
 
      this.setState({weekDay: weekDAy});
      console.log("date",e.target.value,date,formatedDate)
-    //  this.createShiftItemsForDoctors()
-      // alert([this.state.user_Doctor,weekDAy, day, month, year].join('/'));
-
-
-      // let items = [];
-      //   for (let i = 0; i < this.props.doctors.length; i++) {
-
-      //     if(this.props.doctors[i].id == this.state.user_Doctor){
-
-      //       var schedule = this.state.user_Doctor.schedule !== null ? JSON.parse(this.state.user_Doctor.schedule) : '';
-
-      //       for (let j = 0; j < schedule.length; j++) {
-
-      //         if(schedule[j].day == weekDAy){
-      //           items.push(<option key={j} value={schedule[j].shiftone[0] +' - '+schedule[j].shiftone[1]} >{schedule[j].shiftone[0] } - {schedule[j].shiftone[1]}</option>);
-      //           items.push(<option key={j} value={schedule[j].shifttwo[0] +' - '+schedule[j].shifttwo[1]} >{schedule[j].shifttwo[0] } - {schedule[j].shifttwo[1]}</option>);
-      //         }
-
-      //       }
-
-      //   }
-
-      //   // return items;
-      // }
-
-      // this.setState({AllShift: items});
 
    }
 
@@ -328,13 +276,24 @@ class Programe extends React.Component {
   // }
 
   get_user_name = (condition) => {
-    // console.log(condition);
+    console.log("condition",this.props.users,condition);
     let fname = '';
       this.props.users.filter((e) => e.id === condition).map((key, i) => (
         fname = key.first_name + " " + key.last_name
       ))
     return fname
     };
+
+    
+
+    get_program_name = (condition) => {
+      console.log("condition",this.props.allProgram,condition);
+      let fname = '';
+        this.props.allProgram.filter((e) => e.id === condition).map((key, i) => (
+          fname = key.title
+        ))
+      return fname
+      };
 
   get_doctor_name = (condition) => {
     // console.log(condition);
@@ -360,27 +319,117 @@ class Programe extends React.Component {
       id : 0
     })
     this.setState({ modal: !this.state.modal})
+  }
 
-    // var date = new Date();
-    // var formated_Date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()-1}`
-
-    // this.setState({ 
-    //   user_Patient: this.state.patientID,
-    //   user_Doctor: this.state.doctorID,
-    //   ShiftDate: formated_Date,
-    //   Doctor_shift: this.state.time,
-    // })
-    // // this.createShiftItemsForDoctors()
-    // var weekday = ["Sunday", "Monday", "Tuesday", "Wensday", "Thrusday", "Friday", "Saturday"];
-    // var date = new Date(date);
-    //  var n =  date.getDay()
-    //  var weekDAy = weekday[n];
-    //  this.setState({weekDay: weekDAy});
+  toggle1 = () => {
+    this.setState({
+      title: '',
+      description: '',
+      imgurl: '',
+      Date : '',
+      user_Doctor : 0,
+      user_Patient : 0,
+      weekDay : '',
+      Doctor_shift : '',
+      interval_time : '',
+      ShiftDate : '', 
+      AllShift : [] ,
+      id : 0
+    })
+    this.setState({ modal1: !this.state.modal1})
+  }
+  generateRow  = (val) => {
+    var rowData = []
+    rowData.push
+     ( <Row>
+          <Col xl={1}>
+            <div className="form-group">
+              <h4>#</h4>
+            </div>
+          </Col>
+          <Col xl={3}>
+            <div className="form-group">
+              <h4>Doctor</h4>
+            </div>
+          </Col>
+          <Col xl={3}>
+            <div className="form-group">
+              <h4>Date</h4>
+            </div>
+          </Col>
+          <Col xl={3}>
+            <div className="form-group">
+              <h4>shift</h4>
+            </div>
+          </Col>
+          <Col xl={2}>
+            <div className="form-group">
+              <h4>interval</h4>
+            </div>
+          </Col>
+        </Row>
+     );
+    for(var i = 1; i <= val; i++){
+     rowData.push
+     ( <Row>
+          <Col xl={1}>
+            <div className="form-group">
+              <h4>{i}</h4>
+            </div>
+          </Col>
+          <Col xl={3}>
+            <div className="form-group">
+            <Input  type="select" onChange={(e) => this.onDropdownSelectedDoctors(e)}  label="Doctors"
+              value={this.state.user_Patients}
+              >
+                  {this.createSelectItemsDoctors()}
+              </Input>
+            </div>
+          </Col>
+          <Col xl={3}>
+            <div className="form-group">
+            <Input type="date"
+              name="Date"
+              id="Date"
+              // defaultValue={this.state.Date}
+              value={this.state.ShiftDate}
+              onChange={(e) => this.SelectDate(e) }
+              />
+            </div>
+          </Col>
+          <Col xl={3}>
+            <div className="form-group">
+            <Input  type="select" onChange={(e) => this.onDropdownShiftItemsForDoctors(e)}  label="Doctors"
+              value={this.state.Doctor_shift}
+              >
+                  {this.createShiftItemsForDoctors()}
+                  {/* {this.state.AllShift} */}
+              </Input>
+            </div>
+          </Col>
+          <Col xl={2}>
+            <div className="form-group">
+            <Input  type="select" onChange={(e) => this.onDropdownIntervalTimeForDoctors(e)}  label="Doctors"
+              value={this.state.interval_time}
+              >
+                  {this.createIntervalTimeForDoctors()}
+                  {/* {this.state.AllShift} */}
+              </Input>
+            </div>
+          </Col>
+        </Row>
+     );
+     
+    }
+    return rowData
+      
   }
 
   render() {
-    const { tests, paid_tests, users, appoinments } = this.props;
+    const { tests, paid_tests, users, ordered_programs } = this.props;
     console.log("paid_tests", this.state);
+
+    
     return (
       <div className={s.root}>
       <ToastContainer />
@@ -391,7 +440,7 @@ class Programe extends React.Component {
         </Row>
         <Row>
           <Col xl={12}>
-          {appoinments.length >0 ?
+          {ordered_programs.length >0 ?
             <Widget
               title={<p style={{ fontWeight: 700 }}>Appoiment</p>}
             >
@@ -406,20 +455,17 @@ class Programe extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {appoinments.map(row => (
-                    <tr style={{cursor: 'pointer'}}  key={row.id} onClick={() => this.clickOnRow(row)} >
-                      <td>{row.id}</td>
-                      <td>
-                        {/* {this.get_user_name(row.patientID)} */}
-                        {'Programe'}
+                  {ordered_programs.map(row => (
+                    <tr style={{cursor: 'pointer'}}  key={row.id}  >
+                      <td onClick={() => this.clickOnRow(row)} >{row.id}</td>
+                      <td onClick={() => this.clickOnRow(row)} >
+                        {this.get_program_name(row.programID)}
                       </td>
-                      <td>
-                        {/* {this.get_doctor_name(row.doctorID)} */}
-                        {'Patient'}
+                      <td onClick={() => this.clickOnRow(row)} >
+                        {this.get_user_name(row.userID)}
                       </td>
-                      <td>
-                      {/* {this.convertDateFormate(row.date)} */}
-                      {'Session'}
+                      <td onClick={() => this.clickOnRow(row)} >
+                      {row.purpose}
                       </td>
                       <td>
                         <a onClick={event => this.onEdit(event, row)}><img src={require("../../images/edit.png")} width="20" height="25" /></a>
@@ -433,6 +479,7 @@ class Programe extends React.Component {
             : <p style={{ fontWeight: 700 }}>NO DATA FOUND</p> }
           </Col>
         </Row>
+
         <Modal isOpen={this.state.modal} toggle={this.toggle} >
           <ModalHeader toggle={this.toggle}>Create Appoiment</ModalHeader>
           <ModalBody>
@@ -487,62 +534,76 @@ class Programe extends React.Component {
             <Button color="primary" onClick={(event) => this.createAppoinment(event)}>Create</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
         </ModalFooter>
-      </Modal>
-      <Modal isOpen={this.state.modal} toggle={this.toggle} >
-          <ModalHeader toggle={this.toggle}>Create Appoiment</ModalHeader>
+        </Modal>
+
+        <Modal className="modal-lg" isOpen={this.state.modal1} toggle={this.toggle1} >
+          <ModalHeader toggle={this.toggle1}>Create Appoiment</ModalHeader>
           <ModalBody>
-            <div className="form-group">
-              <label htmlFor="user">Patients</label>
-              <Input type="select" onChange={(e) => this.onDropdownSelectedUser(e)} label="Users"
-              value={this.state.user_Patient}
-              >
-                  {this.createSelectItemsUser()}
-              </Input>
-            </div>
-            <div className="form-group">
-              <label htmlFor="Doctors">Doctors</label>
-              <Input  type="select" onChange={(e) => this.onDropdownSelectedDoctors(e)}  label="Doctors"
-              value={this.state.user_Patients}
-              >
-                  {this.createSelectItemsDoctors()}
-              </Input>
-            </div>
-            <div className="form-group">
-              <label htmlFor="Date">Date</label>
-              <Input type="date"
-              name="Date"
-              id="Date"
-              // defaultValue={this.state.Date}
-              value={this.state.ShiftDate}
-              onChange={(e) => this.SelectDate(e) }
-              />
-            </div>
+            <Row>
+                <Col xl={5}>
+                  <div className="form-group">
+                    <h4>Patient :</h4>
+                  </div>
+                </Col>
+                <Col xl={7}>
+                  <div className="form-group">
+                    <h4>{this.get_user_name(this.state.userID)}</h4>
+                  </div>
+                </Col>
+            </Row>
 
-            <div className="form-group">
-              <label htmlFor="Doctors">Shift</label>
-              <Input  type="select" onChange={(e) => this.onDropdownShiftItemsForDoctors(e)}  label="Doctors"
-              value={this.state.Doctor_shift}
-              >
-                  {this.createShiftItemsForDoctors()}
-                  {/* {this.state.AllShift} */}
-              </Input>
-            </div>
+            <Row>
+                <Col xl={5}>
+                  <div className="form-group">
+                    <h4>Programe :</h4>
+                  </div>
+                </Col>
+                <Col xl={7}>
+                  <div className="form-group">
+                    <h4>{this.get_program_name(this.state.programeID)}</h4>
+                  </div>
+                </Col>
+            </Row>
 
-            <div className="form-group">
-              <label htmlFor="Doctors">Interval Time</label>
-              <Input  type="select" onChange={(e) => this.onDropdownIntervalTimeForDoctors(e)}  label="Doctors"
-              value={this.state.interval_time}
-              >
-                  {this.createIntervalTimeForDoctors()}
-                  {/* {this.state.AllShift} */}
-              </Input>
+            <Row>
+                <Col xl={5}>
+                  <div className="form-group">
+                    <h4>Session :</h4>
+                  </div>
+                </Col>
+                <Col xl={7}>
+                  <div className="form-group">
+                    <h4>{this.state.session}</h4>
+                  </div>
+                </Col>
+            </Row>
+
+            <hr/>
+            {
+              
+              this.generateRow(this.state.session)
+              
+            }
+            
+
+            {/* <div className="form-group">
+              <label htmlFor="user">Patient</label>
+              
             </div>
+            <div className="form-group">
+              <label htmlFor="Doctors">Programe</label>
+            </div>
+            <div className="form-group">
+              <label htmlFor="Date">Session</label>
+            </div> */}
+
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={(event) => this.createAppoinment(event)}>Create</Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+            <Button color="secondary" onClick={this.toggle1}>Cancel</Button>
         </ModalFooter>
-      </Modal>
+        </Modal>
+
       </div>
     )
   }
@@ -554,7 +615,10 @@ const mapStateToProps = state => ({
   users : state.auth.offline_users,
   doctors : state.auth.doctors,
   appoinments : state.appoinment.appoinments,
-  appoinment : state.appoinment.appoinment
+  appoinment : state.appoinment.appoinment,
+  ordered_programs : state.program.ordered_programs,
+  program : state.program.program,
+  allProgram : state.program.allProgram
 
 });
 

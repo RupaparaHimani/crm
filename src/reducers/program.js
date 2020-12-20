@@ -5,11 +5,13 @@ import {
   CREATE_PROGRAM_SUCCESS,
   UPDATE_PROGRAM_SUCCESS,
   EDIT_PROGRAM_SUCCESS,
+  GET_ALL_PROGRAM_SUCCESS,
   DELETE_PROGRAM_SUCCESS
 } from '../actions/program';
 
 const initialState = {
   programs: [],
+  allProgram : [],
   ordered_programs: [],
   program: null,
   temp: [],
@@ -38,6 +40,12 @@ export default function programReducer(state = initialState, action) {
           program: action.payload.program,
           edit: true
       });
+
+    case GET_ALL_PROGRAM_SUCCESS:
+      return Object.assign({}, state, {
+        allProgram: action.payload.program,
+        edit: true
+    });
 
     case DELETE_PROGRAM_SUCCESS:
       return Object.assign({}, state, {

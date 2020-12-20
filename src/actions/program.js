@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 export const FETCH_PROGRAM_SUCCESS = 'FETCH_PROGRAM_SUCCESS';
 export const FETCH_ORDERED_PROGRAM_SUCCESS = 'FETCH_ORDERED_PROGRAM_SUCCESS';
 export const EDIT_PROGRAM_SUCCESS = 'EDIT_PROGRAM_SUCCESS';
+export const GET_ALL_PROGRAM_SUCCESS = 'GET_ALL_PROGRAM_SUCCESS';
 export const FETCH_PROGRAM_FAILURE = 'FETCH_PROGRAM_FAILURE';
 export const CREATE_PROGRAM_SUCCESS = 'CREATE_PROGRAM_SUCCESS';
 export const UPDATE_PROGRAM_SUCCESS = 'UPDATE_PROGRAM_SUCCESS';
@@ -36,6 +37,11 @@ export const deleteProgramSuccess = (program_id) => ({
 
 export const editProgramSuccess = (program) => ({
   type: EDIT_PROGRAM_SUCCESS,
+  payload: { program }
+});
+
+export const getALlProgramSuccess = (program) => ({
+  type: GET_ALL_PROGRAM_SUCCESS,
   payload: { program }
 });
 
@@ -123,6 +129,23 @@ export function getProgram(data) {
     .then((response) => {
       console.log(response);
       dispatch(editProgramSuccess(response.data.program));
+      return response.data.data;
+    })
+    .catch((error) => {
+      dispatch(fetchProgramFailure(error))
+    });
+    }
+}
+
+export function getAllPrograms(data) {
+  return (dispatch) => {
+    axios({
+      method: 'get',
+      url: config.baseURLApi+"getprograms"
+      })
+    .then((response) => {
+      console.log(response);
+      dispatch(getALlProgramSuccess(response.data.data));
       return response.data.data;
     })
     .catch((error) => {
