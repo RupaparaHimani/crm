@@ -17,7 +17,7 @@ var date = new Date();
 
 var formatedDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
 
-class Appoiment extends React.Component {
+class Programe extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -77,6 +77,10 @@ class Appoiment extends React.Component {
 
   // File Reader: Read As Binary String
   // reader.readAsBinaryString(acceptedFiles[0]);
+  }
+
+  clickOnRow = (val) =>{
+    alert(this.get_doctor_name(val.doctorID));
   }
 
   onEdit = (event, row) => {
@@ -395,37 +399,27 @@ class Appoiment extends React.Component {
                 <thead>
                   <tr className="fs-sm">
                     <th className="hidden-sm-down">#</th>
-                    <th className="hidden-sm-down">Patients</th>
-                    <th className="hidden-sm-down">Doctor</th>
-                    <th className="hidden-sm-down">Date</th>
-                    <th className="hidden-sm-down">Shift</th>
-                    <th className="hidden-sm-down">Time</th>
+                    <th className="hidden-sm-down">Programe</th>
+                    <th className="hidden-sm-down">Patient</th>
+                    <th className="hidden-sm-down">Session</th>
                     <th />
                   </tr>
                 </thead>
                 <tbody>
                   {appoinments.map(row => (
-                    <tr key={row.id} >
+                    <tr style={{cursor: 'pointer'}}  key={row.id} onClick={() => this.clickOnRow(row)} >
                       <td>{row.id}</td>
                       <td>
-                        {/* {this.get_user_name(row.userID)} */}
-                        {this.get_user_name(row.patientID)}
+                        {/* {this.get_user_name(row.patientID)} */}
+                        {'Programe'}
                       </td>
                       <td>
-                        {this.get_doctor_name(row.doctorID)}
-                        {/* {this.get_test_name(row.testID)} */}
+                        {/* {this.get_doctor_name(row.doctorID)} */}
+                        {'Patient'}
                       </td>
                       <td>
-                      {this.convertDateFormate(row.date)}
-                        {/* {this.get_test_name(row.testID)} */}
-                      </td>
-                      <td>
-                      {row.time}
-                        {/* {this.get_test_name(row.testID)} */}
-                      </td>
-                      <td>
-                      {row.interval_time}
-                        {/* {this.get_test_name(row.testID)} */}
+                      {/* {this.convertDateFormate(row.date)} */}
+                      {'Session'}
                       </td>
                       <td>
                         <a onClick={event => this.onEdit(event, row)}><img src={require("../../images/edit.png")} width="20" height="25" /></a>
@@ -440,6 +434,61 @@ class Appoiment extends React.Component {
           </Col>
         </Row>
         <Modal isOpen={this.state.modal} toggle={this.toggle} >
+          <ModalHeader toggle={this.toggle}>Create Appoiment</ModalHeader>
+          <ModalBody>
+            <div className="form-group">
+              <label htmlFor="user">Patients</label>
+              <Input type="select" onChange={(e) => this.onDropdownSelectedUser(e)} label="Users"
+              value={this.state.user_Patient}
+              >
+                  {this.createSelectItemsUser()}
+              </Input>
+            </div>
+            <div className="form-group">
+              <label htmlFor="Doctors">Doctors</label>
+              <Input  type="select" onChange={(e) => this.onDropdownSelectedDoctors(e)}  label="Doctors"
+              value={this.state.user_Patients}
+              >
+                  {this.createSelectItemsDoctors()}
+              </Input>
+            </div>
+            <div className="form-group">
+              <label htmlFor="Date">Date</label>
+              <Input type="date"
+              name="Date"
+              id="Date"
+              // defaultValue={this.state.Date}
+              value={this.state.ShiftDate}
+              onChange={(e) => this.SelectDate(e) }
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="Doctors">Shift</label>
+              <Input  type="select" onChange={(e) => this.onDropdownShiftItemsForDoctors(e)}  label="Doctors"
+              value={this.state.Doctor_shift}
+              >
+                  {this.createShiftItemsForDoctors()}
+                  {/* {this.state.AllShift} */}
+              </Input>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="Doctors">Interval Time</label>
+              <Input  type="select" onChange={(e) => this.onDropdownIntervalTimeForDoctors(e)}  label="Doctors"
+              value={this.state.interval_time}
+              >
+                  {this.createIntervalTimeForDoctors()}
+                  {/* {this.state.AllShift} */}
+              </Input>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={(event) => this.createAppoinment(event)}>Create</Button>{' '}
+            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+        </ModalFooter>
+      </Modal>
+      <Modal isOpen={this.state.modal} toggle={this.toggle} >
           <ModalHeader toggle={this.toggle}>Create Appoiment</ModalHeader>
           <ModalBody>
             <div className="form-group">
@@ -509,4 +558,4 @@ const mapStateToProps = state => ({
 
 });
 
-export default withRouter(connect(mapStateToProps)(Appoiment));
+export default withRouter(connect(mapStateToProps)(Programe));
