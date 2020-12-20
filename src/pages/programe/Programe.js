@@ -19,28 +19,32 @@ var date = new Date();
 var formatedDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
 
 class Programe extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       modal: false,
       modal1 : false,
       user: 0,
       test: 0,
       selectedFile: null,
-      ShiftDate : '',
-      user_Doctor : 0,
-      user_Patient : 0,
-      weekDay : '',
-      Doctor_shift : '',
-      interval_time : '',
+      ShiftDate : [],
+      user_Doctor : [],
+      user_Patient : [],
+      weekDay : [],
+      Doctor_shift : [],
+      interval_time : [],
       AllShift : [],
       allProgram : [],
-      session_schedule : [],
+      session_schedule : [{
+
+      }],
       id : 0,
       programeID : '',
       userID : '',
-      session: 0
-    }
+      session: 0,
+      
+    };
+    // this.onDropdownSelectedDoctors = this.onDropdownSelectedDoctors.bind(this);
   }
 
   componentDidMount() {
@@ -114,7 +118,7 @@ class Programe extends React.Component {
      return items;
    }
 
-   createSelectItemsDoctors = () => {
+   createSelectItemsDoctors = (val) => {
 
     console.log("this.props.doctors",this.props.doctors)
     let items = [];
@@ -127,18 +131,18 @@ class Programe extends React.Component {
     return items;
   }
 
-  createShiftItemsForDoctors = () => {
+  createShiftItemsForDoctors = (val) => {
       let items = [];
       items.push(<option key={-1} value='' >Select Shift</option>);
       for (let i = 0; i < this.props.doctors.length; i++) {
 
-        if(this.props.doctors[i].id == this.state.user_Doctor){
+        if(this.props.doctors[i].id == this.state.user_Doctor[val]){
 
           var schedule = this.props.doctors[i].schedule !== null ? JSON.parse(this.props.doctors[i].schedule) : '';
 
           for (let j = 0; j < schedule.length; j++) {
 
-            if(schedule[j].day == this.state.weekDay){
+            if(schedule[j].day == this.state.weekDay[val]){
               items.push(<option key={schedule[j].shiftone[0]} value={schedule[j].shiftone[0] +' - '+schedule[j].shiftone[1]} >{schedule[j].shiftone[0] } - {schedule[j].shiftone[1]}</option>);
               items.push(<option key={schedule[j].shifttwo[0]} value={schedule[j].shifttwo[0] +' - '+schedule[j].shifttwo[1]} >{schedule[j].shifttwo[0] } - {schedule[j].shifttwo[1]}</option>);
             }
@@ -160,10 +164,10 @@ class Programe extends React.Component {
      return items;
    }
 
-   createIntervalTimeForDoctors = () => {
-
-      let items = [];
-      var k = this.state.Doctor_shift;
+   createIntervalTimeForDoctors = (i) => {
+    let items = [];
+    if(this.state.Doctor_shift.length > 0){
+      var k = this.state.Doctor_shift[i];
       var res = k.split(" - ");
       var resTime = parseInt(res[1]) - parseInt(res[0]);
       var j = [];
@@ -178,6 +182,9 @@ class Programe extends React.Component {
             items.push(<option key={i} value={opt}>{opt}</option>);
         }
       }
+    }
+      
+      
         
       return items;
    }
@@ -187,20 +194,42 @@ class Programe extends React.Component {
      this.setState({user_Patient: e.target.value})
        //here you will see the current selected value of the select input
    }
-   onDropdownSelectedDoctors(e) {
-       this.setState({user_Doctor: e.target.value})
+   onDropdownSelectedDoctors(i, event) {
+    //  var val = 'user_Doctor['+i+']';
+       this.setState({user_Doctor: event.target.value})
+
+      //  let values = [...this.state.user_Doctor];
+      //   values[i] = e.target.value;
+        // this.setState({ values });
       //  this.createShiftItemsForDoctors()
+      // this.setState({ user_Doctor: values})
+
+      // this.state.user_Doctor()
+
+      // let newState = [...this.state.user_Doctor];
+      // this.state.user_Doctor[i] = event.target.value;
+    //  this.setState({ newState });
+    // var newState = [...this.state.user_Doctor];
+    // newState.forEach(function(file) {
+    //   file[i] = event.target.value
+    // })
+    // var val = this.state.user_Doctor
+    // this.setState({user_Doctor: val}, function() {
+    //   console.log(this.state.user_Doctor);
+    // })
    }
 
-   onDropdownShiftItemsForDoctors(e) {
-    this.setState({Doctor_shift: e.target.value})
+   onDropdownShiftItemsForDoctors(i,e) {
+    var val = 'Doctor_shift['+i+']';
+    this.setState({[val]: e.target.value})
 
     console.log("Doctor_shift",e.target.value)
 
   }
 
-  onDropdownIntervalTimeForDoctors(e) {
-    this.setState({interval_time: e.target.value})
+  onDropdownIntervalTimeForDoctors(i,e) {
+    var val = 'interval_time['+i+']';
+    this.setState({[val]: e.target.value})
   }
 
   convertDateFormate = (val) =>{
@@ -210,8 +239,9 @@ class Programe extends React.Component {
     return formatedDate;
   }
 
-   SelectDate = (e)=>{
-    this.setState({ShiftDate: e.target.value});
+   SelectDate = (i,e)=>{
+    var val = 'ShiftDate['+i+']';
+    this.setState({[val]: e.target.value});
     var weekday = ["Sunday", "Monday", "Tuesday", "Wensday", "Thrusday", "Friday", "Saturday"];
 
 
@@ -221,8 +251,8 @@ class Programe extends React.Component {
      var day = date.getDate();
      var month = date.getMonth() + 1;
      var year = date.getFullYear();
-
-     this.setState({weekDay: weekDAy});
+     var vals = 'weekDay['+i+']';
+     this.setState({[vals]: weekDAy});
      console.log("date",e.target.value,date,formatedDate)
 
    }
@@ -231,6 +261,9 @@ class Programe extends React.Component {
    {
      event.preventDefault();
 
+
+     console.log("this.state.user_Doctor",this.state.user_Doctor)
+     return false
      if(this.props.appoinment == null && this.state.id == 0){
 
         this.props.dispatch(createAppoinment({
@@ -309,12 +342,12 @@ class Programe extends React.Component {
       description: '',
       imgurl: '',
       Date : '',
-      user_Doctor : 0,
-      user_Patient : 0,
-      weekDay : '',
-      Doctor_shift : '',
-      interval_time : '',
-      ShiftDate : '', 
+      user_Doctor : [],
+      user_Patient : [],
+      weekDay : [],
+      Doctor_shift : [],
+      interval_time : [],
+      ShiftDate : [], 
       AllShift : [] ,
       id : 0
     })
@@ -327,12 +360,12 @@ class Programe extends React.Component {
       description: '',
       imgurl: '',
       Date : '',
-      user_Doctor : 0,
-      user_Patient : 0,
+      user_Doctor : [],
+      user_Patient : [],
       weekDay : '',
-      Doctor_shift : '',
-      interval_time : '',
-      ShiftDate : '', 
+      Doctor_shift : [],
+      interval_time : [],
+      ShiftDate : [], 
       AllShift : [] ,
       id : 0
     })
@@ -379,10 +412,10 @@ class Programe extends React.Component {
           </Col>
           <Col xl={3}>
             <div className="form-group">
-            <Input  type="select" onChange={(e) => this.onDropdownSelectedDoctors(e)}  label="Doctors"
-              value={this.state.user_Patients}
+            <Input  type="select" onChange={(e) => this.onDropdownSelectedDoctors(i, e)}   label="Doctors"
+              value={this.state.user_Doctor[i]}
               >
-                  {this.createSelectItemsDoctors()}
+                  {this.createSelectItemsDoctors(i)}
               </Input>
             </div>
           </Col>
@@ -392,27 +425,27 @@ class Programe extends React.Component {
               name="Date"
               id="Date"
               // defaultValue={this.state.Date}
-              value={this.state.ShiftDate}
-              onChange={(e) => this.SelectDate(e) }
+              value={this.state.ShiftDate[i]}
+              onChange={(e) => this.SelectDate(i,e) }
               />
             </div>
           </Col>
           <Col xl={3}>
             <div className="form-group">
-            <Input  type="select" onChange={(e) => this.onDropdownShiftItemsForDoctors(e)}  label="Doctors"
-              value={this.state.Doctor_shift}
+            <Input  type="select" onChange={(e) => this.onDropdownShiftItemsForDoctors(i,e)}  label="Doctors"
+              value={this.state.Doctor_shift[i]}
               >
-                  {this.createShiftItemsForDoctors()}
+                  {this.createShiftItemsForDoctors(i)}
                   {/* {this.state.AllShift} */}
               </Input>
             </div>
           </Col>
           <Col xl={2}>
             <div className="form-group">
-            <Input  type="select" onChange={(e) => this.onDropdownIntervalTimeForDoctors(e)}  label="Doctors"
-              value={this.state.interval_time}
+            <Input  type="select" onChange={(e) => this.onDropdownIntervalTimeForDoctors(i,e)}  label="Doctors"
+              value={this.state.interval_time[i]}
               >
-                  {this.createIntervalTimeForDoctors()}
+                  {this.createIntervalTimeForDoctors(i)}
                   {/* {this.state.AllShift} */}
               </Input>
             </div>
@@ -480,7 +513,7 @@ class Programe extends React.Component {
           </Col>
         </Row>
 
-        <Modal isOpen={this.state.modal} toggle={this.toggle} >
+        {/* <Modal isOpen={this.state.modal} toggle={this.toggle} >
           <ModalHeader toggle={this.toggle}>Create Appoiment</ModalHeader>
           <ModalBody>
             <div className="form-group">
@@ -504,7 +537,6 @@ class Programe extends React.Component {
               <Input type="date"
               name="Date"
               id="Date"
-              // defaultValue={this.state.Date}
               value={this.state.ShiftDate}
               onChange={(e) => this.SelectDate(e) }
               />
@@ -516,7 +548,6 @@ class Programe extends React.Component {
               value={this.state.Doctor_shift}
               >
                   {this.createShiftItemsForDoctors()}
-                  {/* {this.state.AllShift} */}
               </Input>
             </div>
 
@@ -526,7 +557,6 @@ class Programe extends React.Component {
               value={this.state.interval_time}
               >
                   {this.createIntervalTimeForDoctors()}
-                  {/* {this.state.AllShift} */}
               </Input>
             </div>
           </ModalBody>
@@ -534,7 +564,7 @@ class Programe extends React.Component {
             <Button color="primary" onClick={(event) => this.createAppoinment(event)}>Create</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
         </ModalFooter>
-        </Modal>
+        </Modal> */}
 
         <Modal className="modal-lg" isOpen={this.state.modal1} toggle={this.toggle1} >
           <ModalHeader toggle={this.toggle1}>Create Appoiment</ModalHeader>

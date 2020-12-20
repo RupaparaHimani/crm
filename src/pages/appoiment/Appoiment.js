@@ -453,7 +453,7 @@ class Appoiment extends React.Component {
             <div className="form-group">
               <label htmlFor="Doctors">Doctors</label>
               <Input  type="select" onChange={(e) => this.onDropdownSelectedDoctors(e)}  label="Doctors"
-              value={this.state.user_Patients}
+              value={this.state.user_Doctor}
               >
                   {this.createSelectItemsDoctors()}
               </Input>
