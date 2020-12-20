@@ -2,6 +2,7 @@ import config from "../config.js";
 import axios from 'axios';
 import Swal from 'sweetalert2';
 export const FETCH_PROGRAM_SUCCESS = 'FETCH_PROGRAM_SUCCESS';
+export const FETCH_ORDERED_PROGRAM_SUCCESS = 'FETCH_ORDERED_PROGRAM_SUCCESS';
 export const EDIT_PROGRAM_SUCCESS = 'EDIT_PROGRAM_SUCCESS';
 export const FETCH_PROGRAM_FAILURE = 'FETCH_PROGRAM_FAILURE';
 export const CREATE_PROGRAM_SUCCESS = 'CREATE_PROGRAM_SUCCESS';
@@ -11,6 +12,11 @@ export const DELETE_PROGRAM_SUCCESS = 'DELETE_PROGRAM_SUCCESS';
 export const fetchProgramSuccess = (programs) => ({
   type: FETCH_PROGRAM_SUCCESS,
   payload: { programs }
+});
+
+export const fetchOrderedProgramSuccess = (ordered_programs) => ({
+  type: FETCH_ORDERED_PROGRAM_SUCCESS,
+  payload: { ordered_programs }
 });
 
 export const updateProgramSuccess = (program) => ({
@@ -44,6 +50,18 @@ export function fetchProgram() {
     axios.get(config.baseURLApi+'get_programs')
         .then(function (response) {
           dispatch(fetchProgramSuccess(response.data.data));
+        })
+        .catch(function (error) {
+            dispatch(fetchProgramFailure(error))
+        })
+    }
+}
+
+export function fetchOrderedProgram() {
+  return (dispatch) => {
+    axios.get(config.baseURLApi+'get_ordered_programs')
+        .then(function (response) {
+          dispatch(fetchOrderedProgramSuccess(response.data.data));
         })
         .catch(function (error) {
             dispatch(fetchProgramFailure(error))

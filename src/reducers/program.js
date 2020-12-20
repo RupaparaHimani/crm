@@ -1,5 +1,6 @@
 import {
   FETCH_PROGRAM_SUCCESS,
+  FETCH_ORDERED_PROGRAM_SUCCESS,
   FETCH_PROGRAM_FAILURE,
   CREATE_PROGRAM_SUCCESS,
   UPDATE_PROGRAM_SUCCESS,
@@ -9,6 +10,7 @@ import {
 
 const initialState = {
   programs: [],
+  ordered_programs: [],
   program: null,
   temp: [],
   edit: false,
@@ -19,6 +21,11 @@ export default function programReducer(state = initialState, action) {
     case FETCH_PROGRAM_SUCCESS:
       return Object.assign({}, state, {
           programs: action.payload.programs,
+      });
+
+    case FETCH_ORDERED_PROGRAM_SUCCESS:
+      return Object.assign({}, state, {
+          ordered_programs: action.payload.ordered_programs,
       });
 
     case CREATE_PROGRAM_SUCCESS:
