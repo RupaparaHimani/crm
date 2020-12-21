@@ -84,23 +84,65 @@ class Programe extends React.Component {
       userID : row.userID,
       session: row.purpose
     })
-    // var date = new Date(row.date);
-    // var formated_Date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()-1}`
 
-    // this.setState({
-    //   id: row.id,
-    //   user_Patient: row.patientID,
-    //   user_Doctor: row.doctorID,
-    //   ShiftDate: formated_Date,
-    //   Doctor_shift: row.time,
-    //   interval_time : row.interval_time
-    // })
-    // // this.createShiftItemsForDoctors()
-    // var weekday = ["Sunday", "Monday", "Tuesday", "Wensday", "Thrusday", "Friday", "Saturday"];
-    // var date = new Date(row.date);
-    //  var n =  date.getDay()
-    //  var weekDAy = weekday[n];
-    //  this.setState({weekDay: weekDAy});
+    // user.schedule != null ? data.length > 0 ? data[0].shiftone[0] : '' : '',
+    console.log("dataSession",JSON.parse(row.session_schedule))
+    var dataSession = row.session_schedule != null ? JSON.parse(row.session_schedule) : ''
+
+    if(dataSession != '' && dataSession.length > 0){
+      let user_Doctor = [...this.state.user_Doctor];
+      let ShiftDate = [...this.state.ShiftDate];
+      let Doctor_shift = [...this.state.Doctor_shift];
+      let interval_time = [...this.state.interval_time];
+      let weekDay = [...this.state.weekDay];
+
+      dataSession.forEach(function(value,i){
+        console.log("EditDAta",value,i)
+        user_Doctor[i] = value.doctorId;
+        ShiftDate[i] = value.ShiftDate;
+        Doctor_shift[i] = value.Doctor_shift;
+        interval_time[i] = value.interval_time;
+
+        if(value.ShiftDate != ''){
+          var allDay = ["Sunday", "Monday", "Tuesday", "Wensday", "Thrusday", "Friday", "Saturday"];
+          var date = new Date(value.ShiftDate);
+          var n =  date.getDay()
+          weekDay[i] = allDay[n];
+        }
+        
+
+        
+      })
+
+      
+      this.setState({ user_Doctor: user_Doctor})
+      this.setState({ ShiftDate: ShiftDate})
+      this.setState({ Doctor_shift: Doctor_shift})
+      this.setState({ interval_time: interval_time})
+      this.setState({ weekDay: weekDay});
+    }
+
+
+    // console.log("this.state.user_Doctor",this.state.user_Doctor,this.state.ShiftDate,this.state.Doctor_shift,this.state.interval_time)
+
+      // this.onDropdownSelectedDoctors
+      // this.SelectDate
+      // this.onDropdownShiftItemsForDoctors
+      // this.onDropdownIntervalTimeForDoctors 
+      // var schedule_data = []
+      // var obj = {}
+      // this.state.user_Doctor.forEach(function(val,key) {
+      //   obj.sessionId = key+1 
+      //   obj.doctorId = val
+      //   schedule_data[key] = obj
+      // });
+
+      // this.state.ShiftDate.forEach(function(val,key) {
+      //   obj.ShiftDate = val
+      //   schedule_data[key] = obj
+      // });
+
+
   }
 
   onDelete = (event, id) => {
@@ -295,31 +337,51 @@ class Programe extends React.Component {
       // this.onDropdownShiftItemsForDoctors
       // this.onDropdownIntervalTimeForDoctors 
       var schedule_data = []
-      var obj = {}
-      this.state.user_Doctor.forEach(function(val,key) {
-        obj.sessionId = key+1 
-        obj.doctorId = val
-        schedule_data[key] = obj
-      });
+      
+      // this.state.user_Doctor.forEach(function(val,key) {
+      //   obj.sessionId = key+1 
+      //   obj.doctorId = val
+      //   schedule_data[key] = obj
+      // });
 
-      this.state.ShiftDate.forEach(function(val,key) {
-        obj.ShiftDate = val
-        schedule_data[key] = obj
-      });
+      // this.state.ShiftDate.forEach(function(val,key) {
+      //   obj.ShiftDate = val
+      //   schedule_data[key] = obj
+      // });
 
-      this.state.Doctor_shift.forEach(function(val,key) {
+      // this.state.Doctor_shift.forEach(function(val,key) {
 
-        obj.Doctor_shift = val
-        schedule_data[key] = obj
-      });
+      //   obj.Doctor_shift = val
+      //   schedule_data[key] = obj
+      // });
 
-      this.state.interval_time.forEach(function(val,key) {
-        obj.interval_time = val
-        schedule_data[key] = obj
-        // schedule_data[key].interval_time = val
-      });
+      // this.state.interval_time.forEach(function(val,key) {
+      //   obj.interval_time = val
+      //   schedule_data[key] = obj
+      //   // schedule_data[key].interval_time = val
+      // });
 
-      console.log("schedule_data",schedule_data)
+      if(this.state.session > 0){
+        for(var j = 0; j < this.state.session; j++){
+          var obj = {}
+
+          obj.sessionId = j+1 
+          obj.doctorId = this.state.user_Doctor[j]
+          obj.ShiftDate = this.state.ShiftDate[j]
+          obj.Doctor_shift = this.state.Doctor_shift[j]
+          obj.interval_time = this.state.interval_time[j]
+
+          
+          // var newVAl = [...this.state.session_schedule]
+          // newVAl[j] = obj
+          console.log("schedule_data_obj",obj)
+          schedule_data.push(obj)
+          // this.setState({session_schedule : newVAl})
+          console.log("schedule_data_obj",schedule_data)
+        }
+      }
+
+      console.log("schedule_data",schedule_data,this.state.session_schedule)
 
 
     //  return false
