@@ -22,6 +22,7 @@ import Counsellor from "../../pages/counsellor/Counsellor";
 import Blog from "../../pages/blog/Blog";
 import Doctor from "../../pages/doctor/Doctor";
 import Patient from "../../pages/patient/Patient";
+import Staff from "../../pages/staff/Staff";
 import Appoiment from "../../pages/appoiment/Appoiment";
 import Programe from "../../pages/programe/Programe";
 import Test from "../../pages/test/Test";
@@ -131,6 +132,7 @@ class Layout extends React.Component {
                     <Route path="/app/main/blog" exact component={Blog} />
                     <Route path="/app/main/doctor" exact component={Doctor} />
                     <Route path="/app/main/patient" exact component={Patient} />
+                    <Route path="/app/main/staff" exact component={Staff} />
                     <Route path="/app/main/appoiment" exact component={Appoiment} />
                     <Route path="/app/main/programe" exact component={Programe} />
                     <Route path="/app/main/test" exact component={Test} />

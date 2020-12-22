@@ -42,8 +42,8 @@ class Sidebar extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.doLogout = this.doLogout.bind(this);
+    // console.log("-----------", JSON.parse(localStorage.getItem('current_user')))
   }
 
   dismissAlert(id) {
@@ -55,6 +55,7 @@ class Sidebar extends React.Component {
   }
 
   render() {
+
     return (
         <div className={`${(!this.props.sidebarOpened && !this.props.sidebarStatic ) ? s.sidebarClose : ''} ${s.sidebarWrapper}`} id={"sidebar-drawer"}>
         <nav className={s.root}>
@@ -144,7 +145,7 @@ class Sidebar extends React.Component {
           />
           </LinksGroup>
 
-        
+
           <LinksGroup
             onActiveSidebarItemChange={activeItem =>
               this.props.dispatch(changeActiveSidebarItem(activeItem))
@@ -162,13 +163,30 @@ class Sidebar extends React.Component {
             height={"24px"}
           />
           </LinksGroup>
+          <LinksGroup
+            onActiveSidebarItemChange={activeItem =>
+              this.props.dispatch(changeActiveSidebarItem(activeItem))
+            }
+            activeItem={this.props.activeItem}
+            header="Staff"
+            isHeader
+            link="/app/main/staff"
+            index="main"
+          >
+          <img
+            src={accountIcon}
+            alt="lightDashboard"
+            width={"24px"}
+            height={"24px"}
+          />
+          </LinksGroup>
 
           <LinksGroup
             onActiveSidebarItemChange={activeItem =>
               this.props.dispatch(changeActiveSidebarItem(activeItem))
             }
             activeItem={this.props.activeItem}
-            header="Appoiment"
+            header="Appoinment"
             isHeader
             link="/app/main/appoiment"
             index="main"
@@ -186,7 +204,7 @@ class Sidebar extends React.Component {
               this.props.dispatch(changeActiveSidebarItem(activeItem))
             }
             activeItem={this.props.activeItem}
-            header="Programe"
+            header="Program"
             isHeader
             link="/app/main/programe"
             index="main"
