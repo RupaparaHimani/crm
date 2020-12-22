@@ -75,12 +75,13 @@ export function fetchOrderedProgram() {
     }
 }
 
+
 export function createProgram(data) {
   console.log(data);
   console.log(config.baseURLApi+"create_program");
   return (dispatch) => {
   let self = this;
-    axios.post(config.baseURLApi+'create_program', {user_id: data.patient_id, program_id: data.program_id, purpose: data.session})
+    axios.post(config.baseURLApi+'create_program', {user_id: data.patient_id, program_id: data.program_id, purpose: data.purpose})
       .then(function (response) {
           Swal.fire({
               icon: 'success',
