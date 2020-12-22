@@ -58,6 +58,7 @@ class Login extends React.Component {
       this.props.dispatch(
         loginUser({ email: this.state.email, password: this.state.password })
       );
+
     }
   }
 
@@ -79,7 +80,7 @@ class Login extends React.Component {
     // cant access login page while logged in
     if (Login.isAuthenticated(JSON.parse(localStorage.getItem('authenticated')))) {
       return (
-          <Redirect to={from} />
+          <Redirect to='/app/main/dashboard' />
       );
     }
 

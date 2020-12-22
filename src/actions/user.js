@@ -154,8 +154,10 @@ export function loginUser(creds) {
                       });
                   }
                   else {
+                    console.log("login resposne-------", response.data.user);
                     dispatch(receiveLogin());
                     localStorage.setItem('authenticated', true);
+                    localStorage.setItem('current_user', response.data.user);
                     creds.history.push('/login');
                   }
               })
