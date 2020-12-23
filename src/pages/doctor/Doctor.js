@@ -3,6 +3,7 @@ import { Row, Col, Modal, ModalHeader, ModalBody, ModalFooter,  Table, Button } 
 import { withRouter, Redirect, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
+import { createReferral } from "../../actions/referral";
 import s from "./Dashboard.module.scss";
 import Widget from "../../components/Widget";
 import stocksImg from "../../images/stocks.svg";
@@ -55,7 +56,10 @@ class Doctor extends React.Component {
 
       schedule : '',
 
-      sData : []
+      sData : [],
+      from: 'doctor',
+      refer_to_name: '',
+      refer_to_number: ''
     }
   }
 
@@ -207,20 +211,40 @@ class Doctor extends React.Component {
   }
 
   onNameChangeFun = (e,name) => {
-    // var time = this.state.toMonTime +' - '+ this.state.fromMonTime;
-
     this.setState({[name]: e.target.value})
+  }
 
+  // Referral
+  onReferToNameChange = event => {
+    this.setState({ refer_to_name: event.target.value})
+  }
+  onReferToNumberChange = event => {
+    this.setState({ refer_to_number: event.target.value})
+  }
 
+  toggle_referral = () => {
+    this.setState({ refer_to_name: '', refer_to_number: '' })
+    this.setState({ modal_referral: !this.state.modal_referral})
+  }
+
+  createRefer = (event) => {
+    event.preventDefault();
+    this.props.dispatch(createReferral({from: this.state.from, referral: this.state.id, refer_to_name: this.state.refer_to_name, refer_to_number: this.state.refer_to_number}))
+    this.setState({ modal_referral: false})
+  }
+
+  onRefer = (event, id) => {
+    event.preventDefault();
+    this.setState({ id: id})
+    this.setState({ modal_referral: true})
   }
 
 
-
   toggle = () => {
-    this.setState({ 
-      id : 0, 
-      title: '', 
-      description: '', 
+    this.setState({
+      id : 0,
+      title: '',
+      description: '',
       imgurl: '',
       fname: '',
       lname: '',
@@ -258,7 +282,7 @@ class Doctor extends React.Component {
       toTimeSun2 : '',
       fromTimeSun2 : '',
 
-      schedule : '', 
+      schedule : '',
       sData : []
     })
     this.setState({ modal: !this.state.modal})
@@ -320,6 +344,7 @@ class Doctor extends React.Component {
                       <td>
                         <a onClick={event => this.onEdit(event, row.id)}><img src={require("../../images/edit.png")} width="20" height="25" /></a>
                         <a onClick={event => this.onDelete(event, row.id)}><img src={require("../../images/delete.png")} width="40" height="25"/></a>
+                        <a onClick={event => this.onRefer(event, row.id)} title="Referral"><img src={require("../../images/referral.png")} width="20" height="25"/></a>
                       </td>
                     </tr>
                   )): 'NO DATA FOUND'}
@@ -535,6 +560,29 @@ class Doctor extends React.Component {
             </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={(event) => this.createUser(event)}>Create</Button>{' '}
+            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+        </ModalFooter>
+      </Modal>
+      <Modal isOpen={this.state.modal_referral} toggle={this.toggle_referral} >
+        <ModalHeader toggle={this.toggle_referral}>Refer To Patient</ModalHeader>
+        <ModalBody>
+          <Row>
+            <Col xl={12}>
+              <div className="form-group">
+                <label htmlFor="refer_to_name">Refer to Patient Name: </label>
+                <input className="form-control" id="refer_to_name"  value={ this.state.refer_to_name} onChange={(event) => this.onReferToNameChange(event)}/>
+              </div>
+            </Col>
+            <Col xl={12}>
+              <div className="form-group">
+                <label htmlFor="refer_to_number">Contact Number</label>
+                <input className="form-control" id="refer_to_number"  value={ this.state.refer_to_number} onChange={(event) => this.onReferToNumberChange(event)}/>
+              </div>
+            </Col>
+            </Row>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={(event) => this.createRefer(event)}>Create</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
         </ModalFooter>
       </Modal>
