@@ -7,6 +7,7 @@ import blog from './blog';
 import test from './test';
 import appoinment from './appoinment';
 import program from './program';
+import billing from './billing';
 
 export default combineReducers({
   alerts,
@@ -16,5 +17,6 @@ export default combineReducers({
   blog,
   test,
   appoinment,
-  program
+  program,
+  billing
 });
