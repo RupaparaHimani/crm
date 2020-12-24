@@ -10,6 +10,8 @@ export const FETCH_BILLING_FAILURE = 'FETCH_BILLING_FAILURE';
 export const CREATE_BILLING_SUCCESS = 'CREATE_BILLING_SUCCESS';
 export const UPDATE_BILLING_SUCCESS = 'UPDATE_BILLING_SUCCESS';
 export const DELETE_BILLING_SUCCESS = 'DELETE_BILLING_SUCCESS';
+export const FETCH_REMAINIG_BILL_PATIENT_LIST = 'FETCH_REMAINIG_BILL_PATIENT_LIST';
+export const GET_BILL_NUMBER = 'GET_BILL_NUMBER';
 
 
 
@@ -23,6 +25,16 @@ export const fetchBillingSuccess = (billings) => ({
   payload: { billings }
 });
 
+export const fetchRemainingBillPatientListSuccess = (remaining_bill_patients) => ({
+  type: FETCH_REMAINIG_BILL_PATIENT_LIST,
+  payload: { remaining_bill_patients }
+});
+
+export const getBillNumberSuccess = (bill_numbers) => ({
+  type: GET_BILL_NUMBER,
+  payload: { bill_numbers }
+});
+
 export const fetchOrderedBillingSuccess = (ordered_billings) => ({
   type: FETCH_ORDERED_BILLING_SUCCESS,
   payload: { ordered_billings }
@@ -33,9 +45,9 @@ export const updateBillingSuccess = (billing) => ({
   payload: { billing }
 });
 
-export const createBillingSuccess = (billing) => ({
+export const createBillingSuccess = (bill) => ({
   type: CREATE_BILLING_SUCCESS,
-  payload: { billing }
+  payload: { bill }
 });
 
 export const deleteBillingSuccess = (billing_id) => ({
@@ -73,6 +85,30 @@ export function fetchBilling() {
     }
 }
 
+export function fetchRemainingBillPatientList() {
+  return (dispatch) => {
+    axios.get(config.baseURLApi+'remaining_bill_patient_list')
+        .then(function (response) {
+          dispatch(fetchRemainingBillPatientListSuccess(response.data.data));
+        })
+        .catch(function (error) {
+            dispatch(fetchBillingFailure(error))
+        })
+    }
+}
+
+export function getBillNumber(data) {
+  return (dispatch) => {
+    axios.get(config.baseURLApi+'get_bill_number/'+data.id)
+        .then(function (response) {
+          dispatch(getBillNumberSuccess(response.data.data));
+        })
+        .catch(function (error) {
+            dispatch(fetchBillingFailure(error))
+        })
+    }
+}
+
 export function fetchService() {
   return (dispatch) => {
     axios.get(config.baseURLApi+'getservices')
@@ -98,12 +134,12 @@ export function fetchOrderedBilling() {
 }
 
 
-export function createBilling(data) {
+export function createBill(data) {
   console.log(data);
-  console.log(config.baseURLApi+"create_billing");
+  console.log(config.baseURLApi+"generate_bill");
   return (dispatch) => {
   let self = this;
-    axios.post(config.baseURLApi+'create_billing', {user_id: data.patient_id, billing_id: data.billing_id, purpose: data.purpose})
+    axios.post(config.baseURLApi+'generate_bill', {id: data.id, amount: data.amount})
       .then(function (response) {
           Swal.fire({
               icon: 'success',
@@ -112,7 +148,7 @@ export function createBilling(data) {
               showConfirmButton: true,
               timer: 3500
           });
-          dispatch(createBillingSuccess(response.data.billing));
+          dispatch(createBillingSuccess(response));
           // window.location.assign('/');
       })
       .catch(function (error) {

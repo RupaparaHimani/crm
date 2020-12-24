@@ -7,7 +7,9 @@ import {
   UPDATE_BILLING_SUCCESS,
   EDIT_BILLING_SUCCESS,
   GET_ALL_BILLING_SUCCESS,
-  DELETE_BILLING_SUCCESS
+  DELETE_BILLING_SUCCESS,
+  FETCH_REMAINIG_BILL_PATIENT_LIST,
+  GET_BILL_NUMBER
 } from '../actions/billing';
 
 const initialState = {
@@ -17,7 +19,9 @@ const initialState = {
   billing: null,
   temp: [],
   edit: false,
-  allServices : []
+  allServices : [],
+  remaining_bill_patients: [],
+  bill_numbers: []
 };
 
 export default function billingReducer(state = initialState, action) {
@@ -31,6 +35,16 @@ export default function billingReducer(state = initialState, action) {
     case FETCH_BILLING_SUCCESS:
       return Object.assign({}, state, {
           billings: action.payload.billings,
+      });
+
+    case FETCH_REMAINIG_BILL_PATIENT_LIST:
+      return Object.assign({}, state, {
+          remaining_bill_patients: action.payload.remaining_bill_patients,
+      });
+
+    case GET_BILL_NUMBER:
+      return Object.assign({}, state, {
+          bill_numbers: action.payload.bill_numbers,
       });
 
     case FETCH_ORDERED_BILLING_SUCCESS:
