@@ -226,7 +226,14 @@ class Sidebar extends React.Component {
             isHeader
             link="/app/main/billing"
             index="main"
-          >
+            exact={false}
+            childrenLinks={[
+              {
+                header: "Payment",
+                link: "/app/main/payment"
+              }
+            ]}
+            >
           <img
             src={accountIcon}
             alt="lightDashboard"

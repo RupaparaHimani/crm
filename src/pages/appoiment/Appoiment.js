@@ -1,5 +1,8 @@
 import React from "react";
-import { Row, Col, Modal, ModalHeader, ModalBody, ModalFooter,  Table, Button, Input } from "reactstrap";
+// import { Table, Input, Button, Space } from 'antd';
+// import Highlighter from 'react-highlight-words';
+// import { SearchOutlined } from '@ant-design/icons';
+import { Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, Table, Input, Button, Badge, Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import { withRouter, Redirect, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
@@ -33,6 +36,11 @@ class Appoiment extends React.Component {
       interval_time : '',
       AllShift : [],
       id : 0,
+      searchText: '',
+    searchedColumn: '',
+    currentPage: 0,
+      pageSize : 20,
+      pagesCount :  0
     }
   }
 
@@ -374,9 +382,137 @@ class Appoiment extends React.Component {
     //  this.setState({weekDay: weekDAy});
   }
 
+  // getColumnSearchProps = dataIndex => ({
+  //   filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+  //     <div style={{ padding: 8 }}>
+  //       <Input
+  //         ref={node => {
+  //           this.searchInput = node;
+  //         }}
+  //         placeholder={`Search ${dataIndex}`}
+  //         value={selectedKeys[0]}
+  //         onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+  //         onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+  //         style={{ width: 188, marginBottom: 8, display: 'block' }}
+  //       />
+  //       <Space>
+  //         <Button
+  //           type="primary"
+  //           onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+  //           icon={<SearchOutlined />}
+  //           size="small"
+  //           style={{ width: 90 }}
+  //         >
+  //           Search
+  //         </Button>
+  //         <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+  //           Reset
+  //         </Button>
+  //       </Space>
+  //     </div>
+  //   ),
+  //   filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+  //   onFilter: (value, record) =>
+  //     record[dataIndex]
+  //       ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
+  //       : '',
+  //   onFilterDropdownVisibleChange: visible => {
+  //     if (visible) {
+  //       setTimeout(() => this.searchInput.select(), 100);
+  //     }
+  //   },
+  //   render: text =>
+  //     this.state.searchedColumn === dataIndex ? (
+  //       <Highlighter
+  //         highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+  //         searchWords={[this.state.searchText]}
+  //         autoEscape
+  //         textToHighlight={text ? text.toString() : ''}
+  //       />
+  //     ) : (
+  //       text
+  //     ),
+  // });
+
+  // handleSearch = (selectedKeys, confirm, dataIndex) => {
+  //   confirm();
+  //   this.setState({
+  //     searchText: selectedKeys[0],
+  //     searchedColumn: dataIndex,
+  //   });
+  // };
+
+  // handleReset = clearFilters => {
+  //   clearFilters();
+  //   this.setState({ searchText: '' });
+  // };
+
+  handleClick(e, index) {
+    
+    e.preventDefault();
+
+    this.setState({
+      currentPage: index
+    });
+    
+  }
+
   render() {
     const { tests, paid_tests, users, appoinments } = this.props;
+    const { currentPage } = this.state;
+    var pagesCount = Math.ceil(appoinments.length / this.state.pageSize)
     console.log("paid_tests", this.state);
+    // const columns = [
+    //   {
+    //     title: 'Patients',
+    //     key: 'Patients',
+    //     render: (text, row) => (
+    //       <>
+    //         <span>{this.get_user_name(row.patientID)}</span>
+    //       </>
+    //     ),
+    //     ...this.getColumnSearchProps('name'),
+    //   },
+    //   {
+    //     title: 'Doctor',
+    //     key: 'doctor',
+    //     render: (text, row) => (
+    //       <>
+    //         <span>{this.get_doctor_name(row.doctorID)}</span>
+    //       </>
+    //     ),
+    //   },
+    //   {
+    //     title: 'Date',
+    //     key: 'Date',
+    //     render: (text, row) => (
+    //       <>
+    //         <span>{this.convertDateFormate(row.date)}</span>
+    //       </>
+    //     ),
+    //   },
+    //   {
+    //     title: 'Shift',
+    //     key: 'time',
+    //     dataIndex: 'time',
+    //   },
+    //   {
+    //     title: 'Time',
+    //     key: 'interval_time',
+    //     dataIndex: 'interval_time',
+    //   },
+    //   {
+    //     title: 'Action',
+    //     key: 'action',
+    //     render: (text, row) => (
+    //       <Space size="middle">
+    //         <a onClick={event => this.onEdit(event, row)}><img src={require("../../images/edit.png")} width="20" height="25" /></a>
+    //         <a onClick={event => this.onDelete(event, row.id)}><img src={require("../../images/delete.png")} width="40" height="25"/></a>
+    //       </Space>
+    //     ),
+    //   },
+    // ];
+  
     return (
       <div className={s.root}>
       <ToastContainer />
@@ -385,6 +521,21 @@ class Appoiment extends React.Component {
             <Button color="primary" onClick={this.toggle}>Create</Button>{' '}
           </Col>
         </Row>
+        {/* <Row>
+          <Col xl={12} >
+          {appoinments.length >0 ?
+            <Widget
+              title={<p style={{ fontWeight: 700 }}>Appoiment</p>}
+            >
+              <Table columns={columns} dataSource={appoinments} />
+            </Widget>
+            : <p style={{ fontWeight: 700 }}>NO DATA FOUND</p> 
+            
+          }
+          
+          </Col>
+        </Row> */}
+
         <Row>
           <Col xl={12}>
           {appoinments.length >0 ?
@@ -408,24 +559,19 @@ class Appoiment extends React.Component {
                     <tr key={row.id} >
                       <td>{row.id}</td>
                       <td>
-                        {/* {this.get_user_name(row.userID)} */}
                         {this.get_user_name(row.patientID)}
                       </td>
                       <td>
                         {this.get_doctor_name(row.doctorID)}
-                        {/* {this.get_test_name(row.testID)} */}
                       </td>
                       <td>
                       {this.convertDateFormate(row.date)}
-                        {/* {this.get_test_name(row.testID)} */}
                       </td>
                       <td>
                       {row.time}
-                        {/* {this.get_test_name(row.testID)} */}
                       </td>
                       <td>
                       {row.interval_time}
-                        {/* {this.get_test_name(row.testID)} */}
                       </td>
                       <td>
                         <a onClick={event => this.onEdit(event, row)}><img src={require("../../images/edit.png")} width="20" height="25" /></a>
@@ -435,6 +581,41 @@ class Appoiment extends React.Component {
                   ))}
                 </tbody>
               </Table>
+              <div className="pagination-wrapper" style={{float: 'right',fontSize: '20px'}} >
+                
+                <Pagination aria-label="Page navigation example">
+                  
+                  <PaginationItem disabled={currentPage <= 0}>
+                    
+                    <PaginationLink
+                      onClick={e => this.handleClick(e, currentPage - 1)}
+                      previous
+                      href="#"
+                    />
+                    
+                  </PaginationItem>
+
+                  {[...Array(pagesCount)].map((page, i) => 
+                    <PaginationItem active={i === currentPage} key={i}>
+                      <PaginationLink onClick={e => this.handleClick(e, i)} href="#">
+                        {i + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  )}
+
+                  <PaginationItem disabled={currentPage >= pagesCount - 1}>
+                    
+                    <PaginationLink
+                      onClick={e => this.handleClick(e, currentPage + 1)}
+                      next
+                      href="#"
+                    />
+                    
+                  </PaginationItem>
+                  
+                </Pagination>
+                
+              </div>
             </Widget>
             : <p style={{ fontWeight: 700 }}>NO DATA FOUND</p> }
           </Col>

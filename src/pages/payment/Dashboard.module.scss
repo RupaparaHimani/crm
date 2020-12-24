@@ -1,0 +1,142 @@
+@import '../../styles/app';
+
+.borderRed{
+  border: 1px solid red;
+}
+
+.root {
+  .dashboardBlock {
+    @media (min-width: 1170px) and (max-width: 1280px) {
+      display: none;
+    }
+  }
+  .dailyLineChart {
+    margin-top: -36px;
+    @include media-breakpoint-down(md) {
+      margin-top: 0;
+    }
+  }
+  .pieElements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &Danger {
+      border-top: 3px solid theme-color("danger")
+    }
+    &Warning {
+      border-top: 3px solid theme-color("warning")
+    }
+    &Black {
+      border-top: 3px solid #323232
+    }
+    p {
+      color: rgba(#323232, .6);
+      white-space: nowrap;
+    }
+  }
+  :global {
+    .post-comments footer {
+      margin: 0 (-$widget-padding-horizontal) (-$widget-padding-vertical);
+      padding: $widget-padding-vertical $widget-padding-horizontal;
+    }
+
+    .stat-item .name {
+      margin-top: 10px;
+    }
+  }
+  h5 {
+    color: rgba(#323232, .6)
+  }
+  .dashboardImg {
+    position: absolute;
+    right: 0;
+    bottom: -4px;
+    width: 40%;
+    @include media-breakpoint-down(md) {
+      width: 100%;
+      position: static;
+      margin-bottom: -28px;
+    }
+    }
+  .row {
+    align-items: center;
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}
+
+.table {
+  :global(.table.table-sm) {
+    td {
+      font-size: 1rem;
+      vertical-align: middle;
+    }
+  }
+}
+
+/* Create two unequal columns that floats next to each other */
+/* Left column */
+.leftcolumn {
+  float: left;
+  width: 75%;
+}
+
+/* Right column */
+.rightcolumn {
+  float: left;
+  width: 25%;
+  padding-left: 20px;
+}
+
+/* Fake image */
+.fakeimg {
+  background-color: #aaa;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Add a card effect for articles */
+.card {
+   background-color: white;
+   padding: 20px;
+   margin-top: 20px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Footer */
+.footer {
+  padding: 20px;
+  text-align: center;
+  background: #ddd;
+  margin-top: 20px;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+  .leftcolumn, .rightcolumn {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+.pagination-wrapper {
+  overflow-x:auto;
+  float: right;
+}
+
+.pagination {
+  justify-content: center;
+  margin:30px;
+}
+
+.data-slice {
+  margin-top: 15px;
+}
