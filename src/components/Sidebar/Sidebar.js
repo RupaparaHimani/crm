@@ -229,6 +229,10 @@ class Sidebar extends React.Component {
             exact={false}
             childrenLinks={[
               {
+                header: "Bill",
+                link: "/app/main/billing"
+              },
+              {
                 header: "Payment",
                 link: "/app/main/payment"
               }

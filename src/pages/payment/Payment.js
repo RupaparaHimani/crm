@@ -3,12 +3,13 @@ import { Row, Col, Modal, ModalHeader, ModalBody, ModalFooter,  Table, Button,  
 import { withRouter, Redirect, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
+import config from "../../config.js"
 import s from "./Dashboard.module.scss";
 import Widget from "../../components/Widget/Widget";
 import { fetchAppoinment } from "../../actions/appoinment";
-import { fetchOrderedProgram,getAllPrograms, updateProgram, createProgram, deleteProgram } from "../../actions/program";
+import { fetchOrderedProgram,getAllPrograms, deleteProgram } from "../../actions/program";
 import { fetchTests, fetchPaidTests } from "../../actions/test";
-import { fetchOrderedBilling,fetchService } from "../../actions/billing";
+import { fetchOrderedBilling,fetchService, fetchRemainingBillPatientList, getBillNumber } from "../../actions/billing";
 import { fetchOfflineUsers,fetchDoctors } from "../../actions/user";
 import { toast, ToastContainer } from 'react-toastify';
 import Swal from 'sweetalert2';
@@ -23,7 +24,9 @@ class Payment extends React.Component {
     
       currentPage: 0,
       pageSize : 20,
-      pagesCount :  0
+      pagesCount :  0,
+      patientId : 0,
+      billingId : 0,
       
     };
 
@@ -39,6 +42,7 @@ class Payment extends React.Component {
     this.props.dispatch(fetchTests());
     this.props.dispatch(fetchPaidTests());
     this.props.dispatch(fetchService());
+    this.props.dispatch(fetchRemainingBillPatientList());
   }
 
   componentDidMount() {
@@ -132,12 +136,79 @@ class Payment extends React.Component {
     
   }
 
+  createSelectItemsPatients = (val) => {
+
+    let items = [];
+    items.push(<option key={0} value='' >Select Patients</option>);
+    for (let i = 0; i < this.props.remaining_bill_patients.length; i++) {
+      //console.log(i);
+       items.push(<option key={this.props.remaining_bill_patients[i].id} value={this.props.remaining_bill_patients[i].id} >{this.props.remaining_bill_patients[i].first_name} {this.props.doctors[i].last_name}</option>);
+    }
+
+    return items;
+  }
+
+  getPatients = () =>{
+    let items = [];
+    items.push(<option key={-1} value='' >Select Patients</option>);
+    for (let i = 0; i < this.props.remaining_bill_patients.length; i++) {
+      //console.log(i);
+      if(this.props.remaining_bill_patients[i].userID != 0)
+       items.push(<option key={this.props.remaining_bill_patients[i].userID} value={this.props.remaining_bill_patients[i].userID} >{this.get_user_name(this.props.remaining_bill_patients[i].userID)}</option>);
+    }
+
+    return items;
+  }
+
+  getBillingNumber = () =>{
+    let items = [];
+    items.push(<option key={0} value='' >Select Bill</option>);
+    for (let i = 0; i < this.props.bill_numbers.length; i++) {
+      //console.log(i);
+      if(this.props.bill_numbers[i].id != 0)
+       items.push(<option key={this.props.bill_numbers[i].id} value={this.props.bill_numbers[i].id} >{this.props.bill_numbers[i].id}</option>);
+    }
+
+    return items;
+  }
+
+  getBillByPatientId = (event) => {
+
+    if(event.target.value){
+      this.setState({patientId: event.target.value})
+      var patientId = event.target.value
+      console.log("patientId",patientId)
+      this.props.dispatch(getBillNumber({id: patientId}));
+    }
+    
+    
+  }
+
+  getBillNumberById = (event) => {
+
+    if(event.target.value){
+      this.setState({billingId: event.target.value})
+      var BillId = event.target.value
+      // for (let i = 0; i < this.props.bill_numbers.length; i++) {
+
+      //   if(this.props.bill_numbers[i].id == BillId){
+
+      //   }
+        
+      // }
+      
+      // this.props.dispatch(getBillNumber(event.target.value));
+    }
+    
+    
+  }
+
   render() {
     const { currentPage } = this.state;
     var pagesCount = Math.ceil(this.props.ordered_billings.length / this.state.pageSize)
     
     return (
-      <div className={s.root}>
+      <div>
       <ToastContainer />
         <Row>
           <Col xl={12} >
@@ -148,22 +219,27 @@ class Payment extends React.Component {
                 <Col xl={12} >
                 <FormGroup>
                   <Label for="exampleSelect">Patients</Label>
-                  <Input type="select" name="select" id="exampleSelect">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                  <Input 
+                  type="select" 
+                  name="select" 
+                  id="exampleSelect"
+                  onChange={(e) => this.getBillByPatientId(e)}
+                  value={this.state.patientId}
+                  
+                  >
+                    {this.getPatients()}
                   </Input>
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleSelect">Bill No.</Label>
-                  <Input type="select" name="select" id="exampleSelect">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                  <Input 
+                  type="select" 
+                  name="select" 
+                  id="exampleSelect"
+                  onChange={(e) => this.getBillNumberById(e)}
+                  value={this.state.billingId}
+                  >
+                    {this.getBillingNumber()}
                   </Input>
                 </FormGroup>
                 </Col>
@@ -178,7 +254,7 @@ class Payment extends React.Component {
                       
                         <FormGroup  >
                           <Label >
-                            Total : 5000K
+                            <h4>Total</h4> {'  :- '} <h5>5000K</h5>
                           </Label>
                         </FormGroup>
                         
@@ -186,7 +262,7 @@ class Payment extends React.Component {
                       <Col xl={2} >
                         <FormGroup  >
                           <Label >
-                            Paid : 3000K
+                          <h4>Paid</h4> {'  :- '} <h5>3000K</h5>
                           </Label>
                         </FormGroup>
                       </Col>
@@ -198,7 +274,7 @@ class Payment extends React.Component {
                       </Col>
                       <Col xl={2} >
                         <FormGroup  >
-                          <Button>Pay</Button>
+                          <Button color="success" >Pay</Button>
                       </FormGroup>
                       </Col>
                   </Form>
@@ -225,7 +301,9 @@ const mapStateToProps = state => ({
   program : state.program.program,
   allProgram : state.program.allProgram,
   ordered_billings  : state.billing.ordered_billings,
-  allServices : state.billing.allServices
+  allServices : state.billing.allServices,
+  remaining_bill_patients : state.billing.remaining_bill_patients,
+  bill_numbers : state.billing.bill_numbers
 
 
 });
