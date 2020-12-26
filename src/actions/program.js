@@ -90,7 +90,8 @@ export function createProgram(data) {
               showConfirmButton: true,
               timer: 3500
           });
-          dispatch(createProgramSuccess(response.data.program));
+          // dispatch(createProgramSuccess(response.data.program));
+          dispatch(fetchOrderedProgram());
           // window.location.assign('/');
       })
       .catch(function (error) {
@@ -112,8 +113,9 @@ export function updateProgram(data) {
         showConfirmButton: true,
         timer: 3500
     });
-      dispatch(updateProgramSuccess(response.data.program));
+      // dispatch(updateProgramSuccess(response.data.program));
       dispatch(fetchProgram(response.data.program));
+      dispatch(fetchOrderedProgram());
     })
     .catch((error) => {
       dispatch(fetchProgramFailure(error))
@@ -163,6 +165,7 @@ export function deleteProgram(data) {
       })
     .then((response) => {
       dispatch(deleteProgramSuccess(response.data.id));
+      dispatch(fetchOrderedProgram());
       return response.data.data;
     })
     .catch((error) => {

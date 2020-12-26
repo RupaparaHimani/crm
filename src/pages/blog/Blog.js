@@ -17,8 +17,10 @@ class Counsellor extends React.Component {
       modal: false,
       title: '',
       description: '',
+      imgUrl : null,
       selectedFile: '',
       editted: false,
+      updateImage : false
     }
   }
 
@@ -43,15 +45,16 @@ class Counsellor extends React.Component {
 
   createBlog = (event) => {
     event.preventDefault();
-    if(this.props.blog == null){
+    if(this.state.id == 0){
       this.props.dispatch(createBlog({title: this.state.title, description: this.state.description, image: this.state.selectedFile}));
       { /* window.location.reload();*/ }
     }else{
-      this.props.dispatch(updateBlog({id: this.props.blog.id, title: this.state.title, description: this.state.description, image: this.state.selectedFile}));
-      window.location.reload();
+
+      this.props.dispatch(updateBlog({id: this.state.id, title: this.state.title, description: this.state.description, image: this.state.selectedFile, updateImage : this.state.updateImage}));
+      // window.location.reload();
     }
     this.props.dispatch(fetchBlogs());
-    this.setState({ modal: false })
+    this.setState({ modal: false, title: '', description: '', imgurl: '', updateImage : false, id : 0 })
   }
 
   onTitleChange = event => {
@@ -63,18 +66,35 @@ class Counsellor extends React.Component {
   }
 
   onFileChange = event => {
-    this.setState({ selectedFile: event.target.files[0]})
+    this.setState({ selectedFile: event.target.files[0],
+      updateImage : true
+    })
   }
 
   toggle = () => {
-    this.setState({ title: '', description: '', imgurl: '' })
+    this.setState({ title: '', description: '', imgurl: '', updateImage : false, id : 0 })
     this.setState({ modal: !this.state.modal})
   }
 
-  onEdit = (event, id) => {
+  onEdit = (event, val) => {
     event.preventDefault();
-    this.props.dispatch(getBlog({id: id}));
-    this.setState({ modal: true })
+    // this.props.dispatch(getBlog({id: id}));
+    console.log(val)
+    const mimeType = 'image/png';
+    const buffer = val.image;
+    const b64 = new Buffer(buffer).toString('base64')
+    var url = `data:${mimeType};base64,${b64}`;
+    this.setState({ 
+      id : val.id,
+      modal: true, 
+      updateImage : false,
+      title: val.title,
+      description: val.description,
+      imgUrl : url,
+    
+    })
+
+
   }
 
   onDelete = (event, id) => {
@@ -82,7 +102,7 @@ class Counsellor extends React.Component {
     if (window.confirm("Delete the item?")) {
       this.props.dispatch(deleteBlog({id: id}));
     }
-    window.location.reload();
+    // window.location.reload();
   }
 
   render() {
@@ -99,14 +119,14 @@ class Counsellor extends React.Component {
         {blogs.map((blog) =>
           <Col  style={{ paddingBottom: '10px'}} xl={4} key={blog.id}>
           <Card>
-            <CardImg top width="100%" src={imageURLs.find(x => x.id === blog.id).url} alt="Card image cap" />
+            <CardImg top width="100%" src={ imageURLs.find(x => x.id === blog.id).url} alt="Card image cap" />
             <CardBody>
               <CardTitle tag="h5">{blog.title}</CardTitle>
               <CardText style={{"display":"-webkit-box","maxWidth":"250px","WebkitLineClamp":"3","WebkitBoxOrient":"vertical","overflow":"hidden","textOverflow":"ellipsis"}}><div dangerouslySetInnerHTML={{__html: blog.description}}></div></CardText>
               <div style={{justifyContent: 'space-between', display: 'flex'}}>
                 { /* <Button>Read more..</Button> */}
                 <div>
-                  <a onClick={event => this.onEdit(event, blog.id)}><img src={require("../../images/edit.png")} width="20" height="25"/></a>
+                  <a onClick={event => this.onEdit(event, blog)}><img src={require("../../images/edit.png")} width="20" height="25"/></a>
                   <a onClick={event => this.onDelete(event, blog.id)}><img src={require("../../images/delete.png")} width="40" height="25"/></a>
                 </div>
               </div>
@@ -124,8 +144,8 @@ class Counsellor extends React.Component {
           </div>
             <label htmlFor="des">description</label>
             <ReactQuill value={this.state.description} onChange={this.onDescChange} style={{marginBottom: '35px', width: '100%'}}/>
-            {blog != null ?
-              <img src={imgURL} width="100" height="100" />
+            {this.state.imgUrl != null ?
+              <img src={this.state.imgUrl} width="100" height="100" />
             : ''}
             <div className="form-group">
               <label htmlFor="image">Image : </label>

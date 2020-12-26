@@ -135,8 +135,8 @@ class Layout extends React.Component {
                     <Route path="/app/main/doctor" exact component={Doctor} />
                     <Route path="/app/main/patient" exact component={Patient} />
                     <Route path="/app/main/staff" exact component={Staff} />
-                    <Route path="/app/main/appoiment" exact component={Appoiment} />
-                    <Route path="/app/main/programe" exact component={Programe} />
+                    <Route path="/app/main/appointment" exact component={Appoiment} />
+                    <Route path="/app/main/program" exact component={Programe} />
                     <Route path="/app/main/billing" exact component={Billing} />
                     <Route path="/app/main/payment"  component={Payment} />
                     <Route path="/app/main/test" exact component={Test} />

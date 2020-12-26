@@ -68,6 +68,19 @@ class Staff extends React.Component {
           this.setState({ modal: false })
       }
 
+      this.setState({ 
+        title: '', 
+        description: '', 
+        imgurl: '',
+        id: 0,
+        fname: '',
+        lname: '',
+        email: '',
+        number: '',
+        password: '',
+        confirm_password: ''
+      })
+
   }
 
   onFNameChange = event => {
@@ -92,7 +105,18 @@ class Staff extends React.Component {
 
 
   toggle = () => {
-    this.setState({ title: '', description: '', imgurl: '' })
+    this.setState({ 
+      title: '', 
+      description: '', 
+      imgurl: '',
+      id: 0,
+      fname: '',
+      lname: '',
+      email: '',
+      number: '',
+      password: '',
+      confirm_password: ''
+    })
     this.setState({ modal: !this.state.modal})
   }
 
@@ -125,7 +149,7 @@ class Staff extends React.Component {
           <Col xl={12}>
           {users.length >0 ?
             <Widget
-              title={<p style={{ fontWeight: 700 }}>Patients</p>}
+              title={<p style={{ fontWeight: 700 }}>Staff</p>}
             >
               <Table responsive>
                 <thead>
@@ -163,31 +187,31 @@ class Staff extends React.Component {
           </Col>
         </Row>
         <Modal isOpen={this.state.modal} toggle={this.toggle} >
-          <ModalHeader toggle={this.toggle}>Register Doctor</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Register Staff</ModalHeader>
           <ModalBody>
             <Row>
               <Col xl={6}>
                 <div className="form-group">
                   <label htmlFor="email">Email</label>
-                  <input className="form-control" id="email"  value={ this.state.email} onChange={(event) => this.onEmailChange(event)}/>
+                  <input autoComplete="off" className="form-control" id="email"  value={ this.state.email} onChange={(event) => this.onEmailChange(event)}/>
                 </div>
               </Col>
               <Col xl={6}>
                 <div className="form-group">
                   <label htmlFor="fname">FirstName</label>
-                  <input className="form-control" id="fname"  value={ this.state.fname} onChange={(event) => this.onFNameChange(event)}/>
+                  <input autoComplete="off" className="form-control" id="fname"  value={ this.state.fname} onChange={(event) => this.onFNameChange(event)}/>
                 </div>
               </Col>
               <Col xl={6}>
                 <div className="form-group">
                   <label htmlFor="lname">LastName</label>
-                  <input className="form-control" id="lname"  value={ this.state.lname} onChange={(event) => this.onLNameChange(event)}/>
+                  <input autoComplete="off" className="form-control" id="lname"  value={ this.state.lname} onChange={(event) => this.onLNameChange(event)}/>
                 </div>
               </Col>
               <Col xl={6}>
                 <div className="form-group">
                   <label htmlFor="number">Contact Number</label>
-                  <input className="form-control" id="number"  value={ this.state.number} onChange={(event) => this.onNumberChange(event)}/>
+                  <input autoComplete="off" className="form-control" id="number"  value={ this.state.number} onChange={(event) => this.onNumberChange(event)}  />
                 </div>
               </Col>
               { user == null ?
@@ -195,20 +219,20 @@ class Staff extends React.Component {
               <Col xl={6}>
                 <div className="form-group">
                   <label htmlFor="password">Password</label>
-                  <input className="form-control" id="password"  value={ this.state.password} onChange={(event) => this.onPasswordChange(event)}/>
+                  <input autoComplete="off" type="password" className="form-control" id="password"  value={ this.state.password} onChange={(event) => this.onPasswordChange(event)}/>
                 </div>
               </Col>
               <Col xl={6}>
                 <div className="form-group">
                   <label htmlFor="confirm-password">Confirm-Password</label>
-                  <input className="form-control" id="confirm-password"  value={ this.state.confirm_password} onChange={(event) => this.onConfirmPasswordChange(event)}/>
+                  <input autoComplete="off" type="password" className="form-control" id="confirm-password"  value={ this.state.confirm_password} onChange={(event) => this.onConfirmPasswordChange(event)}/>
                 </div>
               </Col>
               </> : '' }
               </Row>
             </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={(event) => this.createUser(event)}>Create</Button>{' '}
+            <Button color="primary" onClick={(event) => this.createUser(event)}>Save</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
         </ModalFooter>
       </Modal>

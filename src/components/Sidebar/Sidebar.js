@@ -186,9 +186,9 @@ class Sidebar extends React.Component {
               this.props.dispatch(changeActiveSidebarItem(activeItem))
             }
             activeItem={this.props.activeItem}
-            header="Appoinment"
+            header="Appointment"
             isHeader
-            link="/app/main/appoiment"
+            link="/app/main/appointment"
             index="main"
           >
           <img
@@ -206,7 +206,7 @@ class Sidebar extends React.Component {
             activeItem={this.props.activeItem}
             header="Program"
             isHeader
-            link="/app/main/programe"
+            link="/app/main/program"
             index="main"
           >
           <img

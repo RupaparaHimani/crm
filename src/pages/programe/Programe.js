@@ -54,12 +54,21 @@ class Programe extends React.Component {
   }
 
   componentDidMount() {
+    // this.props.dispatch(fetchOrderedProgram());
+    // this.props.dispatch(getAllPrograms());
+    // this.props.dispatch(fetchOfflineUsers());
+    // this.props.dispatch(fetchAppoinment());
+    // this.props.dispatch(fetchDoctors());
+    // this.createShiftItemsForDoctors()
+    this.callAllDidMountFunction()
+  }
+
+  callAllDidMountFunction(){
     this.props.dispatch(fetchOrderedProgram());
     this.props.dispatch(getAllPrograms());
     this.props.dispatch(fetchOfflineUsers());
     this.props.dispatch(fetchAppoinment());
     this.props.dispatch(fetchDoctors());
-    // this.createShiftItemsForDoctors()
   }
 
   onFileChange = event => {
@@ -521,6 +530,7 @@ class Programe extends React.Component {
               // defaultValue={this.state.Date}
               value={this.state.ShiftDate[i]}
               onChange={this.SelectDate.bind(this,i) }
+              min={formatedDate}
               />
             </div>
           </Col>
@@ -574,7 +584,7 @@ class Programe extends React.Component {
                 <thead>
                   <tr className="fs-sm">
                     <th className="hidden-sm-down">#</th>
-                    <th className="hidden-sm-down">Programe</th>
+                    <th className="hidden-sm-down">Program</th>
                     <th className="hidden-sm-down">Patient</th>
                     <th className="hidden-sm-down">Session</th>
                     <th />
@@ -607,7 +617,7 @@ class Programe extends React.Component {
         </Row>
 
         <Modal isOpen={this.state.modal} toggle={this.toggle} >
-          <ModalHeader toggle={this.toggle}>Create Programe</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Create Program</ModalHeader>
           <ModalBody>
             <div className="form-group">
               <label htmlFor="user">Patients</label>
@@ -662,7 +672,7 @@ class Programe extends React.Component {
             <Row>
                 <Col xl={5}>
                   <div className="form-group">
-                    <h4>Programe :</h4>
+                    <h4>Program :</h4>
                   </div>
                 </Col>
                 <Col xl={7}>

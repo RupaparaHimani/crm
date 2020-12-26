@@ -51,6 +51,7 @@ class Appoiment extends React.Component {
     this.props.dispatch(fetchDoctors());
     // this.createShiftItemsForDoctors()
   }
+  
 
   onFileChange = event => {
     Swal.fire({
@@ -200,6 +201,7 @@ class Appoiment extends React.Component {
       var l = parseInt(res[0]);
       var m = 0;
 
+      items.push(<option key={0} value='default'>Default</option>);
       if(resTime > 0){
         for (let i = 0;  i < resTime; i++) {
           l = parseInt(res[0]) + i + 1;
@@ -310,6 +312,7 @@ class Appoiment extends React.Component {
           }));
       }
 
+      this.props.dispatch(fetchAppoinment());
 
      this.setState({modal: false})
    }
@@ -540,14 +543,14 @@ class Appoiment extends React.Component {
           <Col xl={12}>
           {appoinments.length >0 ?
             <Widget
-              title={<p style={{ fontWeight: 700 }}>Appoiment</p>}
+              title={<p style={{ fontWeight: 700 }}>Appointment</p>}
             >
               <Table responsive>
                 <thead>
                   <tr className="fs-sm">
                     <th className="hidden-sm-down">#</th>
                     <th className="hidden-sm-down">Patients</th>
-                    <th className="hidden-sm-down">Doctor</th>
+                    <th className="hidden-sm-down">Doctors</th>
                     <th className="hidden-sm-down">Date</th>
                     <th className="hidden-sm-down">Shift</th>
                     <th className="hidden-sm-down">Time</th>
@@ -621,7 +624,7 @@ class Appoiment extends React.Component {
           </Col>
         </Row>
         <Modal isOpen={this.state.modal} toggle={this.toggle} >
-          <ModalHeader toggle={this.toggle}>Create Appoiment</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Create Appointment</ModalHeader>
           <ModalBody>
             <div className="form-group">
               <label htmlFor="user">Patients</label>
@@ -644,6 +647,7 @@ class Appoiment extends React.Component {
               <Input type="date"
               name="Date"
               id="Date"
+              min={formatedDate}
               // defaultValue={this.state.Date}
               value={this.state.ShiftDate}
               onChange={(e) => this.SelectDate(e) }
