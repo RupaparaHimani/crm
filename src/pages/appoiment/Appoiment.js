@@ -201,8 +201,9 @@ class Appoiment extends React.Component {
       var l = parseInt(res[0]);
       var m = 0;
 
-      items.push(<option key={0} value='default'>Default</option>);
+      
       if(resTime > 0){
+        items.push(<option key={0} value='default'>Default</option>);
         for (let i = 0;  i < resTime; i++) {
           l = parseInt(res[0]) + i + 1;
           m = parseInt(res[0]) + i;
@@ -220,7 +221,7 @@ class Appoiment extends React.Component {
        //here you will see the current selected value of the select input
    }
    onDropdownSelectedDoctors(e) {
-       this.setState({user_Doctor: e.target.value})
+       this.setState({user_Doctor: e.target.value, Doctor_shift : ''})
       //  this.createShiftItemsForDoctors()
    }
 
@@ -254,7 +255,7 @@ class Appoiment extends React.Component {
      var month = date.getMonth() + 1;
      var year = date.getFullYear();
 
-     this.setState({weekDay: weekDAy});
+     this.setState({weekDay: weekDAy,Doctor_shift : ''});
      console.log("date",e.target.value,date,formatedDate)
     //  this.createShiftItemsForDoctors()
       // alert([this.state.user_Doctor,weekDAy, day, month, year].join('/'));

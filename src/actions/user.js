@@ -19,10 +19,16 @@ export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
 export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE';
 export const FETCH_OFFLINE_USERS_SUCCESS = 'FETCH_OFFLINE_USERS_SUCCESS';
 export const FETCH_DOCTORS_USERS_SUCCESS = 'FETCH_DOCTORS_USERS_SUCCESS';
+export const EDIT_FALSE = 'EDIT_FALSE';
 
 export function receiveLogin() {
     return {
         type: LOGIN_SUCCESS
+    };
+}
+export function editFalse() {
+    return {
+        type: EDIT_FALSE
     };
 }
 

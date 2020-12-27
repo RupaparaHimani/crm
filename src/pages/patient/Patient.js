@@ -6,7 +6,7 @@ import axios from "axios";
 import s from "./Dashboard.module.scss";
 import Widget from "../../components/Widget";
 import stocksImg from "../../images/stocks.svg";
-import { fetchUsers, createUser, getUser, updateUser, deleteUser } from "../../actions/user";
+import { fetchUsers, createUser, getUser, updateUser, deleteUser, editFalse } from "../../actions/user";
 import { createReferral } from "../../actions/referral";
 import ReactQuill from 'react-quill';
 import { toast, ToastContainer } from 'react-toastify';
@@ -38,6 +38,7 @@ class Patient extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if ( nextProps.user != null && nextProps.edit == true && prevState.id != nextProps.user.id ) {
+      editFalse()
       return {
         id: nextProps.user.id,
         fname: nextProps.user.first_name,
@@ -46,6 +47,7 @@ class Patient extends React.Component {
         number: nextProps.user.number,
       };
     }
+    
     return null;
   }
 
@@ -103,6 +105,7 @@ class Patient extends React.Component {
 
 
   toggle = () => {
+    this.props.dispatch(editFalse());
     this.setState({ title: '', description: '', imgurl: '' })
     this.setState({ modal: !this.state.modal})
 
@@ -117,6 +120,12 @@ class Patient extends React.Component {
     event.preventDefault();
     this.props.dispatch(getUser({id: id}));
     this.setState({ modal: true })
+  }
+
+  componentWillReceiveProps(nextProps, prevState) {
+    // This will erase any local state updates!
+    // Do not do this.
+    this.setState({ edit: nextProps.edit });
   }
 
   onDelete = (event, id) => {
@@ -225,13 +234,13 @@ class Patient extends React.Component {
               <Col xl={6}>
                 <div className="form-group">
                   <label htmlFor="password">Password</label>
-                  <input className="form-control" id="password"  value={ this.state.password} onChange={(event) => this.onPasswordChange(event)}/>
+                  <input type="password" className="form-control" id="password"  value={ this.state.password} onChange={(event) => this.onPasswordChange(event)}/>
                 </div>
               </Col>
               <Col xl={6}>
                 <div className="form-group">
                   <label htmlFor="confirm-password">Confirm-Password</label>
-                  <input className="form-control" id="confirm-password"  value={ this.state.confirm_password} onChange={(event) => this.onConfirmPasswordChange(event)}/>
+                  <input type="password" className="form-control" id="confirm-password"  value={ this.state.confirm_password} onChange={(event) => this.onConfirmPasswordChange(event)}/>
                 </div>
               </Col>
               </> : '' }
@@ -263,8 +272,8 @@ class Patient extends React.Component {
               </Row>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={(event) => this.createRefer(event)}>Create</Button>{' '}
-              <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+              <Button color="primary" onClick={(event) => this.createRefer(event)}>Add Refer</Button>{' '}
+              <Button color="secondary" onClick={this.toggle_referral}>Cancel</Button>
           </ModalFooter>
         </Modal>
       </div>
