@@ -54,7 +54,8 @@ export default function auth(state = {
           })
             return Object.assign({}, state, {
                 user: null,
-                users: state.users
+                users: state.users,
+                edit: true
             });
         case UPDATE_USER_FAILURE:
             return Object.assign({}, state, {
@@ -74,7 +75,7 @@ export default function auth(state = {
             return Object.assign({}, state, {
                 doctors: action.payload.doctors,
             });
-            
+
 
         case FETCH_USERS_SUCCESS:
             return Object.assign({}, state, {

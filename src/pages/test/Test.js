@@ -185,7 +185,7 @@ class Test extends React.Component {
           </Col>
         </Row>
         <Modal isOpen={this.state.modal} toggle={this.toggle} >
-          <ModalHeader toggle={this.toggle}>Create New Blog</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Create New Test</ModalHeader>
           <ModalBody>
             <div className="form-group">
               <label htmlFor="user">User</label>
