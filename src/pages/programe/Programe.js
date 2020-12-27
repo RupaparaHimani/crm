@@ -45,7 +45,7 @@ class Programe extends React.Component {
       patient_id: '',
       program_id : '',
       purpose : ''
-      
+
     };
     this.onDropdownSelectedDoctors = this.onDropdownSelectedDoctors.bind(this);
     this.SelectDate = this.SelectDate.bind(this);
@@ -105,7 +105,7 @@ class Programe extends React.Component {
       purpose : ''
     })
 
-    this.setState({ 
+    this.setState({
       modal1: true,
       id : row.id,
       programeID : row.programID,
@@ -137,12 +137,12 @@ class Programe extends React.Component {
           var n =  date.getDay()
           weekDay[i] = allDay[n];
         }
-        
 
-        
+
+
       })
 
-      
+
       this.setState({ user_Doctor: user_Doctor})
       this.setState({ ShiftDate: ShiftDate})
       this.setState({ Doctor_shift: Doctor_shift})
@@ -156,11 +156,11 @@ class Programe extends React.Component {
       // this.onDropdownSelectedDoctors
       // this.SelectDate
       // this.onDropdownShiftItemsForDoctors
-      // this.onDropdownIntervalTimeForDoctors 
+      // this.onDropdownIntervalTimeForDoctors
       // var schedule_data = []
       // var obj = {}
       // this.state.user_Doctor.forEach(function(val,key) {
-      //   obj.sessionId = key+1 
+      //   obj.sessionId = key+1
       //   obj.doctorId = val
       //   schedule_data[key] = obj
       // });
@@ -222,24 +222,24 @@ class Programe extends React.Component {
         for (let i = 0; i < this.props.doctors.length; i++) {
 
           if(this.props.doctors[i].id == this.state.user_Doctor[val]){
-  
+
             var schedule = this.props.doctors[i].schedule !== null ? JSON.parse(this.props.doctors[i].schedule) : '';
-  
+
             for (let j = 0; j < schedule.length; j++) {
-  
+
               if(schedule[j].day == this.state.weekDay[val]){
                 items.push(<option key={schedule[j].shiftone[0]} value={schedule[j].shiftone[0] +' - '+schedule[j].shiftone[1]} >{schedule[j].shiftone[0] } - {schedule[j].shiftone[1]}</option>);
                 items.push(<option key={schedule[j].shifttwo[0]} value={schedule[j].shifttwo[0] +' - '+schedule[j].shifttwo[1]} >{schedule[j].shifttwo[0] } - {schedule[j].shifttwo[1]}</option>);
               }
-  
+
             }
-  
+
         }
-  
-  
+
+
         }
       }
-      
+
     return items;
 
   }
@@ -272,9 +272,9 @@ class Programe extends React.Component {
         }
       }
     }
-      
-      
-        
+
+
+
       return items;
    }
 
@@ -344,13 +344,13 @@ class Programe extends React.Component {
 
     //  console.log("this.state.user_Doctor",this.state.user_Doctor,this.state.ShiftDate,this.state.Doctor_shift,this.state.interval_time)
 
-    
-      
+
+
 
     //  return false
      if(this.state.id == 0){
 
-      if (this.state.patient_id==='' || this.state.program_id==='' || this.state.purpose==='') 
+      if (this.state.patient_id==='' || this.state.program_id==='' || this.state.purpose==='')
       {
         toast.error("Please fill all the fields!");
         return
@@ -374,7 +374,7 @@ class Programe extends React.Component {
           for(var j = 0; j < this.state.session; j++){
             var obj = {}
 
-            obj.sessionId = j+1 
+            obj.sessionId = j+1
             obj.doctorId = this.state.user_Doctor[j]
             obj.ShiftDate = this.state.ShiftDate[j]
             obj.Doctor_shift = this.state.Doctor_shift[j]
@@ -386,7 +386,7 @@ class Programe extends React.Component {
 
 
         this.props.dispatch(updateProgram({
-          id: this.state.id, 
+          id: this.state.id,
           schedule: JSON.stringify(schedule_data)
 
           }));
@@ -394,7 +394,7 @@ class Programe extends React.Component {
       }
 
 
-     
+
    }
 
   get_user_name = (condition) => {
@@ -406,7 +406,7 @@ class Programe extends React.Component {
     return fname
     };
 
-    
+
 
     get_program_name = (condition) => {
       let fname = '';
@@ -506,7 +506,7 @@ class Programe extends React.Component {
      );
     for(var i = 0; i < val; i++){
      rowData.push
-     ( 
+     (
      <Row  >
           <Col xl={1}>
             <div className="form-group">
@@ -555,17 +555,17 @@ class Programe extends React.Component {
           </Col>
         </Row>
      );
-     
+
     }
     return rowData
-      
+
   }
 
   render() {
     const { tests, paid_tests, users, ordered_programs } = this.props;
     // console.log("paid_tests", this.state);
 
-    
+
     return (
       <div className={s.root}>
       <ToastContainer />
@@ -697,15 +697,15 @@ class Programe extends React.Component {
 
             <hr/>
             {
-              
+
               this.generateRow(this.state.session)
-              
+
             }
-            
+
 
             {/* <div className="form-group">
               <label htmlFor="user">Patient</label>
-              
+
             </div>
             <div className="form-group">
               <label htmlFor="Doctors">Programe</label>
@@ -716,7 +716,7 @@ class Programe extends React.Component {
 
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={(event) => this.createList(event)}>Create</Button>{' '}
+            <Button color="primary" onClick={(event) => this.createList(event)}>Update</Button>{' '}
             <Button color="secondary" onClick={this.toggle1}>Cancel</Button>
         </ModalFooter>
         </Modal>

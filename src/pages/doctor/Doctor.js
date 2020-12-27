@@ -17,6 +17,7 @@ class Doctor extends React.Component {
     super();
     this.state = {
       modal: false,
+      is_create: false,
       id: 0,
       fname: '',
       lname: '',
@@ -70,7 +71,7 @@ class Doctor extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     console.log("state from props", nextProps);
-    if ( nextProps.user != null && nextProps.edit == true && prevState.id != nextProps.user.id ) {
+    if ( nextProps.user != null && nextProps.edit == true && prevState.id != nextProps.user.id && prevState.is_create == false ) {
       var data = nextProps.user.schedule !== null ? JSON.parse(nextProps.user.schedule) : '';
       console.log("data",data)
       return {
@@ -167,6 +168,8 @@ class Doctor extends React.Component {
       console.log("schedule",schedule)
       // return false
 
+
+
       if (this.state.fname==='' || this.state.lname==='' || this.state.email==='' || this.state.number==='') {
         toast.error("Please enter all the fields!");
       }else if (validator.validate(this.state.email)===false) {
@@ -244,6 +247,7 @@ class Doctor extends React.Component {
     this.setState({
       id : 0,
       title: '',
+      is_create: true,
       description: '',
       imgurl: '',
       fname: '',
@@ -291,7 +295,7 @@ class Doctor extends React.Component {
   onEdit = (event, id) => {
     event.preventDefault();
     this.props.dispatch(getUser({id: id}));
-    this.setState({ modal: true })
+    this.setState({ modal: true, is_create: false })
   }
 
   onDelete = (event, id) => {
@@ -354,7 +358,8 @@ class Doctor extends React.Component {
           </Col>
         </Row>
         <Modal isOpen={this.state.modal} toggle={this.toggle} >
-          <ModalHeader toggle={this.toggle}>Register Doctor</ModalHeader>
+          <ModalHeader toggle={this.toggle}>
+          {this.state.is_create == true ? "Register Doctor" : "Edit Doctor"}</ModalHeader>
           <ModalBody>
             <Row>
               <Col xl={6}>
@@ -386,13 +391,13 @@ class Doctor extends React.Component {
               <Col xl={6}>
                 <div className="form-group">
                   <label htmlFor="password">Password</label>
-                  <input className="form-control" id="password"  value={ this.state.password} onChange={(event) => this.onPasswordChange(event)}/>
+                  <input className="form-control" id="password" type="password" value={ this.state.password} onChange={(event) => this.onPasswordChange(event)}/>
                 </div>
               </Col>
               <Col xl={6}>
                 <div className="form-group">
                   <label htmlFor="confirm-password">Confirm-Password</label>
-                  <input className="form-control" id="confirm-password"  value={ this.state.confirm_password} onChange={(event) => this.onConfirmPasswordChange(event)}/>
+                  <input className="form-control" id="confirm-password" type="password" value={ this.state.confirm_password} onChange={(event) => this.onConfirmPasswordChange(event)}/>
                 </div>
               </Col>
               </> : '' }
@@ -447,7 +452,7 @@ class Doctor extends React.Component {
               <Row>
                 <Col xl={4}>
                   <div className="form-group">
-                    <h3>Wensday</h3>
+                    <h3>Wednesday</h3>
                   </div>
                 </Col>
                 <Col xl={4}>
@@ -471,7 +476,7 @@ class Doctor extends React.Component {
               <Row>
                 <Col xl={4}>
                   <div className="form-group">
-                    <h3>Thrusday</h3>
+                    <h3>Thursday</h3>
                   </div>
                 </Col>
                 <Col xl={4}>
@@ -559,7 +564,8 @@ class Doctor extends React.Component {
               </Row>
             </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={(event) => this.createUser(event)}>Create</Button>{' '}
+            <Button color="primary" onClick={(event) => this.createUser(event)}>
+            {this.state.is_create == true ? "Create" : "Update"}</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
         </ModalFooter>
       </Modal>
@@ -582,8 +588,8 @@ class Doctor extends React.Component {
             </Row>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={(event) => this.createRefer(event)}>Create</Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+            <Button color="primary" onClick={(event) => this.createRefer(event)}>Create</Button>
+            <Button color="secondary" onClick={this.toggle_referral}>Cancel</Button>
         </ModalFooter>
       </Modal>
       </div>

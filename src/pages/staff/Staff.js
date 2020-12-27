@@ -17,6 +17,7 @@ class Staff extends React.Component {
     this.state = {
       modal: false,
       id: 0,
+      is_create: false,
       fname: '',
       lname: '',
       email: '',
@@ -32,7 +33,7 @@ class Staff extends React.Component {
 
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if ( nextProps.user != null && nextProps.edit == true && prevState.id != nextProps.user.id ) {
+    if ( nextProps.user != null && nextProps.edit == true && prevState.id != nextProps.user.id && prevState.is_create == false ) {
       return {
         id: nextProps.user.id,
         fname: nextProps.user.first_name,
@@ -68,9 +69,9 @@ class Staff extends React.Component {
           this.setState({ modal: false })
       }
 
-      this.setState({ 
-        title: '', 
-        description: '', 
+      this.setState({
+        title: '',
+        description: '',
         imgurl: '',
         id: 0,
         fname: '',
@@ -105,9 +106,10 @@ class Staff extends React.Component {
 
 
   toggle = () => {
-    this.setState({ 
-      title: '', 
-      description: '', 
+    this.setState({
+      title: '',
+      description: '',
+      is_create: true,
       imgurl: '',
       id: 0,
       fname: '',
@@ -123,7 +125,7 @@ class Staff extends React.Component {
   onEdit = (event, id) => {
     event.preventDefault();
     this.props.dispatch(getUser({id: id}));
-    this.setState({ modal: true })
+    this.setState({ modal: true, is_create: false })
   }
 
   onDelete = (event, id) => {
@@ -187,7 +189,8 @@ class Staff extends React.Component {
           </Col>
         </Row>
         <Modal isOpen={this.state.modal} toggle={this.toggle} >
-          <ModalHeader toggle={this.toggle}>Register Staff</ModalHeader>
+          <ModalHeader toggle={this.toggle}>
+          {this.state.is_create == true ? "Register Staff" : "Edit Staff"}</ModalHeader>
           <ModalBody>
             <Row>
               <Col xl={6}>
@@ -214,7 +217,7 @@ class Staff extends React.Component {
                   <input autoComplete="off" className="form-control" id="number"  value={ this.state.number} onChange={(event) => this.onNumberChange(event)}  />
                 </div>
               </Col>
-              { user == null ?
+              { this.state.id == 0 ?
                 <>
               <Col xl={6}>
                 <div className="form-group">
@@ -232,7 +235,8 @@ class Staff extends React.Component {
               </Row>
             </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={(event) => this.createUser(event)}>Save</Button>{' '}
+            <Button color="primary" onClick={(event) => this.createUser(event)}>
+            {this.state.is_create == true ? "Create" : "Update"}</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
         </ModalFooter>
       </Modal>

@@ -18,6 +18,7 @@ class Patient extends React.Component {
     this.state = {
       modal: false,
       modal_referral: false,
+      is_create: false,
       id: 0,
       fname: '',
       lname: '',
@@ -37,8 +38,7 @@ class Patient extends React.Component {
 
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if ( nextProps.user != null && nextProps.edit == true && prevState.id != nextProps.user.id ) {
-      editFalse()
+    if ( nextProps.user != null && nextProps.edit == true && prevState.id != nextProps.user.id && prevState.is_create == false ) {
       return {
         id: nextProps.user.id,
         fname: nextProps.user.first_name,
@@ -105,8 +105,7 @@ class Patient extends React.Component {
 
 
   toggle = () => {
-    this.props.dispatch(editFalse());
-    this.setState({ title: '', description: '', imgurl: '' })
+    this.setState({ is_create: true, id: 0, fname: '', lname: '', email: '', number: '', password: '', confirm_password: '', from: 'patient'})
     this.setState({ modal: !this.state.modal})
 
   }
@@ -119,7 +118,7 @@ class Patient extends React.Component {
   onEdit = (event, id) => {
     event.preventDefault();
     this.props.dispatch(getUser({id: id}));
-    this.setState({ modal: true })
+    this.setState({ modal: true, is_create: false })
   }
 
   componentWillReceiveProps(nextProps, prevState) {
@@ -202,7 +201,8 @@ class Patient extends React.Component {
           </Col>
         </Row>
         <Modal isOpen={this.state.modal} toggle={this.toggle} >
-          <ModalHeader toggle={this.toggle}>Register Patient</ModalHeader>
+          <ModalHeader toggle={this.toggle}>
+          {this.state.is_create == true ? "Register Patient" : "Edit Patient"}</ModalHeader>
           <ModalBody>
             <Row>
               <Col xl={6}>
@@ -229,25 +229,26 @@ class Patient extends React.Component {
                   <input className="form-control" id="number"  value={ this.state.number} onChange={(event) => this.onNumberChange(event)}/>
                 </div>
               </Col>
-              { user == null ?
+              { this.state.id == 0 ?
                 <>
               <Col xl={6}>
                 <div className="form-group">
                   <label htmlFor="password">Password</label>
-                  <input type="password" className="form-control" id="password"  value={ this.state.password} onChange={(event) => this.onPasswordChange(event)}/>
+                  <input className="form-control" id="password" type="password"  value={ this.state.password} onChange={(event) => this.onPasswordChange(event)}/>
                 </div>
               </Col>
               <Col xl={6}>
                 <div className="form-group">
                   <label htmlFor="confirm-password">Confirm-Password</label>
-                  <input type="password" className="form-control" id="confirm-password"  value={ this.state.confirm_password} onChange={(event) => this.onConfirmPasswordChange(event)}/>
+                  <input className="form-control" id="confirm-password"  type="password" value={ this.state.confirm_password} onChange={(event) => this.onConfirmPasswordChange(event)}/>
                 </div>
               </Col>
               </> : '' }
               </Row>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={(event) => this.createUser(event)}>Create</Button>{' '}
+            <Button color="primary" onClick={(event) => this.createUser(event)}>
+            {this.state.is_create == true ? "Create" : "Update"}</Button>
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
           </ModalFooter>
         </Modal>
@@ -272,7 +273,7 @@ class Patient extends React.Component {
               </Row>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={(event) => this.createRefer(event)}>Add Refer</Button>{' '}
+              <Button color="primary" onClick={(event) => this.createRefer(event)}>Create</Button>{' '}
               <Button color="secondary" onClick={this.toggle_referral}>Cancel</Button>
           </ModalFooter>
         </Modal>
