@@ -11,7 +11,7 @@ import { fetchUsers, createUser, getUser, updateUser, deleteUser } from "../../a
 import ReactQuill from 'react-quill';
 import { toast, ToastContainer } from 'react-toastify';
 var validator = require("email-validator");
-
+var timeArr = []
 class Doctor extends React.Component {
   constructor() {
     super();
@@ -70,7 +70,7 @@ class Doctor extends React.Component {
 
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log("state from props", nextProps);
+    // console.log("state from props", nextProps);
     if ( nextProps.user != null && nextProps.edit == true && prevState.id != nextProps.user.id && prevState.is_create == false ) {
       var data = nextProps.user.schedule !== null ? JSON.parse(nextProps.user.schedule) : '';
       console.log("data",data)
@@ -215,6 +215,709 @@ class Doctor extends React.Component {
 
   onNameChangeFun = (e,name) => {
     this.setState({[name]: e.target.value})
+
+    
+    
+    if(name == 'toTimeMon1' || name == 'fromTimeMon1'){
+      console.log("timeArrtimeArr",this.state.toTimeMon1,this.state.fromTimeMon1)
+      var localDate1 = new Date();
+      var localDate2 = new Date();
+  
+      if(name == 'toTimeMon1'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker =  e.target.value;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+        
+      }
+      else if(this.state.toTimeMon1 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeMon1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      if(name == 'fromTimeMon1'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = e.target.value;
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }else if(this.state.fromTimeMon1 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeMon1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      
+      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      if(this.state.toTimeMon1 != '' && this.state.fromTimeMon1 != ''){
+        if(localDate1 > localDate2){
+          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          alert("start time should be smaller than end time!")
+          this.setState({[name]: ''})
+        }
+      }
+      
+    }
+
+    if(name == 'toTimeMon2' || name == 'fromTimeMon2'){
+      console.log("timeArrtimeArr",this.state.toTimeMon2,this.state.fromTimeMon2)
+      var localDate3 = new Date();
+      var localDate4 = new Date();
+  
+      if(name == 'toTimeMon2'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker =  e.target.value;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+        
+      }
+      else if(this.state.toTimeMon2 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeMon2;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      if(name == 'fromTimeMon2'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = e.target.value;
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }else if(this.state.fromTimeMon2 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeMon2;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      
+      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      if(this.state.toTimeMon1 != '' && this.state.fromTimeMon1 != ''){
+        if(localDate3 > localDate4){
+          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          alert("start time should be smaller than end time!")
+          this.setState({[name]: ''})
+        }
+      }
+      
+    }
+
+    if(name == 'toTimeTue1' || name == 'fromTimeTue1'){
+      console.log("timeArrtimeArr",this.state.toTimeTue1,this.state.fromTimeTue1)
+      var localDate1 = new Date();
+      var localDate2 = new Date();
+  
+      if(name == 'toTimeTue1'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker =  e.target.value;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+        
+      }
+      else if(this.state.toTimeTue1 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeTue1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      if(name == 'fromTimeTue1'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = e.target.value;
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }else if(this.state.fromTimeTue1 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeTue1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      
+      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      if(this.state.toTimeTue1 != '' && this.state.fromTimeTue1 != ''){
+        if(localDate1 > localDate2){
+          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          alert("start time should be smaller than end time!")
+          this.setState({[name]: ''})
+        }
+      }
+      
+    }
+  
+    if(name == 'toTimeTue2' || name == 'fromTimeTue2'){
+      console.log("timeArrtimeArr",this.state.toTimeTue2,this.state.fromTimeTue2)
+      var localDate3 = new Date();
+      var localDate4 = new Date();
+  
+      if(name == 'toTimeTue2'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker =  e.target.value;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+        
+      }
+      else if(this.state.toTimeTue2 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeTue2;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      if(name == 'fromTimeTue2'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = e.target.value;
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }else if(this.state.fromTimeTue2 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeTue2;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      
+      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      if(this.state.toTimeTue1 != '' && this.state.fromTimeTue1 != ''){
+        if(localDate3 > localDate4){
+          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          alert("start time should be smaller than end time!")
+          this.setState({[name]: ''})
+        }
+      }
+      
+    }
+
+    if(name == 'toTimeWen1' || name == 'fromTimeWen1'){
+      console.log("timeArrtimeArr",this.state.toTimeWen1,this.state.fromTimeWen1)
+      var localDate1 = new Date();
+      var localDate2 = new Date();
+  
+      if(name == 'toTimeWen1'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker =  e.target.value;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+        
+      }
+      else if(this.state.toTimeWen1 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeWen1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      if(name == 'fromTimeWen1'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = e.target.value;
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }else if(this.state.fromTimeWen1 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeWen1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      
+      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      if(this.state.toTimeWen1 != '' && this.state.fromTimeWen1 != ''){
+        if(localDate1 > localDate2){
+          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          alert("start time should be smaller than end time!")
+          this.setState({[name]: ''})
+        }
+      }
+      
+    }
+  
+    if(name == 'toTimeWen2' || name == 'fromTimeWen2'){
+      console.log("timeArrtimeArr",this.state.toTimeWen2,this.state.fromTimeWen2)
+      var localDate3 = new Date();
+      var localDate4 = new Date();
+  
+      if(name == 'toTimeWen2'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker =  e.target.value;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+        
+      }
+      else if(this.state.toTimeWen2 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeWen2;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      if(name == 'fromTimeWen2'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = e.target.value;
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }else if(this.state.fromTimeWen2 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeWen2;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      
+      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      if(this.state.toTimeWen1 != '' && this.state.fromTimeWen1 != ''){
+        if(localDate3 > localDate4){
+          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          alert("start time should be smaller than end time!")
+          this.setState({[name]: ''})
+        }
+      }
+      
+    }
+
+    if(name == 'toTimeThr1' || name == 'fromTimeThr1'){
+      console.log("timeArrtimeArr",this.state.toTimeThr1,this.state.fromTimeThr1)
+      var localDate1 = new Date();
+      var localDate2 = new Date();
+  
+      if(name == 'toTimeThr1'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker =  e.target.value;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+        
+      }
+      else if(this.state.toTimeThr1 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeThr1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      if(name == 'fromTimeThr1'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = e.target.value;
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }else if(this.state.fromTimeThr1 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeThr1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      
+      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      if(this.state.toTimeThr1 != '' && this.state.fromTimeThr1 != ''){
+        if(localDate1 > localDate2){
+          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          alert("start time should be smaller than end time!")
+          this.setState({[name]: ''})
+        }
+      }
+      
+    }
+  
+    if(name == 'toTimeThr2' || name == 'fromTimeThr2'){
+      console.log("timeArrtimeArr",this.state.toTimeThr2,this.state.fromTimeThr2)
+      var localDate3 = new Date();
+      var localDate4 = new Date();
+  
+      if(name == 'toTimeThr2'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker =  e.target.value;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+        
+      }
+      else if(this.state.toTimeThr2 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeThr2;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      if(name == 'fromTimeThr2'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = e.target.value;
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }else if(this.state.fromTimeThr2 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeThr2;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      
+      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      if(this.state.toTimeThr1 != '' && this.state.fromTimeThr1 != ''){
+        if(localDate3 > localDate4){
+          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          alert("start time should be smaller than end time!")
+          this.setState({[name]: ''})
+        }
+      }
+      
+    }
+
+    if(name == 'toTimeFri1' || name == 'fromTimeFri1'){
+      console.log("timeArrtimeArr",this.state.toTimeFri1,this.state.fromTimeFri1)
+      var localDate1 = new Date();
+      var localDate2 = new Date();
+  
+      if(name == 'toTimeFri1'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker =  e.target.value;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+        
+      }
+      else if(this.state.toTimeFri1 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeFri1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      if(name == 'fromTimeFri1'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = e.target.value;
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }else if(this.state.fromTimeFri1 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeFri1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      
+      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      if(this.state.toTimeFri1 != '' && this.state.fromTimeFri1 != ''){
+        if(localDate1 > localDate2){
+          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          alert("start time should be smaller than end time!")
+          this.setState({[name]: ''})
+        }
+      }
+      
+    }
+  
+    if(name == 'toTimeFri2' || name == 'fromTimeFri2'){
+      console.log("timeArrtimeArr",this.state.toTimeFri2,this.state.fromTimeFri2)
+      var localDate3 = new Date();
+      var localDate4 = new Date();
+  
+      if(name == 'toTimeFri2'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker =  e.target.value;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+        
+      }
+      else if(this.state.toTimeFri2 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeFri2;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      if(name == 'fromTimeFri2'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = e.target.value;
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }else if(this.state.fromTimeFri2 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeFri2;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      
+      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      if(this.state.toTimeFri1 != '' && this.state.fromTimeFri1 != ''){
+        if(localDate3 > localDate4){
+          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          alert("start time should be smaller than end time!")
+          this.setState({[name]: ''})
+        }
+      }
+      
+    }
+
+    if(name == 'toTimeSat1' || name == 'fromTimeSat1'){
+      console.log("timeArrtimeArr",this.state.toTimeSat1,this.state.fromTimeSat1)
+      var localDate1 = new Date();
+      var localDate2 = new Date();
+  
+      if(name == 'toTimeSat1'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker =  e.target.value;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+        
+      }
+      else if(this.state.toTimeSat1 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeSat1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      if(name == 'fromTimeSat1'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = e.target.value;
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }else if(this.state.fromTimeSat1 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeSat1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      
+      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      if(this.state.toTimeSat1 != '' && this.state.fromTimeSat1 != ''){
+        if(localDate1 > localDate2){
+          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          alert("start time should be smaller than end time!")
+          this.setState({[name]: ''})
+        }
+      }
+      
+    }
+  
+    if(name == 'toTimeSat2' || name == 'fromTimeSat2'){
+      console.log("timeArrtimeArr",this.state.toTimeSat2,this.state.fromTimeSat2)
+      var localDate3 = new Date();
+      var localDate4 = new Date();
+  
+      if(name == 'toTimeSat2'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker =  e.target.value;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+        
+      }
+      else if(this.state.toTimeSat2 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeSat2;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      if(name == 'fromTimeSat2'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = e.target.value;
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }else if(this.state.fromTimeSat2 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeSat2;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      
+      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      if(this.state.toTimeSat1 != '' && this.state.fromTimeSat1 != ''){
+        if(localDate3 > localDate4){
+          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          alert("start time should be smaller than end time!")
+          this.setState({[name]: ''})
+        }
+      }
+      
+    }
+
+    if(name == 'toTimeSun1' || name == 'fromTimeSun1'){
+      console.log("timeArrtimeArr",this.state.toTimeSun1,this.state.fromTimeSun1)
+      var localDate1 = new Date();
+      var localDate2 = new Date();
+  
+      if(name == 'toTimeSun1'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker =  e.target.value;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+        
+      }
+      else if(this.state.toTimeSun1 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeSun1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      if(name == 'fromTimeSun1'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = e.target.value;
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }else if(this.state.fromTimeSun1 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeSun1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      
+      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      if(this.state.toTimeSun1 != '' && this.state.fromTimeSun1 != ''){
+        if(localDate1 > localDate2){
+          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          alert("start time should be smaller than end time!")
+          this.setState({[name]: ''})
+        }
+      }
+      
+    }
+  
+    if(name == 'toTimeSun2' || name == 'fromTimeSun2'){
+      console.log("timeArrtimeArr",this.state.toTimeSun2,this.state.fromTimeSun2)
+      var localDate3 = new Date();
+      var localDate4 = new Date();
+  
+      if(name == 'toTimeSun2'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker =  e.target.value;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+        
+      }
+      else if(this.state.toTimeSun2 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeSun2;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      if(name == 'fromTimeSun2'){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = e.target.value;
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }else if(this.state.fromTimeSun2 != ''){
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeSun2;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+  
+      
+      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      if(this.state.toTimeSun1 != '' && this.state.fromTimeSun1 != ''){
+        if(localDate3 > localDate4){
+          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          alert("start time should be smaller than end time!")
+          this.setState({[name]: ''})
+        }
+      }
+      
+    }
+    console.log("time",e.target.value)
   }
 
   // Referral
@@ -357,7 +1060,7 @@ class Doctor extends React.Component {
             </Widget>
           </Col>
         </Row>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} >
+        <Modal className="modal-lg" isOpen={this.state.modal} toggle={this.toggle} >
           <ModalHeader toggle={this.toggle}>
           {this.state.is_create == true ? "Register Doctor" : "Edit Doctor"}</ModalHeader>
           <ModalBody>
@@ -402,13 +1105,14 @@ class Doctor extends React.Component {
               </Col>
               </> : '' }
               </Row>
+              
               <Row>
-                <Col xl={4}>
+                <Col xl={2}>
                   <div className="form-group">
-                    <h3>Monday</h3>
+                    <h5>Monday</h5>
                   </div>
                 </Col>
-                <Col xl={4}>
+                <Col xl={5}>
                   <div className="form-group">
                     <p>1st Shift</p>
                     <input type="time" className="form-control" id="toTimeMon1" name="toTimeMon1"  value={ this.state.toTimeMon1} onChange={(event) => this.onNameChangeFun(event,'toTimeMon1')}/>
@@ -416,7 +1120,7 @@ class Doctor extends React.Component {
                     <input type="time" className="form-control" id="fromTimeMon1" name="fromTimeMon1"  value={ this.state.fromTimeMon1} onChange={(event) => this.onNameChangeFun(event,'fromTimeMon1')}/>
                   </div>
                 </Col>
-                <Col xl={4}>
+                <Col xl={5}>
                   <div className="form-group">
                   <p>2nd Shift</p>
                     <input type="time" className="form-control" id="toTimeMon2" name="toTimeMon2"  value={ this.state.toTimeMon2} onChange={(event) => this.onNameChangeFun(event,'toTimeMon2')}/>
@@ -425,13 +1129,14 @@ class Doctor extends React.Component {
                   </div>
                 </Col>
               </Row>
+              <hr/>
               <Row>
-                <Col xl={4}>
+                <Col xl={2}>
                   <div className="form-group">
-                    <h3>Tuesday</h3>
+                    <h5>Tuesday</h5>
                   </div>
                 </Col>
-                <Col xl={4}>
+                <Col xl={5}>
                   <div className="form-group">
                   {/* <p>1st Shift</p> */}
                     <input type="time" className="form-control" id="toTimeTue1" name="toTimeTue1"  value={ this.state.toTimeTue1} onChange={(event) => this.onNameChangeFun(event,'toTimeTue1')}/>
@@ -439,7 +1144,7 @@ class Doctor extends React.Component {
                     <input type="time" className="form-control" id="fromTimeTue1" name="fromTimeTue1"  value={ this.state.fromTimeTue1} onChange={(event) => this.onNameChangeFun(event,'fromTimeTue1')}/>
                   </div>
                 </Col>
-                <Col xl={4}>
+                <Col xl={5}>
                   <div className="form-group">
                   {/* <p>2nd Shift</p> */}
                   <input type="time" className="form-control" id="toTimeTue2" name="toTimeTue2"  value={ this.state.toTimeTue2} onChange={(event) => this.onNameChangeFun(event,'toTimeTue2')}/>
@@ -450,12 +1155,12 @@ class Doctor extends React.Component {
               </Row>
               <hr/>
               <Row>
-                <Col xl={4}>
+                <Col xl={2}>
                   <div className="form-group">
-                    <h3>Wednesday</h3>
+                    <h5>Wednesday</h5>
                   </div>
                 </Col>
-                <Col xl={4}>
+                <Col xl={5}>
                   <div className="form-group">
                   {/* <p>1st Shift</p> */}
                     <input type="time" className="form-control" id="toTimeWen1" name="toTimeWen1"  value={ this.state.toTimeWen1} onChange={(event) => this.onNameChangeFun(event,'toTimeWen1')}/>
@@ -463,7 +1168,7 @@ class Doctor extends React.Component {
                     <input type="time" className="form-control" id="fromTimeWen1" name="fromTimeWen1"  value={ this.state.fromTimeWen1} onChange={(event) => this.onNameChangeFun(event,'fromTimeWen1')}/>
                   </div>
                 </Col>
-                <Col xl={4}>
+                <Col xl={5}>
                   <div className="form-group">
                     {/* <p>2nd Shift</p> */}
                       <input type="time" className="form-control" id="toTimeWen2" name="toTimeWen2"  value={ this.state.toTimeWen2} onChange={(event) => this.onNameChangeFun(event,'toTimeWen2')}/>
@@ -474,12 +1179,12 @@ class Doctor extends React.Component {
               </Row>
               <hr/>
               <Row>
-                <Col xl={4}>
+                <Col xl={2}>
                   <div className="form-group">
-                    <h3>Thursday</h3>
+                    <h5>Thursday</h5>
                   </div>
                 </Col>
-                <Col xl={4}>
+                <Col xl={5}>
                   <div className="form-group">
                   {/* <p>1st Shift</p> */}
                     <input type="time" className="form-control" id="toTimeThr1" name="toTimeThr1"  value={ this.state.toTimeThr1} onChange={(event) => this.onNameChangeFun(event,'toTimeThr1')}/>
@@ -487,7 +1192,7 @@ class Doctor extends React.Component {
                     <input type="time" className="form-control" id="fromTimeThr1" name="fromTimeThr1"  value={ this.state.fromTimeThr1} onChange={(event) => this.onNameChangeFun(event,'fromTimeThr1')}/>
                   </div>
                 </Col>
-                <Col xl={4}>
+                <Col xl={5}>
                   <div className="form-group">
                   {/* <p>2nd Shift</p> */}
                     <input type="time" className="form-control" id="toTimeThr2" name="toTimeThr2"  value={ this.state.toTimeThr2} onChange={(event) => this.onNameChangeFun(event,'toTimeThr2')}/>
@@ -498,19 +1203,19 @@ class Doctor extends React.Component {
               </Row>
               <hr/>
               <Row>
-                <Col xl={4}>
+                <Col xl={2}>
                   <div className="form-group">
-                    <h3>Friday</h3>
+                    <h5>Friday</h5>
                   </div>
                 </Col>
-                <Col xl={4}>
+                <Col xl={5}>
                   <div className="form-group">
                     <input type="time" className="form-control" id="toTimeFri1" name="toTimeFri1"  value={ this.state.toTimeFri1} onChange={(event) => this.onNameChangeFun(event,'toTimeFri1')}/>
                     &emsp;
                     <input type="time" className="form-control" id="fromTimeFri1" name="fromTimeFri1"  value={ this.state.fromTimeFri1} onChange={(event) => this.onNameChangeFun(event,'fromTimeFri1')}/>
                   </div>
                 </Col>
-                <Col xl={4}>
+                <Col xl={5}>
                   <div className="form-group">
                     <input type="time" className="form-control" id="toTimeFri2" name="toTimeFri2"  value={ this.state.toTimeFri2} onChange={(event) => this.onNameChangeFun(event,'toTimeFri2')}/>
                     &emsp;
@@ -520,19 +1225,19 @@ class Doctor extends React.Component {
               </Row>
               <hr/>
               <Row>
-                <Col xl={4}>
+                <Col xl={2}>
                   <div className="form-group">
-                    <h3>Saturday</h3>
+                    <h5>Saturday</h5>
                   </div>
                 </Col>
-                <Col xl={4}>
+                <Col xl={5}>
                   <div className="form-group">
                     <input type="time" className="form-control" id="toTimeSat1" name="toTimeSat1"  value={ this.state.toTimeSat1} onChange={(event) => this.onNameChangeFun(event,'toTimeSat1')}/>
                     &emsp;
                     <input type="time" className="form-control" id="fromTimeSat1" name="fromTimeSat1"  value={ this.state.fromTimeSat1} onChange={(event) => this.onNameChangeFun(event,'fromTimeSat1')}/>
                   </div>
                 </Col>
-                <Col xl={4}>
+                <Col xl={5}>
                   <div className="form-group">
                   <input type="time" className="form-control" id="toTimeSat2" name="toTimeSat2"  value={ this.state.toTimeSat2} onChange={(event) => this.onNameChangeFun(event,'toTimeSat2')}/>
                     &emsp;
@@ -542,19 +1247,19 @@ class Doctor extends React.Component {
               </Row>
               <hr/>
               <Row>
-                <Col xl={4}>
+                <Col xl={2}>
                   <div className="form-group">
-                    <h3>Sunday</h3>
+                    <h5>Sunday</h5>
                   </div>
                 </Col>
-                <Col xl={4}>
+                <Col xl={5}>
                   <div className="form-group">
                     <input type="time" className="form-control" id="toTimeSun1" name="toTimeSun1"  value={ this.state.toTimeSun1} onChange={(event) => this.onNameChangeFun(event,'toTimeSun1')}/>
                     &emsp;
                     <input type="time" className="form-control" id="fromTimeSun1" name="fromTimeSun1"  value={ this.state.fromTimeSun1} onChange={(event) => this.onNameChangeFun(event,'fromTimeSun1')}/>
                   </div>
                 </Col>
-                <Col xl={4}>
+                <Col xl={5}>
                   <div className="form-group">
                   <input type="time" className="form-control" id="toTimeSun2" name="toTimeSun2"  value={ this.state.toTimeSun2} onChange={(event) => this.onNameChangeFun(event,'toTimeSun2')}/>
                     &emsp;
