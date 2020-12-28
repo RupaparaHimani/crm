@@ -305,6 +305,36 @@ class Doctor extends React.Component {
         var timeParts = timeFromPicker.split(":");
         localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
+
+      
+      if(this.state.toTimeMon1 != '' && this.state.fromTimeMon1 != ''){
+        var localDate1 = new Date();
+        var localDate2 = new Date();
+
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeMon1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeMon1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+
+        if(this.state.toTimeMon1 != '' || this.state.fromTimeMon1 != ''){
+          if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
+            console.log("TimeChecklocalDate2",localDate1,localDate2)
+            alert("Shift 2 Time is not greater than Shift 1.")
+            this.setState({[name]: ''})
+            return
+          }
+        }
+      }
+
   
       
       // console.log("TimeChecklocalDate",localDate1,localDate2)
@@ -404,6 +434,34 @@ class Doctor extends React.Component {
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+
+      if(this.state.toTimeTue1 != '' && this.state.fromTimeTue1 != ''){
+        var localDate1 = new Date();
+        var localDate2 = new Date();
+
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeTue1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeTue1;
+  
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+
+        if(this.state.toTimeTue1 != '' || this.state.fromTimeTue1 != ''){
+          if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
+            console.log("TimeChecklocalDate2",localDate1,localDate2)
+            alert("Shift 2 Time is not greater than Shift 1.")
+            this.setState({[name]: ''})
+            return
+          }
+        }
       }
   
       
@@ -505,6 +563,34 @@ class Doctor extends React.Component {
         var timeParts = timeFromPicker.split(":");
         localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
+
+      if(this.state.toTimeWen1 != '' && this.state.fromTimeWen1 != ''){
+        var localDate1 = new Date();
+        var localDate2 = new Date();
+    
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeWen1;
+    
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+    
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeWen1;
+    
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+    
+        if(this.state.toTimeWen1 != '' || this.state.fromTimeWen1 != ''){
+          if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
+            console.log("TimeChecklocalDate2",localDate1,localDate2)
+            alert("Shift 2 Time is not greater than Shift 1.")
+            this.setState({[name]: ''})
+            return
+          }
+        }
+      }
   
       
       // console.log("TimeChecklocalDate",localDate1,localDate2)
@@ -604,6 +690,34 @@ class Doctor extends React.Component {
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+
+      if(this.state.toTimeThr1 != '' && this.state.fromTimeThr1 != ''){
+        var localDate1 = new Date();
+        var localDate2 = new Date();
+    
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeThr1;
+    
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+    
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeThr1;
+    
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+    
+        if(this.state.toTimeThr1 != '' || this.state.fromTimeThr1 != ''){
+          if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
+            console.log("TimeChecklocalDate2",localDate1,localDate2)
+            alert("Shift 2 Time is not greater than Shift 1.")
+            this.setState({[name]: ''})
+            return
+          }
+        }
       }
   
       
@@ -705,6 +819,34 @@ class Doctor extends React.Component {
         var timeParts = timeFromPicker.split(":");
         localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
+
+      if(this.state.toTimeFri1 != '' && this.state.fromTimeFri1 != ''){
+        var localDate1 = new Date();
+        var localDate2 = new Date();
+    
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeFri1;
+    
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+    
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeFri1;
+    
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+    
+        if(this.state.toTimeFri1 != '' || this.state.fromTimeFri1 != ''){
+          if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
+            console.log("TimeChecklocalDate2",localDate1,localDate2)
+            alert("Shift 2 Time is not greater than Shift 1.")
+            this.setState({[name]: ''})
+            return
+          }
+        }
+      }
   
       
       // console.log("TimeChecklocalDate",localDate1,localDate2)
@@ -804,6 +946,34 @@ class Doctor extends React.Component {
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+      }
+
+      if(this.state.toTimeSat1 != '' && this.state.fromTimeSat1 != ''){
+        var localDate1 = new Date();
+        var localDate2 = new Date();
+    
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeSat1;
+    
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+    
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeSat1;
+    
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+    
+        if(this.state.toTimeSat1 != '' || this.state.fromTimeSat1 != ''){
+          if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
+            console.log("TimeChecklocalDate2",localDate1,localDate2)
+            alert("Shift 2 Time is not greater than Shift 1.")
+            this.setState({[name]: ''})
+            return
+          }
+        }
       }
   
       
@@ -906,6 +1076,33 @@ class Doctor extends React.Component {
         localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
   
+      if(this.state.toTimeSun1 != '' && this.state.fromTimeSun1 != ''){
+        var localDate1 = new Date();
+        var localDate2 = new Date();
+    
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.toTimeSun1;
+    
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+    
+        var dateFromPicker = "2020-01-01";
+        var timeFromPicker = this.state.fromTimeSun1;
+    
+        var dateParts = dateFromPicker.split("-");
+        var timeParts = timeFromPicker.split(":");
+        localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+    
+        if(this.state.toTimeSun1 != '' || this.state.fromTimeSun1 != ''){
+          if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
+            console.log("TimeChecklocalDate2",localDate1,localDate2)
+            alert("Shift 2 Time is not greater than Shift 1.")
+            this.setState({[name]: ''})
+            return
+          }
+        }
+      }
       
       // console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeSun1 != '' && this.state.fromTimeSun1 != ''){
