@@ -70,10 +70,10 @@ class Doctor extends React.Component {
 
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    // console.log("state from props", nextProps);
+    // //console.log("state from props", nextProps);
     if ( nextProps.user != null && nextProps.edit == true && prevState.id != nextProps.user.id && prevState.is_create == false ) {
       var data = nextProps.user.schedule !== null ? JSON.parse(nextProps.user.schedule) : '';
-      console.log("data",data)
+      //console.log("data",data)
       return {
         id: nextProps.user.id,
         fname: nextProps.user.first_name,
@@ -165,7 +165,7 @@ class Doctor extends React.Component {
       // var schedule = this.state.sData;//[Mon,Tue,Wen,Thr,Fri,Sat,Sun];
       var schedule = [Mon,Tue,Wen,Thr,Fri,Sat,Sun];
 
-      console.log("schedule",schedule)
+      //console.log("schedule",schedule)
       // return false
 
 
@@ -219,7 +219,7 @@ class Doctor extends React.Component {
     
     
     if(name == 'toTimeMon1' || name == 'fromTimeMon1'){
-      console.log("timeArrtimeArr",this.state.toTimeMon1,this.state.fromTimeMon1)
+      //console.log("timeArrtimeArr",this.state.toTimeMon1,this.state.fromTimeMon1)
       var localDate1 = new Date();
       var localDate2 = new Date();
   
@@ -257,10 +257,10 @@ class Doctor extends React.Component {
       }
   
       
-      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeMon1 != '' && this.state.fromTimeMon1 != ''){
         if(localDate1 > localDate2){
-          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          //console.log("TimeChecklocalDate2",localDate1,localDate2)
           alert("start time should be smaller than end time!")
           this.setState({[name]: ''})
         }
@@ -269,7 +269,7 @@ class Doctor extends React.Component {
     }
 
     if(name == 'toTimeMon2' || name == 'fromTimeMon2'){
-      console.log("timeArrtimeArr",this.state.toTimeMon2,this.state.fromTimeMon2)
+      //console.log("timeArrtimeArr",this.state.toTimeMon2,this.state.fromTimeMon2)
       var localDate3 = new Date();
       var localDate4 = new Date();
   
@@ -327,7 +327,7 @@ class Doctor extends React.Component {
 
         if(this.state.toTimeMon1 != '' || this.state.fromTimeMon1 != ''){
           if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
-            console.log("TimeChecklocalDate2",localDate1,localDate2)
+            //console.log("TimeChecklocalDate2",localDate1,localDate2)
             alert("Shift 2 Time is not greater than Shift 1.")
             this.setState({[name]: ''})
             return
@@ -337,10 +337,10 @@ class Doctor extends React.Component {
 
   
       
-      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeMon1 != '' && this.state.fromTimeMon1 != ''){
         if(localDate3 > localDate4){
-          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          //console.log("TimeChecklocalDate2",localDate1,localDate2)
           alert("start time should be smaller than end time!")
           this.setState({[name]: ''})
         }
@@ -349,7 +349,7 @@ class Doctor extends React.Component {
     }
 
     if(name == 'toTimeTue1' || name == 'fromTimeTue1'){
-      console.log("timeArrtimeArr",this.state.toTimeTue1,this.state.fromTimeTue1)
+      //console.log("timeArrtimeArr",this.state.toTimeTue1,this.state.fromTimeTue1)
       var localDate1 = new Date();
       var localDate2 = new Date();
   
@@ -387,10 +387,10 @@ class Doctor extends React.Component {
       }
   
       
-      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeTue1 != '' && this.state.fromTimeTue1 != ''){
         if(localDate1 > localDate2){
-          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          //console.log("TimeChecklocalDate2",localDate1,localDate2)
           alert("start time should be smaller than end time!")
           this.setState({[name]: ''})
         }
@@ -399,7 +399,7 @@ class Doctor extends React.Component {
     }
   
     if(name == 'toTimeTue2' || name == 'fromTimeTue2'){
-      console.log("timeArrtimeArr",this.state.toTimeTue2,this.state.fromTimeTue2)
+      //console.log("timeArrtimeArr",this.state.toTimeTue2,this.state.fromTimeTue2)
       var localDate3 = new Date();
       var localDate4 = new Date();
   
@@ -456,7 +456,7 @@ class Doctor extends React.Component {
 
         if(this.state.toTimeTue1 != '' || this.state.fromTimeTue1 != ''){
           if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
-            console.log("TimeChecklocalDate2",localDate1,localDate2)
+            //console.log("TimeChecklocalDate2",localDate1,localDate2)
             alert("Shift 2 Time is not greater than Shift 1.")
             this.setState({[name]: ''})
             return
@@ -465,10 +465,10 @@ class Doctor extends React.Component {
       }
   
       
-      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeTue1 != '' && this.state.fromTimeTue1 != ''){
         if(localDate3 > localDate4){
-          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          //console.log("TimeChecklocalDate2",localDate1,localDate2)
           alert("start time should be smaller than end time!")
           this.setState({[name]: ''})
         }
@@ -477,7 +477,7 @@ class Doctor extends React.Component {
     }
 
     if(name == 'toTimeWen1' || name == 'fromTimeWen1'){
-      console.log("timeArrtimeArr",this.state.toTimeWen1,this.state.fromTimeWen1)
+      //console.log("timeArrtimeArr",this.state.toTimeWen1,this.state.fromTimeWen1)
       var localDate1 = new Date();
       var localDate2 = new Date();
   
@@ -515,10 +515,10 @@ class Doctor extends React.Component {
       }
   
       
-      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeWen1 != '' && this.state.fromTimeWen1 != ''){
         if(localDate1 > localDate2){
-          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          //console.log("TimeChecklocalDate2",localDate1,localDate2)
           alert("start time should be smaller than end time!")
           this.setState({[name]: ''})
         }
@@ -527,7 +527,7 @@ class Doctor extends React.Component {
     }
   
     if(name == 'toTimeWen2' || name == 'fromTimeWen2'){
-      console.log("timeArrtimeArr",this.state.toTimeWen2,this.state.fromTimeWen2)
+      //console.log("timeArrtimeArr",this.state.toTimeWen2,this.state.fromTimeWen2)
       var localDate3 = new Date();
       var localDate4 = new Date();
   
@@ -584,7 +584,7 @@ class Doctor extends React.Component {
     
         if(this.state.toTimeWen1 != '' || this.state.fromTimeWen1 != ''){
           if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
-            console.log("TimeChecklocalDate2",localDate1,localDate2)
+            //console.log("TimeChecklocalDate2",localDate1,localDate2)
             alert("Shift 2 Time is not greater than Shift 1.")
             this.setState({[name]: ''})
             return
@@ -593,10 +593,10 @@ class Doctor extends React.Component {
       }
   
       
-      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeWen1 != '' && this.state.fromTimeWen1 != ''){
         if(localDate3 > localDate4){
-          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          //console.log("TimeChecklocalDate2",localDate1,localDate2)
           alert("start time should be smaller than end time!")
           this.setState({[name]: ''})
         }
@@ -605,7 +605,7 @@ class Doctor extends React.Component {
     }
 
     if(name == 'toTimeThr1' || name == 'fromTimeThr1'){
-      console.log("timeArrtimeArr",this.state.toTimeThr1,this.state.fromTimeThr1)
+      //console.log("timeArrtimeArr",this.state.toTimeThr1,this.state.fromTimeThr1)
       var localDate1 = new Date();
       var localDate2 = new Date();
   
@@ -643,10 +643,10 @@ class Doctor extends React.Component {
       }
   
       
-      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeThr1 != '' && this.state.fromTimeThr1 != ''){
         if(localDate1 > localDate2){
-          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          //console.log("TimeChecklocalDate2",localDate1,localDate2)
           alert("start time should be smaller than end time!")
           this.setState({[name]: ''})
         }
@@ -655,7 +655,7 @@ class Doctor extends React.Component {
     }
   
     if(name == 'toTimeThr2' || name == 'fromTimeThr2'){
-      console.log("timeArrtimeArr",this.state.toTimeThr2,this.state.fromTimeThr2)
+      //console.log("timeArrtimeArr",this.state.toTimeThr2,this.state.fromTimeThr2)
       var localDate3 = new Date();
       var localDate4 = new Date();
   
@@ -712,7 +712,7 @@ class Doctor extends React.Component {
     
         if(this.state.toTimeThr1 != '' || this.state.fromTimeThr1 != ''){
           if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
-            console.log("TimeChecklocalDate2",localDate1,localDate2)
+            //console.log("TimeChecklocalDate2",localDate1,localDate2)
             alert("Shift 2 Time is not greater than Shift 1.")
             this.setState({[name]: ''})
             return
@@ -721,10 +721,10 @@ class Doctor extends React.Component {
       }
   
       
-      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeThr1 != '' && this.state.fromTimeThr1 != ''){
         if(localDate3 > localDate4){
-          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          //console.log("TimeChecklocalDate2",localDate1,localDate2)
           alert("start time should be smaller than end time!")
           this.setState({[name]: ''})
         }
@@ -733,7 +733,7 @@ class Doctor extends React.Component {
     }
 
     if(name == 'toTimeFri1' || name == 'fromTimeFri1'){
-      console.log("timeArrtimeArr",this.state.toTimeFri1,this.state.fromTimeFri1)
+      //console.log("timeArrtimeArr",this.state.toTimeFri1,this.state.fromTimeFri1)
       var localDate1 = new Date();
       var localDate2 = new Date();
   
@@ -771,10 +771,10 @@ class Doctor extends React.Component {
       }
   
       
-      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeFri1 != '' && this.state.fromTimeFri1 != ''){
         if(localDate1 > localDate2){
-          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          //console.log("TimeChecklocalDate2",localDate1,localDate2)
           alert("start time should be smaller than end time!")
           this.setState({[name]: ''})
         }
@@ -783,7 +783,7 @@ class Doctor extends React.Component {
     }
   
     if(name == 'toTimeFri2' || name == 'fromTimeFri2'){
-      console.log("timeArrtimeArr",this.state.toTimeFri2,this.state.fromTimeFri2)
+      //console.log("timeArrtimeArr",this.state.toTimeFri2,this.state.fromTimeFri2)
       var localDate3 = new Date();
       var localDate4 = new Date();
   
@@ -840,7 +840,7 @@ class Doctor extends React.Component {
     
         if(this.state.toTimeFri1 != '' || this.state.fromTimeFri1 != ''){
           if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
-            console.log("TimeChecklocalDate2",localDate1,localDate2)
+            //console.log("TimeChecklocalDate2",localDate1,localDate2)
             alert("Shift 2 Time is not greater than Shift 1.")
             this.setState({[name]: ''})
             return
@@ -849,10 +849,10 @@ class Doctor extends React.Component {
       }
   
       
-      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeFri1 != '' && this.state.fromTimeFri1 != ''){
         if(localDate3 > localDate4){
-          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          //console.log("TimeChecklocalDate2",localDate1,localDate2)
           alert("start time should be smaller than end time!")
           this.setState({[name]: ''})
         }
@@ -861,7 +861,7 @@ class Doctor extends React.Component {
     }
 
     if(name == 'toTimeSat1' || name == 'fromTimeSat1'){
-      console.log("timeArrtimeArr",this.state.toTimeSat1,this.state.fromTimeSat1)
+      //console.log("timeArrtimeArr",this.state.toTimeSat1,this.state.fromTimeSat1)
       var localDate1 = new Date();
       var localDate2 = new Date();
   
@@ -899,10 +899,10 @@ class Doctor extends React.Component {
       }
   
       
-      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeSat1 != '' && this.state.fromTimeSat1 != ''){
         if(localDate1 > localDate2){
-          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          //console.log("TimeChecklocalDate2",localDate1,localDate2)
           alert("start time should be smaller than end time!")
           this.setState({[name]: ''})
         }
@@ -911,7 +911,7 @@ class Doctor extends React.Component {
     }
   
     if(name == 'toTimeSat2' || name == 'fromTimeSat2'){
-      console.log("timeArrtimeArr",this.state.toTimeSat2,this.state.fromTimeSat2)
+      //console.log("timeArrtimeArr",this.state.toTimeSat2,this.state.fromTimeSat2)
       var localDate3 = new Date();
       var localDate4 = new Date();
   
@@ -968,7 +968,7 @@ class Doctor extends React.Component {
     
         if(this.state.toTimeSat1 != '' || this.state.fromTimeSat1 != ''){
           if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
-            console.log("TimeChecklocalDate2",localDate1,localDate2)
+            //console.log("TimeChecklocalDate2",localDate1,localDate2)
             alert("Shift 2 Time is not greater than Shift 1.")
             this.setState({[name]: ''})
             return
@@ -977,10 +977,10 @@ class Doctor extends React.Component {
       }
   
       
-      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeSat1 != '' && this.state.fromTimeSat1 != ''){
         if(localDate3 > localDate4){
-          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          //console.log("TimeChecklocalDate2",localDate1,localDate2)
           alert("start time should be smaller than end time!")
           this.setState({[name]: ''})
         }
@@ -989,7 +989,7 @@ class Doctor extends React.Component {
     }
 
     if(name == 'toTimeSun1' || name == 'fromTimeSun1'){
-      console.log("timeArrtimeArr",this.state.toTimeSun1,this.state.fromTimeSun1)
+      //console.log("timeArrtimeArr",this.state.toTimeSun1,this.state.fromTimeSun1)
       var localDate1 = new Date();
       var localDate2 = new Date();
   
@@ -1027,10 +1027,10 @@ class Doctor extends React.Component {
       }
   
       
-      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeSun1 != '' && this.state.fromTimeSun1 != ''){
         if(localDate1 > localDate2){
-          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          //console.log("TimeChecklocalDate2",localDate1,localDate2)
           alert("start time should be smaller than end time!")
           this.setState({[name]: ''})
         }
@@ -1039,7 +1039,7 @@ class Doctor extends React.Component {
     }
   
     if(name == 'toTimeSun2' || name == 'fromTimeSun2'){
-      console.log("timeArrtimeArr",this.state.toTimeSun2,this.state.fromTimeSun2)
+      //console.log("timeArrtimeArr",this.state.toTimeSun2,this.state.fromTimeSun2)
       var localDate3 = new Date();
       var localDate4 = new Date();
   
@@ -1096,7 +1096,7 @@ class Doctor extends React.Component {
     
         if(this.state.toTimeSun1 != '' || this.state.fromTimeSun1 != ''){
           if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
-            console.log("TimeChecklocalDate2",localDate1,localDate2)
+            //console.log("TimeChecklocalDate2",localDate1,localDate2)
             alert("Shift 2 Time is not greater than Shift 1.")
             this.setState({[name]: ''})
             return
@@ -1104,17 +1104,17 @@ class Doctor extends React.Component {
         }
       }
       
-      // console.log("TimeChecklocalDate",localDate1,localDate2)
+      // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeSun1 != '' && this.state.fromTimeSun1 != ''){
         if(localDate3 > localDate4){
-          console.log("TimeChecklocalDate2",localDate1,localDate2)
+          //console.log("TimeChecklocalDate2",localDate1,localDate2)
           alert("start time should be smaller than end time!")
           this.setState({[name]: ''})
         }
       }
       
     }
-    console.log("time",e.target.value)
+    //console.log("time",e.target.value)
   }
 
   // Referral
@@ -1207,8 +1207,8 @@ class Doctor extends React.Component {
 
   render() {
     const { users, user } = this.props;
-    console.log("userrrrr", users);
-    console.log("toTimeMon1", this.state.toTimeMon1);
+    //console.log("userrrrr", users);
+    //console.log("toTimeMon1", this.state.toTimeMon1);
     return (
       <div className={s.root}>
       <ToastContainer />

@@ -9,7 +9,7 @@ import Widget from "../../components/Widget/Widget";
 import { fetchAppoinment } from "../../actions/appoinment";
 import { fetchOrderedProgram,getAllPrograms, deleteProgram } from "../../actions/program";
 import { fetchTests, fetchPaidTests } from "../../actions/test";
-import { fetchOrderedBilling,fetchService, fetchRemainingBillPatientList, getBillNumber } from "../../actions/billing";
+import { fetchOrderedBilling,fetchService, fetchRemainingBillPatientList, getBillNumber,createBill } from "../../actions/billing";
 import { fetchOfflineUsers,fetchDoctors } from "../../actions/user";
 import { toast, ToastContainer } from 'react-toastify';
 import Swal from 'sweetalert2';
@@ -27,6 +27,10 @@ class Payment extends React.Component {
       pagesCount :  0,
       patientId : 0,
       billingId : 0,
+      orderBillId : 0,
+      payAmount : 0,
+      totalAmount : 0,
+      paidAmount : 0,
       
     };
 
@@ -153,8 +157,8 @@ class Payment extends React.Component {
     items.push(<option key={-1} value='' >Select Patients</option>);
     for (let i = 0; i < this.props.remaining_bill_patients.length; i++) {
       //console.log(i);
-      if(this.props.remaining_bill_patients[i].userID != 0)
-       items.push(<option key={this.props.remaining_bill_patients[i].userID} value={this.props.remaining_bill_patients[i].userID} >{this.get_user_name(this.props.remaining_bill_patients[i].userID)}</option>);
+      if(this.props.remaining_bill_patients[i].userID != 0 && this.props.remaining_bill_patients[i].amount != this.props.remaining_bill_patients[i].totalAmount)
+       items.push(<option key={this.props.remaining_bill_patients[i].id} value={this.props.remaining_bill_patients[i].userID} >{this.get_user_name(this.props.remaining_bill_patients[i].userID)}</option>);
     }
 
     return items;
@@ -165,7 +169,7 @@ class Payment extends React.Component {
     items.push(<option key={0} value='' >Select Bill</option>);
     for (let i = 0; i < this.props.bill_numbers.length; i++) {
       //console.log(i);
-      if(this.props.bill_numbers[i].id != 0)
+      if(this.props.bill_numbers[i].id != 0 && this.props.bill_numbers[i].amount != this.props.bill_numbers[i].totalAmount)
        items.push(<option key={this.props.bill_numbers[i].id} value={this.props.bill_numbers[i].id} >{this.props.bill_numbers[i].id}</option>);
     }
 
@@ -189,18 +193,55 @@ class Payment extends React.Component {
     if(event.target.value){
       this.setState({billingId: event.target.value})
       var BillId = event.target.value
-      // for (let i = 0; i < this.props.bill_numbers.length; i++) {
+      for (let i = 0; i < this.props.bill_numbers.length; i++) {
 
-      //   if(this.props.bill_numbers[i].id == BillId){
+        if(this.props.bill_numbers[i].id == BillId){
 
-      //   }
+          console.log(this.props.bill_numbers[i])
+          var payAmount = this.props.bill_numbers[i].totalAmount - this.props.bill_numbers[i].amount;
+          this.setState({
+            orderBillId : this.props.bill_numbers[i].id,
+            payAmount : payAmount,
+            totalAmount : this.props.bill_numbers[i].totalAmount,
+            paidAmount : this.props.bill_numbers[i].amount
+          })
+
+        }
         
-      // }
+      }
       
       // this.props.dispatch(getBillNumber(event.target.value));
     }
     
     
+  }
+
+  onDropdownSetStateName(e) {
+    this.setState({[e.target.name]: e.target.value})
+  }
+
+  submit = (event) => {
+    event.preventDefault();
+      if (this.state.orderBillId == 0) {
+        toast.error("Please select patient!");
+      }else if (this.state.orderBillId == 0) {
+        toast.error("Please select Bill No.");
+      }else if (this.state.payAmount == 0) {
+        toast.error("Please fill amount filed.");
+      }else {
+
+        if(this.state.orderBillId != 0 && this.state.orderBillId != 0 && this.state.payAmount != 0){
+          this.props.dispatch(createBill({id: this.state.orderBillId, amount: this.state.payAmount}))
+        }
+        this.setState({
+          patientId : 0,
+          billingId : 0,
+          orderBillId : 0,
+          payAmount : 0,
+          totalAmount : 0,
+          paidAmount : 0,
+        })
+      }
   }
 
   render() {
@@ -251,10 +292,9 @@ class Payment extends React.Component {
                 <Col xl={12} >
                   <Form inline >
                     <Col xl={2} >
-                      
                         <FormGroup  >
                           <Label >
-                            <h4>Total</h4> {'  :- '} <h5>5000K</h5>
+                            <h4>Total</h4> {'  :- '} <h5>{this.state.totalAmount}</h5>
                           </Label>
                         </FormGroup>
                         
@@ -262,19 +302,19 @@ class Payment extends React.Component {
                       <Col xl={2} >
                         <FormGroup  >
                           <Label >
-                          <h4>Paid</h4> {'  :- '} <h5>3000K</h5>
+                          <h4>Paid</h4> {'  :- '} <h5>{this.state.paidAmount}</h5>
                           </Label>
                         </FormGroup>
                       </Col>
                       <Col xl={6} >
                         <FormGroup  >
                         <Label for="payment" hidden>Pay Pending Amount*</Label>
-                        <Input style={{width: '100%'}} type="number" name="payment" id="exampleEmail" placeholder="payment" />
+                        <Input style={{width: '100%'}} type="number" name="payAmount" id="exampleEmail" placeholder="payment" onChange={(e) => this.onDropdownSetStateName(e)}  value={this.state.payAmount} />
                       </FormGroup>
                       </Col>
                       <Col xl={2} >
                         <FormGroup  >
-                          <Button color="success" >Pay</Button>
+                          <Button onClick={(event) => this.submit(event)}  color="success" >Pay</Button>
                       </FormGroup>
                       </Col>
                   </Form>
