@@ -327,7 +327,7 @@ class Doctor extends React.Component {
 
         if(this.state.toTimeMon1 != '' || this.state.fromTimeMon1 != ''){
           if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
-            //console.log("TimeChecklocalDate2",localDate1,localDate2)
+            console.log("TimeChecklocalDate2",(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4))
             alert("Shift 2 Time is not greater than Shift 1.")
             this.setState({[name]: ''})
             return

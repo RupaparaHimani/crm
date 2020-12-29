@@ -5,12 +5,14 @@ import {
   CREATE_APPOINMENT_SUCCESS,
   UPDATE_APPOINMENT_SUCCESS,
   EDIT_APPOINMENT_SUCCESS,
-  DELETE_APPOINMENT_SUCCESS
+  DELETE_APPOINMENT_SUCCESS,
+  APPOINMENT_DRTIME_SUCCESS
 } from '../actions/appoinment';
 
 const initialState = {
   appoinments: [],
   appoinment: null,
+  appoinmentsDrTime: [],
   temp: [],
   edit: false,
 };
@@ -41,6 +43,11 @@ export default function appoinmentReducer(state = initialState, action) {
       return Object.assign({}, state, {
           appoinment: action.payload.appoinment,
           edit: true
+      });
+    
+    case APPOINMENT_DRTIME_SUCCESS:
+      return Object.assign({}, state, {
+        appoinmentsDrTime: action.payload.appoinment,
       });
 
     case DELETE_APPOINMENT_SUCCESS:

@@ -9,7 +9,7 @@ import axios from "axios";
 import s from "./Dashboard.module.scss";
 import Widget from "../../components/Widget";
 import stocksImg from "../../images/stocks.svg";
-import { createAppoinment,fetchAppoinment, getAppoinment, deleteAppoinment, updateAppoinment } from "../../actions/appoinment";
+import { createAppoinment,fetchAppoinment, getAppoinment, deleteAppoinment, updateAppoinment, getAppoinmentDrTime } from "../../actions/appoinment";
 import { fetchOfflineUsers,fetchDoctors } from "../../actions/user";
 import ReactQuill from 'react-quill';
 import { toast, ToastContainer } from 'react-toastify';
@@ -90,12 +90,12 @@ class Appoiment extends React.Component {
 
   onEdit = (event, row) => {
     event.preventDefault();
-    this.props.dispatch(getAppoinment({id: row.id}));
-
+    // this.props.dispatch(getAppoinment({id: row.id}));
+    this.props.dispatch(getAppoinmentDrTime({doctorID : row.doctorID}))
 
     this.setState({ modal: true})
     var date = new Date(row.date);
-    var formated_Date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()-1}`
+    var formated_Date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
 
     this.setState({
       id: row.id,
@@ -122,9 +122,9 @@ class Appoiment extends React.Component {
 
   createSelectItemsUser = () => {
      let items = [];
-     items.push(<option key={-1} value='' >Select Patients</option>);
+     items.push(<option key={0} value='' >Select Patients</option>);
      for (let i = 0; i < this.props.users.length; i++) {
-       console.log(i);
+       //console.log(i);
         items.push(<option key={this.props.users[i].id} value={this.props.users[i].id} >{this.props.users[i].first_name} {this.props.users[i].last_name}</option>);
      }
 
@@ -133,11 +133,11 @@ class Appoiment extends React.Component {
 
    createSelectItemsDoctors = () => {
 
-    console.log("this.props.doctors",this.props.doctors)
+    //console.log("this.props.doctors",this.props.doctors)
     let items = [];
-    items.push(<option key={-1} value='' >Select Doctors</option>);
+    items.push(<option key={0} value='' >Select Doctors</option>);
     for (let i = 0; i < this.props.doctors.length; i++) {
-      console.log(i);
+      //console.log(i);
        items.push(<option key={this.props.doctors[i].id} value={this.props.doctors[i].id} >{this.props.doctors[i].first_name} {this.props.doctors[i].last_name}</option>);
     }
 
@@ -146,7 +146,7 @@ class Appoiment extends React.Component {
 
   createShiftItemsForDoctors = () => {
       let items = [];
-      items.push(<option key={-1} value='' >Select Shift</option>);
+      items.push(<option key={0} value='' >Select Shift</option>);
       for (let i = 0; i < this.props.doctors.length; i++) {
 
         if(this.props.doctors[i].id == this.state.user_Doctor){
@@ -208,7 +208,41 @@ class Appoiment extends React.Component {
           l = parseInt(res[0]) + i + 1;
           m = parseInt(res[0]) + i;
           var opt = m+'-'+l;
+
+          console.log("opt_"+i,opt)
+          console.log("opt_"+i,this.props.appoinmentsDrTime)
+
+          if(this.props.appoinmentsDrTime.length > 0){
+
+            this.props.appoinmentsDrTime.forEach((val,key)=>{
+              var date = new Date(val.date);
+              var formated_Date1 = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+
+
+              if(val.doctorID == this.state.user_Doctor){
+
+                  if(val.doctorID == this.state.user_Doctor && opt == val.interval_time && formated_Date1 == this.state.ShiftDate && val.patientID == this.state.user_Patient ){
+                    items.push(<option key={i} value={opt}>{opt}</option>);
+                  }
+                  else if(val.doctorID == this.state.user_Doctor && opt == val.interval_time && formated_Date1 == this.state.ShiftDate ){
+                    
+                  }
+                  else{
+                    items.push(<option key={i} value={opt}>{opt}</option>);
+                  }
+                  
+              }
+              else{
+                    items.push(<option key={i} value={opt}>{opt}</option>);
+              }
+                
+                
+            })
+          }
+          else{
             items.push(<option key={i} value={opt}>{opt}</option>);
+          }
+            
         }
       }
         
@@ -216,19 +250,21 @@ class Appoiment extends React.Component {
    }
 
    onDropdownSelectedUser(e) {
-     console.log("THE VAL", e.target.value);
+     //console.log("THE VAL", e.target.value);
      this.setState({user_Patient: e.target.value})
        //here you will see the current selected value of the select input
    }
    onDropdownSelectedDoctors(e) {
        this.setState({user_Doctor: e.target.value, Doctor_shift : ''})
       //  this.createShiftItemsForDoctors()
+
+      this.props.dispatch(getAppoinmentDrTime({doctorID : e.target.value}))
    }
 
    onDropdownShiftItemsForDoctors(e) {
     this.setState({Doctor_shift: e.target.value})
 
-    console.log("Doctor_shift",e.target.value)
+    //console.log("Doctor_shift",e.target.value)
 
   }
 
@@ -256,7 +292,7 @@ class Appoiment extends React.Component {
      var year = date.getFullYear();
 
      this.setState({weekDay: weekDAy,Doctor_shift : ''});
-     console.log("date",e.target.value,date,formatedDate)
+     //console.log("date",e.target.value,date,formatedDate)
     //  this.createShiftItemsForDoctors()
       // alert([this.state.user_Doctor,weekDAy, day, month, year].join('/'));
 
@@ -290,7 +326,7 @@ class Appoiment extends React.Component {
    {
      event.preventDefault();
 
-     if(this.props.appoinment == null && this.state.id == 0){
+     if(this.state.id == 0){
 
         this.props.dispatch(createAppoinment({
           patient_id: this.state.user_Patient,
@@ -313,15 +349,15 @@ class Appoiment extends React.Component {
           }));
       }
 
-      this.props.dispatch(fetchAppoinment());
+      // this.props.dispatch(fetchAppoinment());
 
      this.setState({modal: false})
    }
 
   // static getDerivedStateFromProps(nextProps, prevState) {
-  //   console.log("--", nextProps);
+  //   //console.log("--", nextProps);
   //   if ( nextProps.appoinment != null  && prevState.id != nextProps.appoinment.id ) {
-  //     console.log("nextProps.appoinment",nextProps.appoinment);
+  //     //console.log("nextProps.appoinment",nextProps.appoinment);
   //     var date = new Date(nextProps.appoinment.date);
   //     var formated_Date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
   //     return {
@@ -336,7 +372,7 @@ class Appoiment extends React.Component {
   // }
 
   get_user_name = (condition) => {
-    // console.log(condition);
+    // //console.log(condition);
     let fname = '';
       this.props.users.filter((e) => e.id === condition).map((key, i) => (
         fname = key.first_name + " " + key.last_name
@@ -345,7 +381,7 @@ class Appoiment extends React.Component {
     };
 
   get_doctor_name = (condition) => {
-    // console.log(condition);
+    // //console.log(condition);
     let fname = '';
       this.props.doctors.filter((e) => e.id === condition).map((key, i) => (
         fname = key.first_name + " " + key.last_name
@@ -465,7 +501,7 @@ class Appoiment extends React.Component {
     const { tests, paid_tests, users, appoinments } = this.props;
     const { currentPage } = this.state;
     var pagesCount = Math.ceil(appoinments.length / this.state.pageSize)
-    console.log("paid_tests", this.state);
+    //console.log("paid_tests", this.state);
     // const columns = [
     //   {
     //     title: 'Patients',
@@ -691,7 +727,8 @@ const mapStateToProps = state => ({
   users : state.auth.offline_users,
   doctors : state.auth.doctors,
   appoinments : state.appoinment.appoinments,
-  appoinment : state.appoinment.appoinment
+  appoinment : state.appoinment.appoinment,
+  appoinmentsDrTime : state.appoinment.appoinmentsDrTime
 
 });
 

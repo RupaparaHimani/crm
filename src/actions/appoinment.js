@@ -8,6 +8,7 @@ export const FETCH_APPOINMENT_FAILURE = 'FETCH_APPOINMENT_FAILURE';
 export const CREATE_APPOINMENT_SUCCESS = 'CREATE_APPOINMENT_SUCCESS';
 export const UPDATE_APPOINMENT_SUCCESS = 'UPDATE_APPOINMENT_SUCCESS';
 export const DELETE_APPOINMENT_SUCCESS = 'DELETE_APPOINMENT_SUCCESS';
+export const APPOINMENT_DRTIME_SUCCESS = 'APPOINMENT_DRTIME_SUCCESS';
 
 export const fetchAppoinmentBegin = () => ({
   type: FETCH_APPOINMENT_BEGIN
@@ -35,6 +36,11 @@ export const deleteAppoinmentSuccess = (appoinment_id) => ({
 
 export const editAppoinmentSuccess = (appoinment) => ({
   type: EDIT_APPOINMENT_SUCCESS,
+  payload: { appoinment }
+});
+
+export const AppoinmentDrTimeSuccess = (appoinment) => ({
+  type: APPOINMENT_DRTIME_SUCCESS,
   payload: { appoinment }
 });
 
@@ -72,6 +78,7 @@ export function createAppoinment(data) {
           });
           dispatch(createAppoinmentSuccess(response.data.appoinment));
           // window.location.assign('/');
+          dispatch(fetchAppoinment());
       })
       .catch(function (error) {
           console.log(error);
@@ -93,7 +100,7 @@ export function updateAppoinment(data) {
         timer: 3500
     });
       dispatch(updateAppoinmentSuccess(response.data.appoinment));
-      dispatch(fetchAppoinment(response.data.appoinment));
+      dispatch(fetchAppoinment());
     })
     .catch((error) => {
       dispatch(fetchAppoinmentFailure(error))
@@ -126,6 +133,24 @@ export function deleteAppoinment(data) {
       })
     .then((response) => {
       dispatch(deleteAppoinmentSuccess(response.data.id));
+      dispatch(fetchAppoinment());
+      return response.data.data;
+    })
+    .catch((error) => {
+      dispatch(fetchAppoinmentFailure(error))
+    });
+    }
+}
+
+export function getAppoinmentDrTime(data) {
+  return (dispatch) => {
+    axios({
+      method: 'get',
+      url: config.baseURLApi+"get_appoinment_DrTime/"+data.doctorID,
+      })
+    .then((response) => {
+      console.log(response);
+      dispatch(AppoinmentDrTimeSuccess(response.data.appoinmentTime));
       return response.data.data;
     })
     .catch((error) => {
