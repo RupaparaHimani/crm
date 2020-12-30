@@ -91,12 +91,14 @@ class Appoiment extends React.Component {
   onEdit = (event, row) => {
     event.preventDefault();
     // this.props.dispatch(getAppoinment({id: row.id}));
-    this.props.dispatch(getAppoinmentDrTime({doctorID : row.doctorID}))
+    // this.props.dispatch(getAppoinmentDrTime({doctorID : row.doctorID}))
+
+    
 
     this.setState({ modal: true})
     var date = new Date(row.date);
     var formated_Date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
-
+    this.props.dispatch(getAppoinmentDrTime({doctorID : row.doctorID,date : formated_Date}))
     this.setState({
       id: row.id,
       user_Patient: row.patientID,
@@ -194,6 +196,7 @@ class Appoiment extends React.Component {
     
 
       let items = [];
+      let newItems = []
       var k = this.state.Doctor_shift;
       var res = k.split(" - ");
       var resTime = parseInt(res[1]) - parseInt(res[0]);
@@ -212,40 +215,118 @@ class Appoiment extends React.Component {
           console.log("opt_"+i,opt)
           console.log("opt_"+i,this.props.appoinmentsDrTime)
 
-          if(this.props.appoinmentsDrTime.length > 0){
+          // if(this.props.appoinmentsDrTime.length > 0){
 
-            this.props.appoinmentsDrTime.forEach((val,key)=>{
-              var date = new Date(val.date);
-              var formated_Date1 = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+          //   this.props.appoinmentsDrTime.forEach((val,key)=>{
+          //     var date = new Date(val.date);
+          //     var formated_Date1 = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+          //     console.log("opts_"+i,key,val,this.state.user_Doctor,this.state.user_Patient,formated_Date1,this.state.ShiftDate,opt,val.interval_time)
 
+          //     // if(formated_Date1 == this.state.ShiftDate){
 
-              if(val.doctorID == this.state.user_Doctor){
-
-                  if(val.doctorID == this.state.user_Doctor && opt == val.interval_time && formated_Date1 == this.state.ShiftDate && val.patientID == this.state.user_Patient ){
-                    items.push(<option key={i} value={opt}>{opt}</option>);
-                  }
-                  else if(val.doctorID == this.state.user_Doctor && opt == val.interval_time && formated_Date1 == this.state.ShiftDate ){
+          //       // if(val.doctorID == this.state.user_Doctor){
                     
-                  }
-                  else{
-                    items.push(<option key={i} value={opt}>{opt}</option>);
-                  }
+          //         if(val.patientID == this.state.user_Patient ){
+
+          //             // if(opt != val.interval_time){
+
+          //                 items.push(<option key={i} value={opt}>{opt}</option>);
+          //                 return
+          //             // }
+
+          //         }
+
+          //        if(val.patientID != this.state.user_Patient){
+          //           if(opt != val.interval_time){
+
+          //             items.push(<option key={i} value={opt}>{opt}</option>);
+          //             return 
+          //           }
+          //       }
+                
+          //     //   }
+
+          //     // }
+
+          //         // if(val.doctorID == this.state.user_Doctor && opt == val.interval_time && formated_Date1 == this.state.ShiftDate && val.patientID == this.state.user_Patient ){
+          //         //   items.push(<option key={i} value={opt}>{opt}</option>);
+          //         // }
+          //         // else if(val.doctorID == this.state.user_Doctor && opt == val.interval_time && formated_Date1 == this.state.ShiftDate ){
+                    
+          //         // }
+          //         // else if(val.doctorID == this.state.user_Doctor && opt != val.interval_time && formated_Date1 == this.state.ShiftDate ){
+          //         //   items.push(<option key={i} value={opt}>{opt}</option>);
+          //         // }
+          //         // else{
+                   
+          //         // }
                   
-              }
-              else{
-                    items.push(<option key={i} value={opt}>{opt}</option>);
-              }
+
                 
-                
-            })
-          }
-          else{
-            items.push(<option key={i} value={opt}>{opt}</option>);
-          }
+          //   })
+          // }
+          // else{
+            // items.push(<option key={i} value={opt}>{opt}</option>);
+            newItems.push(opt)
+          // }
             
         }
       }
+
+      if(this.props.appoinmentsDrTime.length > 0){
+
+        this.props.appoinmentsDrTime.forEach((val,key)=>{
+          var date = new Date(val.date);
+          var formated_Date1 = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+
+          // console.log("opts_"+i,key,val,this.state.user_Doctor,this.state.user_Patient,formated_Date1,this.state.ShiftDate,opt,val.interval_time)
+
+                
+            //   if(val.patientID == this.state.user_Patient ){
+
+            //       // if(opt != val.interval_time){
+
+            //           items.push(<option key={i} value={opt}>{opt}</option>);
+            //           return
+            //       // }
+
+            //   }
+
+            //  if(val.patientID != this.state.user_Patient){
+            //     if(opt != val.interval_time){
+
+            //       items.push(<option key={i} value={opt}>{opt}</option>);
+            //       return 
+            //     }
+            // }              
+            newItems.forEach((value,index,object)=>{
+                  if(value == val.interval_time){
+
+                    // if(this.state.user_Patient == val.val.patientID){
+                    //   items.push(<option key={index} value={value}>{value}</option>);
+                    // }
+                    // else{
+                      object.splice(index, 1)
+                    // }
+                      
+                  }
+                  // else{
+                  //   items.push(<option key={index} value={value}>{value}</option>);
+                  // }
+            })
+            
+        })
+      }
+
+        newItems.forEach((value,index,object)=>{
+
+
+            items.push(<option key={index} value={value}>{value}</option>);
+          
+        })
+      
         
+      console.log("newItems",newItems)
       return items;
    }
 
@@ -257,13 +338,16 @@ class Appoiment extends React.Component {
    onDropdownSelectedDoctors(e) {
        this.setState({user_Doctor: e.target.value, Doctor_shift : ''})
       //  this.createShiftItemsForDoctors()
-
-      this.props.dispatch(getAppoinmentDrTime({doctorID : e.target.value}))
+      // this.props.dispatch(getAppoinmentDrTime({doctorID : this.state.user_Doctor}))
+      
    }
 
    onDropdownShiftItemsForDoctors(e) {
     this.setState({Doctor_shift: e.target.value})
 
+    var date = new Date(this.state.ShiftDate);
+    var formated_Date1 = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+    this.props.dispatch(getAppoinmentDrTime({doctorID : this.state.user_Doctor,date : formated_Date1}))
     //console.log("Doctor_shift",e.target.value)
 
   }

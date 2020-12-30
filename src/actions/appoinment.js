@@ -146,7 +146,7 @@ export function getAppoinmentDrTime(data) {
   return (dispatch) => {
     axios({
       method: 'get',
-      url: config.baseURLApi+"get_appoinment_DrTime/"+data.doctorID,
+      url: config.baseURLApi+"get_appoinment_DrTime/"+data.doctorID+"/"+data.date,
       })
     .then((response) => {
       console.log(response);
