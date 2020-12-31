@@ -47,7 +47,14 @@ class Appoiment extends React.Component {
   componentDidMount() {
     // this.props.dispatch(fetchTests());
     this.props.dispatch(fetchOfflineUsers());
-    this.props.dispatch(fetchAppoinment());
+    var userLogin = JSON.parse(localStorage.getItem('loginUser'))
+    if(userLogin.user_type == null || userLogin.user_type == 'staff'){
+        this.props.dispatch(fetchAppoinment());
+    }
+   else if(userLogin.user_type == 'doctor'){
+    this.props.dispatch(fetchAppoinment(userLogin.id));
+   }
+    
     this.props.dispatch(fetchDoctors());
     // this.createShiftItemsForDoctors()
   }

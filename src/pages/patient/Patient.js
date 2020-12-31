@@ -35,6 +35,22 @@ class Patient extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchUsers('patient'));
   }
+  
+  // componentWillMount() {
+  //   var userLogin = JSON.parse(localStorage.getItem('loginUser'))
+
+  //   console.log("userLogin",userLogin)
+
+  //   if(userLogin.user_type === null || userLogin.user_type == 'staff'){
+  //     console.log("userLogin1",userLogin)
+  //     this.props.router.push('/app/main/dashboard')
+  //   }
+  //   else{
+  //     console.log("userLogin",userLogin)
+  //   } 
+
+
+  // }
 
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -124,6 +140,7 @@ class Patient extends React.Component {
   componentWillReceiveProps(nextProps, prevState) {
     // This will erase any local state updates!
     // Do not do this.
+
     this.setState({ edit: nextProps.edit });
   }
 

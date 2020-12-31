@@ -22,7 +22,7 @@ import logo from "../../images/logo.svg";
 import settingsIcon from "../../images/settings.svg";
 import logoutIcon from "../../images/logout.svg";
 import accountIcon from "../../images/account.svg";
-
+var userLogin = ''
 class Sidebar extends React.Component {
   static propTypes = {
     sidebarStatic: PropTypes.bool,
@@ -46,6 +46,19 @@ class Sidebar extends React.Component {
     // console.log("-----------", JSON.parse(localStorage.getItem('current_user')))
   }
 
+  componentWillMount() {
+    userLogin = JSON.parse(localStorage.getItem('loginUser'))
+    console.log("userLogin",userLogin)
+   // if(userLogin.user_type == null || userLogin.user_type == 'staff'){
+
+   // }
+   // else{
+   //   this.props.history.push('/app/main/dashboard')
+   // }
+
+
+ }
+
   dismissAlert(id) {
     this.props.dispatch(dismissAlert(id));
   }
@@ -65,204 +78,389 @@ class Sidebar extends React.Component {
           </header>
           {/*<h5 className={s.navTitle}>APP</h5> */}
           <ul className={s.nav}>
-             <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
+        
+        {/* ADMIN Start */}
+          {
+            userLogin != ''
+            ?
+            userLogin.user_type == null
+              ?
+              <>
+              <LinksGroup
+                onActiveSidebarItemChange={activeItem =>
+                    this.props.dispatch(changeActiveSidebarItem(activeItem))
+                }
+                activeItem={this.props.activeItem}
+                header="Dashboard"
+                isHeader
+                link="/app/main/dashboard"
+                index="main"
+                >
+                {window.location.href.includes("dashboard") ? (
+                    <img
+                    src={darkDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                    />
+                ) : (
+                    <img
+                    src={lightDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                    />
+                )}
+                </LinksGroup>
+
+                <LinksGroup
+                onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
-              }
-              activeItem={this.props.activeItem}
-              header="Dashboard"
-              isHeader
-              link="/app/main/dashboard"
-              index="main"
-            >
-              {window.location.href.includes("dashboard") ? (
+                }
+                activeItem={this.props.activeItem}
+                header="Counsellor"
+                isHeader
+                link="/app/main/counsellor"
+                index="main"
+                >
                 <img
-                  src={darkDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
+                src={accountIcon}
+                alt="lightDashboard"
+                width={"24px"}
+                height={"24px"}
                 />
-              ) : (
+                </LinksGroup>
+
+                <LinksGroup
+                onActiveSidebarItemChange={activeItem =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+                }
+                activeItem={this.props.activeItem}
+                header="Blog"
+                isHeader
+                link="/app/main/blog"
+                index="main"
+                >
                 <img
-                  src={lightDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
+                src={accountIcon}
+                alt="lightDashboard"
+                width={"24px"}
+                height={"24px"}
                 />
-              )}
+                </LinksGroup>
+
+                <LinksGroup
+                onActiveSidebarItemChange={activeItem =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+                }
+                activeItem={this.props.activeItem}
+                header="Doctor"
+                isHeader
+                link="/app/main/doctor"
+                index="main"
+                >
+                <img
+                src={accountIcon}
+                alt="lightDashboard"
+                width={"24px"}
+                height={"24px"}
+                />
+                </LinksGroup>
+                <LinksGroup
+                    onActiveSidebarItemChange={activeItem =>
+                    this.props.dispatch(changeActiveSidebarItem(activeItem))
+                    }
+                    activeItem={this.props.activeItem}
+                    header="Patient"
+                    isHeader
+                    link="/app/main/patient"
+                    index="main"
+                >
+                <img
+                    src={accountIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                />
+                </LinksGroup>
+                <LinksGroup
+                    onActiveSidebarItemChange={activeItem =>
+                    this.props.dispatch(changeActiveSidebarItem(activeItem))
+                    }
+                    activeItem={this.props.activeItem}
+                    header="Staff"
+                    isHeader
+                    link="/app/main/staff"
+                    index="main"
+                >
+                <img
+                    src={accountIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                />
+                </LinksGroup>
+
+                <LinksGroup
+                        onActiveSidebarItemChange={activeItem =>
+                        this.props.dispatch(changeActiveSidebarItem(activeItem))
+                        }
+                        activeItem={this.props.activeItem}
+                        header="Appointment"
+                        isHeader
+                        link="/app/main/appointment"
+                        index="main"
+                    >
+                    <img
+                        src={accountIcon}
+                        alt="lightDashboard"
+                        width={"24px"}
+                        height={"24px"}
+                    />
+                    </LinksGroup>
+                    <LinksGroup
+                    onActiveSidebarItemChange={activeItem =>
+                    this.props.dispatch(changeActiveSidebarItem(activeItem))
+                    }
+                    activeItem={this.props.activeItem}
+                    header="Program"
+                    isHeader
+                    link="/app/main/program"
+                    index="main"
+                >
+                <img
+                    src={accountIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                />
+              </LinksGroup>
+              <LinksGroup
+                onActiveSidebarItemChange={activeItem =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+                }
+                activeItem={this.props.activeItem}
+                header="Billing"
+                isHeader
+                link="/app/main/billing"
+                index="main"
+                exact={false}
+                childrenLinks={[
+                {
+                    header: "Bill",
+                    link: "/app/main/billing"
+                },
+                {
+                    header: "Payment",
+                    link: "/app/main/payment"
+                }
+                ]}
+                >
+                <img
+                    src={accountIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                />
             </LinksGroup>
             <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
-                this.props.dispatch(changeActiveSidebarItem(activeItem))
-              }
-              activeItem={this.props.activeItem}
-              header="Counsellor"
-              isHeader
-              link="/app/main/counsellor"
-              index="main"
-            >
-            <img
-              src={accountIcon}
-              alt="lightDashboard"
-              width={"24px"}
-              height={"24px"}
-            />
+                  onActiveSidebarItemChange={activeItem =>
+                    this.props.dispatch(changeActiveSidebarItem(activeItem))
+                  }
+                  activeItem={this.props.activeItem}
+                  header="Test"
+                  isHeader
+                  link="/app/main/test"
+                  index="main"
+                >
+                <img
+                  src={accountIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
             </LinksGroup>
+            </>
+              :
+              null
+            :
+            null
+          }
+         {/* ADMIN End  */}
+             
 
-          <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Blog"
-            isHeader
-            link="/app/main/blog"
-            index="main"
-          >
-          <img
-            src={accountIcon}
-            alt="lightDashboard"
-            width={"24px"}
-            height={"24px"}
-          />
-          </LinksGroup>
-
-          <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Doctor"
-            isHeader
-            link="/app/main/doctor"
-            index="main"
-          >
-          <img
-            src={accountIcon}
-            alt="lightDashboard"
-            width={"24px"}
-            height={"24px"}
-          />
-          </LinksGroup>
+            
 
 
-          <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Patient"
-            isHeader
-            link="/app/main/patient"
-            index="main"
-          >
-          <img
-            src={accountIcon}
-            alt="lightDashboard"
-            width={"24px"}
-            height={"24px"}
-          />
-          </LinksGroup>
-          <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Staff"
-            isHeader
-            link="/app/main/staff"
-            index="main"
-          >
-          <img
-            src={accountIcon}
-            alt="lightDashboard"
-            width={"24px"}
-            height={"24px"}
-          />
-          </LinksGroup>
+          {
+            userLogin != ''
+            ?
+            userLogin.user_type == 'staff'
+              ? 
+            <>
+              <LinksGroup
+                onActiveSidebarItemChange={activeItem =>
+                    this.props.dispatch(changeActiveSidebarItem(activeItem))
+                }
+                activeItem={this.props.activeItem}
+                header="Dashboard"
+                isHeader
+                link="/app/main/dashboard"
+                index="main"
+                >
+                {window.location.href.includes("dashboard") ? (
+                    <img
+                    src={darkDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                    />
+                ) : (
+                    <img
+                    src={lightDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                    />
+                )}
+                </LinksGroup>
+                <LinksGroup
+                    onActiveSidebarItemChange={activeItem =>
+                    this.props.dispatch(changeActiveSidebarItem(activeItem))
+                    }
+                    activeItem={this.props.activeItem}
+                    header="Appointment"
+                    isHeader
+                    link="/app/main/appointment"
+                    index="main"
+                >
+                    <img
+                        src={accountIcon}
+                        alt="lightDashboard"
+                        width={"24px"}
+                        height={"24px"}
+                    />
+                </LinksGroup>
+                <LinksGroup
+                    onActiveSidebarItemChange={activeItem =>
+                    this.props.dispatch(changeActiveSidebarItem(activeItem))
+                    }
+                    activeItem={this.props.activeItem}
+                    header="Patient"
+                    isHeader
+                    link="/app/main/patient"
+                    index="main"
+                >
+                <img
+                    src={accountIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                />
+                </LinksGroup>
+            </>
+              :
+              null
+            :
+            null
+          }
+          
 
-          <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Appointment"
-            isHeader
-            link="/app/main/appointment"
-            index="main"
-          >
-          <img
-            src={accountIcon}
-            alt="lightDashboard"
-            width={"24px"}
-            height={"24px"}
-          />
-          </LinksGroup>
 
-          <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Program"
-            isHeader
-            link="/app/main/program"
-            index="main"
-          >
-          <img
-            src={accountIcon}
-            alt="lightDashboard"
-            width={"24px"}
-            height={"24px"}
-          />
-          </LinksGroup>
+          
+          
 
-          <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Billing"
-            isHeader
-            link="/app/main/billing"
-            index="main"
-            exact={false}
-            childrenLinks={[
-              {
-                header: "Bill",
-                link: "/app/main/billing"
-              },
-              {
-                header: "Payment",
-                link: "/app/main/payment"
-              }
-            ]}
-            >
-          <img
-            src={accountIcon}
-            alt="lightDashboard"
-            width={"24px"}
-            height={"24px"}
-          />
-          </LinksGroup>
+          {
+            userLogin != ''
+            ?
+            userLogin.user_type == 'doctor'
+              ?
+              <>
+                <LinksGroup
+                    onActiveSidebarItemChange={activeItem =>
+                        this.props.dispatch(changeActiveSidebarItem(activeItem))
+                    }
+                    activeItem={this.props.activeItem}
+                    header="Dashboard"
+                    isHeader
+                    link="/app/main/dashboard"
+                    index="main"
+                    >
+                    {window.location.href.includes("dashboard") ? (
+                        <img
+                        src={darkDashboardIcon}
+                        alt="lightDashboard"
+                        width={"24px"}
+                        height={"24px"}
+                        />
+                    ) : (
+                        <img
+                        src={lightDashboardIcon}
+                        alt="lightDashboard"
+                        width={"24px"}
+                        height={"24px"}
+                        />
+                    )}
+                </LinksGroup>
+                <LinksGroup
+                    onActiveSidebarItemChange={activeItem =>
+                    this.props.dispatch(changeActiveSidebarItem(activeItem))
+                    }
+                    activeItem={this.props.activeItem}
+                    header="Appointment"
+                    isHeader
+                    link="/app/main/appointment"
+                    index="main"
+                    >
+                        <img
+                            src={accountIcon}
+                            alt="lightDashboard"
+                            width={"24px"}
+                            height={"24px"}
+                        />
+                </LinksGroup>
+                <LinksGroup
+                    onActiveSidebarItemChange={activeItem =>
+                    this.props.dispatch(changeActiveSidebarItem(activeItem))
+                    }
+                    activeItem={this.props.activeItem}
+                    header="Program"
+                    isHeader
+                    link="/app/main/program"
+                    index="main"
+                >
+                <img
+                    src={accountIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                />
+              </LinksGroup>
+              <LinksGroup
+                    onActiveSidebarItemChange={activeItem =>
+                        this.props.dispatch(changeActiveSidebarItem(activeItem))
+                    }
+                    activeItem={this.props.activeItem}
+                    header="Test"
+                    isHeader
+                    link="/app/main/test"
+                    index="main"
+                    >
+                    <img
+                    src={accountIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                    />
+                </LinksGroup>
+              </>
+              :
+              null
+            :
+            null
+          }
 
-          <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Test"
-            isHeader
-            link="/app/main/test"
-            index="main"
-          >
-          <img
-            src={accountIcon}
-            alt="lightDashboard"
-            width={"24px"}
-            height={"24px"}
-          />
-          </LinksGroup>
+          
         </ul>
           {/* <h5 className={s.navTitle}>TEMPLATE</h5>
           <ul className={s.nav}>

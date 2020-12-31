@@ -137,8 +137,11 @@ export function receiveLogout() {
 // Logs the user out
 export function logoutUser() {
     return (dispatch) => {
-        dispatch(requestLogout());
         localStorage.removeItem('authenticated');
+        localStorage.removeItem('current_user');
+        localStorage.removeItem('loginUser');
+        dispatch(requestLogout());
+        
         dispatch(receiveLogout());
     };
 }
@@ -164,6 +167,7 @@ export function loginUser(creds) {
                     dispatch(receiveLogin());
                     localStorage.setItem('authenticated', true);
                     localStorage.setItem('current_user', response.data.user);
+                    localStorage.setItem('loginUser', JSON.stringify(response.data.user));
                     creds.history.push('/login');
                   }
               })

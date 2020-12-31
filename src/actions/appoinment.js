@@ -50,9 +50,21 @@ export const fetchAppoinmentFailure = error => ({
 });
 
 
-export function fetchAppoinment() {
+// export function fetchAppoinment() {
+//   return (dispatch) => {
+//     axios.get(config.baseURLApi+'get_appoinments')
+//         .then(function (response) {
+//           dispatch(fetchAppoinmentSuccess(response.data.data));
+//         })
+//         .catch(function (error) {
+//             dispatch(fetchAppoinmentFailure(error))
+//         })
+//     }
+// }
+
+export function fetchAppoinment(val = '') {
   return (dispatch) => {
-    axios.get(config.baseURLApi+'get_appoinments')
+    axios.post(config.baseURLApi+'get_appoinments',{appId : val})
         .then(function (response) {
           dispatch(fetchAppoinmentSuccess(response.data.data));
         })

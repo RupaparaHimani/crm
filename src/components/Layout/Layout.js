@@ -33,7 +33,7 @@ import Notifications from "../../pages/notifications/Notifications";
 import Icons from "../../pages/icons";
 import Tables from "../../pages/tables";
 import Charts from "../../pages/charts";
-
+var userLogin = ''
 class Layout extends React.Component {
   static propTypes = {
     sidebarStatic: PropTypes.bool,
@@ -91,6 +91,19 @@ class Layout extends React.Component {
     }
   }
 
+  componentWillMount() {
+     userLogin = JSON.parse(localStorage.getItem('loginUser'))
+     console.log("userLogin",userLogin)
+    // if(userLogin.user_type == null || userLogin.user_type == 'staff'){
+
+    // }
+    // else{
+    //   this.props.history.push('/app/main/dashboard')
+    // }
+
+
+  }
+
   render() {
     return (
       <div
@@ -115,21 +128,112 @@ class Layout extends React.Component {
                   classNames="fade"
                   timeout={200}
                 >
-                  <Switch>
-                    <Route
-                      path="/app/main"
-                      exact
-                      render={() => <Redirect to="/app/main/counsellor" />}
+                 <Switch>
+                {/* For Admin Start */}
+                {
+                    userLogin != ''
+                    ?
+                    userLogin.user_type == null 
+                    ?
+                    <>
+                        <Route path="/app/main" exact render={() => <Redirect to="/app/main/counsellor" />}
+                        />
+                        <Route path="/app/main/dashboard" exact component={Dashboard}
+                        />
+                        <Route  path="/app/main/counsellor"  exact component={Counsellor}
+                        />
+                        <Route path="/app/main/blog" exact component={Blog} />
+                        <Route path="/app/main/doctor" exact component={Doctor} />
+                        <Route path="/app/main/patient" exact component={Patient} />
+                        <Route path="/app/main/staff" exact component={Staff} />
+                        <Route path="/app/main/appointment" exact component={Appoiment} />
+                        <Route path="/app/main/program" exact component={Programe} />
+                        
+                        <Route path="/app/main/billing" exact component={Billing} />
+                        <Route path="/app/main/payment"  component={Payment} />
+                        <Route path="/app/main/test" exact component={Test} />
+                    </>
+                    :
+                    null
+                    
+                    :
+                    null
+                }
+
+                {/* For Admin End */}
+
+                {/* For Staff Start */}
+                {
+                    userLogin != ''
+                    ?
+                    userLogin.user_type == 'staff' 
+                    ?
+                    <>
+                        {/* <Route path="/app/main" exact render={() => <Redirect to="/app/main/counsellor" />}
+                        /> */}
+                        <Route path="/app/main/dashboard" exact component={Dashboard}
+                        />
+                        <Route path="/app/main/appointment" exact component={Appoiment} />
+                        <Route path="/app/main/patient" exact component={Patient} />
+
+                        {/* <Route  path="/app/main/counsellor"  exact component={Counsellor}
+                        />
+                        <Route path="/app/main/blog" exact component={Blog} />
+                        <Route path="/app/main/doctor" exact component={Doctor} />
+                        <Route path="/app/main/staff" exact component={Staff} />
+                        <Route path="/app/main/program" exact component={Programe} />
+                        <Route path="/app/main/billing" exact component={Billing} />
+                        <Route path="/app/main/payment"  component={Payment} />
+                        <Route path="/app/main/test" exact component={Test} /> */}
+                    </>
+                    :
+                    null
+                    
+                    :
+                    null
+                }
+
+                {/* For Staff End */}
+
+                {/* For Doctor Start */}
+                {
+                    userLogin != ''
+                    ?
+                    userLogin.user_type == 'doctor' 
+                    ?
+                    <>
+                        {/* <Route path="/app/main" exact render={() => <Redirect to="/app/main/counsellor" />}
+                        /> */}
+                        <Route path="/app/main/dashboard" exact component={Dashboard}
+                        />
+                        <Route path="/app/main/appointment" exact component={Appoiment} />
+                        <Route path="/app/main/program" exact component={Programe} />
+                        <Route path="/app/main/test" exact component={Test} />
+
+                        {/* <Route path="/app/main/patient" exact component={Patient} />
+                        <Route  path="/app/main/counsellor"  exact component={Counsellor}
+                        />
+                        <Route path="/app/main/blog" exact component={Blog} />
+                        <Route path="/app/main/doctor" exact component={Doctor} />
+                        <Route path="/app/main/staff" exact component={Staff} />
+                        <Route path="/app/main/billing" exact component={Billing} />
+                        <Route path="/app/main/payment"  component={Payment} /> */}
+                        
+                    </>
+                    :
+                    null
+                    
+                    :
+                    null
+                }
+
+                {/* For Staff End */}
+
+                    {/* <Route path="/app/main" exact render={() => <Redirect to="/app/main/counsellor" />}
                     />
-                    <Route
-                      path="/app/main/dashboard"
-                      exact
-                      component={Dashboard}
+                    <Route path="/app/main/dashboard" exact component={Dashboard}
                     />
-                    <Route
-                      path="/app/main/counsellor"
-                      exact
-                      component={Counsellor}
+                    <Route  path="/app/main/counsellor"  exact component={Counsellor}
                     />
                     <Route path="/app/main/blog" exact component={Blog} />
                     <Route path="/app/main/doctor" exact component={Doctor} />
@@ -137,10 +241,12 @@ class Layout extends React.Component {
                     <Route path="/app/main/staff" exact component={Staff} />
                     <Route path="/app/main/appointment" exact component={Appoiment} />
                     <Route path="/app/main/program" exact component={Programe} />
+                    
                     <Route path="/app/main/billing" exact component={Billing} />
                     <Route path="/app/main/payment"  component={Payment} />
-                    <Route path="/app/main/test" exact component={Test} />
-                    <Route path={"/app/typography"} component={Typography} />
+                    <Route path="/app/main/test" exact component={Test} /> */}
+                    
+                    {/* <Route path={"/app/typography"} component={Typography} />
                     <Route path={"/app/tables"} component={Tables} />
                     <Route path={"/app/ui/maps"} component={Maps} />
                     <Route
@@ -148,8 +254,8 @@ class Layout extends React.Component {
                       component={Notifications}
                     />
                     <Route path={"/app/ui/icons"} component={Icons} />
-                    <Route path={"/app/ui/charts"} component={Charts} />
-                  </Switch>
+                    <Route path={"/app/ui/charts"} component={Charts} /> */}
+                  </Switch> 
                 </CSSTransition>
               </TransitionGroup>
             </main>
