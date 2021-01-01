@@ -85,6 +85,7 @@
     "react-router-dom": "^4.3.1",
     "react-router-hash-link": "^1.2.1",
     "react-sparklines": "^1.7.0",
+    "react-to-pdf": "0.0.13",
     "react-toastify": "^5.5.0",
     "react-transition-group": "^2.5.2",
     "reactstrap": "7.1.0",

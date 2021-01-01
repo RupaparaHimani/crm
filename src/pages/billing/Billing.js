@@ -152,7 +152,7 @@ class Billing extends React.Component {
                     <th className="hidden-sm-down">Programe</th>
                     <th className="hidden-sm-down">Patient</th>
                     <th className="hidden-sm-down">Amount</th>
-                    {/* <th /> */}
+                    <th />
                   </tr>
                 </thead>
                 <tbody>
@@ -206,10 +206,12 @@ class Billing extends React.Component {
                       <Badge color="danger">{row.amount}</Badge>
                       }
                       </td>
-                      {/* <td>
-                        <a onClick={event => this.onEdit(event, row)}><img src={require("../../images/edit.png")} width="20" height="25" /></a>
-                     
-                      </td> */}
+                      <td>
+                        {/* <a onClick={event => this.onEdit(event, row)}><img src={require("../../images/edit.png")} width="20" height="25" /></a> */}
+                        <Link to={{pathname: `/pdfGen`, state: {row:row}}} >
+                          PDF
+                        </Link>
+                      </td>
                     </tr>
                   
                   )}

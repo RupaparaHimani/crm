@@ -1,0 +1,119 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #FAFAFA;
+    font: 12pt "Tahoma";
+}
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    margin: 10mm auto;
+    border-radius: 5px;
+    background: white;
+}
+
+
+@page {
+    size: A4;
+    margin: 5px;
+}
+@media print {
+    html, body {
+        width: 210mm;
+        height: 297mm;        
+    }
+    .page {
+        margin: 0;
+        border: initial;
+        border-radius: initial;
+        width: initial;
+        min-height: initial;
+        box-shadow: initial;
+        background: initial;
+        page-break-after: always;
+    }
+}
+
+.invoice-title #date {
+    display: block;
+    margin: 8px 0;
+    font-size: 12px;
+  }
+  
+  .invoice-title #main-title {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2em;
+  }
+  
+  .invoice-title #main-title h4 {
+    letter-spacing: 2.5px;
+  }
+  
+  .invoice-title span {
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .invoice-details {
+    flex: 1;
+    border-top: 0.5px dashed grey;
+    border-bottom: 0.5px dashed grey;
+    display: flex;
+    align-items: center;
+  }
+  
+  .invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .invoice-table thead tr td {
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: grey;
+    padding: 8px 0;
+  }
+  
+  .invoice-table thead tr td:nth-last-child(1),
+  .row-data td:nth-last-child(1),
+  .calc-row td:nth-last-child(1)
+  {
+    text-align: right;
+  }
+  
+  .invoice-table tbody tr td {
+      padding: 8px 0;
+      letter-spacing: 0;
+  }
+  
+  .invoice-table .row-data #unit {
+    text-align: center;
+  }
+  
+  .invoice-table .row-data span {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .generatePDF{
+    float: left;
+    margin: 80px;
+  }
+
+  .backBillingPDF{
+    float: Right;
+    margin: 80px;
+  }

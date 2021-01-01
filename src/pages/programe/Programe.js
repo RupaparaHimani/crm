@@ -653,7 +653,7 @@ class Programe extends React.Component {
         </ModalFooter>
         </Modal>
 
-        <Modal className="modal-lg" isOpen={this.state.modal1} toggle={this.toggle1} >
+        <Modal className="modal-xl" isOpen={this.state.modal1} toggle={this.toggle1} >
           <ModalHeader toggle={this.toggle1}>Assign Session</ModalHeader>
           <ModalBody>
             <Row>

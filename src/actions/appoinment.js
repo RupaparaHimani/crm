@@ -70,8 +70,8 @@ export function fetchAppoinment(val = '') {
         })
         .catch(function (error) {
             dispatch(fetchAppoinmentFailure(error))
-        })
-    }
+    })
+  }
 }
 
 export function createAppoinment(data) {
