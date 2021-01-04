@@ -12,7 +12,9 @@ import { fetchOrderedBilling,fetchService } from "../../actions/billing";
 import { fetchOfflineUsers,fetchDoctors } from "../../actions/user";
 import { toast, ToastContainer } from 'react-toastify';
 import Swal from 'sweetalert2';
-
+// import generatePDF from "../../services/reportGenerator";
+// import ReactToPdf from "jspdf";
+// import "jspdf-autotable";
 
 class Billing extends React.Component {
   constructor(props) {
@@ -20,11 +22,11 @@ class Billing extends React.Component {
     this.pageSize = 20;
     this.pagesCount = Math.ceil(this.props.ordered_billings.length / this.pageSize);
     this.state = {
-    
+
       currentPage: 0,
       pageSize : 20,
       pagesCount :  0
-      
+
     };
 
   }
@@ -42,7 +44,6 @@ class Billing extends React.Component {
   }
 
   componentDidMount() {
-
 
     // var num = Math.ceil(this.props.ordered_billings.length / this.state.pageSize)
     // console.log("num",num)
@@ -69,7 +70,7 @@ class Billing extends React.Component {
    onDropdownSetStateName(e) {
      this.setState({[e.target.name]: e.target.value})
    }
-  
+
 
   get_user_name = (condition) => {
     let fname = '';
@@ -111,7 +112,7 @@ class Billing extends React.Component {
           return fname
           };
 
-        
+
 
   get_doctor_name = (condition) => {
     let fname = '';
@@ -123,21 +124,28 @@ class Billing extends React.Component {
 
 
   handleClick(e, index) {
-    
+
     e.preventDefault();
 
     this.setState({
       currentPage: index
     });
-    
+
+  }
+
+  pdf = (event, row) => {
+
+    // var ary=[{question: 'ANB', answer: 'A'}]
+    // generatePDF(ary)
   }
 
   render() {
     const { currentPage } = this.state;
     var pagesCount = Math.ceil(this.props.ordered_billings.length / this.state.pageSize)
-    
+
     return (
       <div className={s.root}>
+
       <ToastContainer />
         <Row>
           <Col xl={12} >
@@ -162,7 +170,7 @@ class Billing extends React.Component {
                     currentPage * this.state.pageSize,
                     (currentPage + 1) * this.state.pageSize
                   )
-                  .map((row, i) => 
+                  .map((row, i) =>
                     <tr style={{cursor: 'pointer'}}  key={i}  >
                       <td >{row.id}</td>
                       <td  >
@@ -179,8 +187,8 @@ class Billing extends React.Component {
                           this.get_test_name(row.testID)
                           :
                             this.get_paid_tests_name(row.testID) != ''
-                            ? 
-                            this.get_paid_tests_name(row.testID) 
+                            ?
+                            this.get_paid_tests_name(row.testID)
                             :
                             row.testID
                         }
@@ -213,26 +221,26 @@ class Billing extends React.Component {
                         </Link>
                       </td>
                     </tr>
-                  
+
                   )}
                 </tbody>
               </Table>
 
               <div className="pagination-wrapper" style={{float: 'right',fontSize: '20px'}} >
-                
+
                 <Pagination aria-label="Page navigation example">
-                  
+
                   <PaginationItem disabled={currentPage <= 0}>
-                    
+
                     <PaginationLink
                       onClick={e => this.handleClick(e, currentPage - 1)}
                       previous
                       href="#"
                     />
-                    
+
                   </PaginationItem>
 
-                  {[...Array(pagesCount)].map((page, i) => 
+                  {[...Array(pagesCount)].map((page, i) =>
                     <PaginationItem active={i === currentPage} key={i}>
                       <PaginationLink onClick={e => this.handleClick(e, i)} href="#">
                         {i + 1}
@@ -241,17 +249,17 @@ class Billing extends React.Component {
                   )}
 
                   <PaginationItem disabled={currentPage >= pagesCount - 1}>
-                    
+
                     <PaginationLink
                       onClick={e => this.handleClick(e, currentPage + 1)}
                       next
                       href="#"
                     />
-                    
+
                   </PaginationItem>
-                  
+
                 </Pagination>
-                
+
               </div>
             </Widget>
             : <p style={{ fontWeight: 700 }}>NO DATA FOUND</p> }

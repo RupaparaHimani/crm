@@ -31,11 +31,13 @@ export function fetchBlogs() {
           const mimeType = 'image/png';
           var ary=[];
           response.data.data.map((res, index) => {
-            const buffer = res.image;
-            const b64 = new Buffer(buffer).toString('base64')
-            var url = `data:${mimeType};base64,${b64}`;
-            
-            ary.push({'id': res.id, url: url })
+            console.log(res.image);
+            if(res.image != null){
+              const buffer = res.image;
+              const b64 = new Buffer(buffer).toString('base64')
+              var url = `data:${mimeType};base64,${b64}`;
+              ary.push({'id': res.id, url: url })
+            }
           })
           dispatch(fetchBlogsSuccess(response.data.data, ary));
           return response.data.data;
@@ -87,13 +89,13 @@ export function updateBlog(data) {
     else{
       formData.append('updateImage', 'false')
     }
-    
+
     formData.append('title', data.title)
     formData.append('description', data.description)
 
-    // axios.post(config.baseURLApi+'updateBlog', formData, { // receive two parameter endpoint url ,form data 
+    // axios.post(config.baseURLApi+'updateBlog', formData, { // receive two parameter endpoint url ,form data
     // })
-    axios.post(config.baseURLApi+'updateBlog', formData, { // receive two parameter endpoint url ,form data 
+    axios.post(config.baseURLApi+'updateBlog', formData, { // receive two parameter endpoint url ,form data
     })
     .then((response) => {
       dispatch(fetchBlogs())
@@ -119,9 +121,14 @@ export function getBlog(data) {
       })
     .then((response) => {
       const mimeType = 'image/*';
+      var ary = '';
       const buffer = response.data.data.image;
-      const b64 = new Buffer(buffer).toString('base64')
-      var ary=`data:${mimeType};base64,${b64}`
+      console.log(buffer);
+      if(response.data.data.image != null){
+        console.log("if");
+        const b64 = new Buffer(buffer).toString('base64')
+        ary=`data:${mimeType};base64,${b64}`
+      }
 
       dispatch(editBlogsSuccess(response.data.data, ary));
       return response.data.data;

@@ -57,7 +57,7 @@ class Counsellor extends React.Component {
         toast.error("Please upload only PDF File");
         return
       }
-      
+
 
   }
 
@@ -74,11 +74,11 @@ class Counsellor extends React.Component {
     event.preventDefault();
 
     if(this.state.id != 0){
-      const data = new FormData() 
-    
+      const data = new FormData()
+
       data.append('id', this.state.id)
       data.append('file', this.state.selectedFile)
-      axios.post(config.baseURLApi+'uploadCounsellorPdf', data, { // receive two parameter endpoint url ,form data 
+      axios.post(config.baseURLApi+'uploadCounsellorPdf', data, { // receive two parameter endpoint url ,form data
       })
       .then(res => { // then print response status
 
@@ -87,11 +87,11 @@ class Counsellor extends React.Component {
           modal: false,
           selectedFile : null
         })
-        
+
         Swal.fire({
             icon: 'success',
             type: 'success',
-            text: 'New Program added successfully!',
+            text: 'Document uploaded successfully!',
             showConfirmButton: true,
             timer: 2000
         });
@@ -100,7 +100,7 @@ class Counsellor extends React.Component {
       })
 
     }
-    
+
   }
 
   render() {
@@ -137,8 +137,8 @@ class Counsellor extends React.Component {
                         :
                         <a onClick={event => this.onUpload(event, counsellor)}><img src={require("../../images/upload_file.png")} width="25" height="25" /></a>
                       }
-                      
-                      
+
+
                     </td>
                   </tr>)
                 : ''}
@@ -149,7 +149,7 @@ class Counsellor extends React.Component {
           </Col>
         </Row>
         <Modal isOpen={this.state.modal} toggle={this.toggle} >
-          <ModalHeader toggle={this.toggle}>Create Programe</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Upload course document</ModalHeader>
           <ModalBody>
             <div className="form-group">
               <label htmlFor="purpose">Become A Counsellor(Course)</label>
@@ -159,9 +159,9 @@ class Counsellor extends React.Component {
               onChange={(e) => this.onDropdownSetStateName(e) }
               required
               /> */}
-              <Input 
-                type="file" 
-                name="file" 
+              <Input
+                type="file"
+                name="file"
                 onChange={this.onChangeHandler}
                 accept="application/pdf"
               />

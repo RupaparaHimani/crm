@@ -16,7 +16,7 @@ const ref = React.createRef();
 
 // function pdfGen() {
 class pdfGen extends React.Component {
-    
+
     constructor(props) {
         super(props);
 
@@ -24,7 +24,7 @@ class pdfGen extends React.Component {
 
             Data : ''
         };
-    
+
       }
 
     get_user_name = (condition) => {
@@ -34,7 +34,7 @@ class pdfGen extends React.Component {
           ))
         return fname
         };
-    
+
         get_program_name = (condition) => {
           let fname = '';
             this.props.allProgram.filter((e) => e.id === condition).map((key, i) => (
@@ -42,7 +42,7 @@ class pdfGen extends React.Component {
             ))
           return fname
           };
-    
+
           get_test_name = (condition) => {
           let fname = '';
             this.props.tests.filter((e) => e.id === condition).map((key, i) => (
@@ -50,7 +50,7 @@ class pdfGen extends React.Component {
             ))
           return fname
           };
-    
+
           get_paid_tests_name = (condition) => {
             let fname = '';
               this.props.paid_tests.filter((e) => e.id === condition).map((key, i) => (
@@ -58,7 +58,7 @@ class pdfGen extends React.Component {
               ))
             return fname
             };
-    
+
             get_service_name = (condition) => {
               let fname = '';
                 this.props.allServices.filter((e) => e.id === condition).map((key, i) => (
@@ -66,9 +66,9 @@ class pdfGen extends React.Component {
                 ))
               return fname
               };
-    
-            
-    
+
+
+
       get_doctor_name = (condition) => {
         let fname = '';
           this.props.doctors.filter((e) => e.id === condition).map((key, i) => (
@@ -78,8 +78,8 @@ class pdfGen extends React.Component {
         };
         componentWillMount() {
 
-            
-            
+
+
           }
     componentDidMount(){
         if(this.props.location.state == 'undefined'){
@@ -87,7 +87,7 @@ class pdfGen extends React.Component {
             // this.props.history.push({
             //     pathname: '/app/main/billing',
             //     // search: '?query=abc',
-            //     // state: { detail: 'some_value' 
+            //     // state: { detail: 'some_value'
             //     // }
             // });
             console.log("here comes");
@@ -110,7 +110,7 @@ class pdfGen extends React.Component {
     }
     onvertDateFormate = (val) =>{
         var date = new Date(val);
-    
+
         var formatedDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
         return formatedDate;
       }
@@ -118,14 +118,14 @@ class pdfGen extends React.Component {
 
         // {
         //     this.props.location.state == undefined
-        //     ? 
+        //     ?
         //     <Redirect to="/app/main/billing" />
         //     :
         //     console.log("PDF val",this.props.location.state)
-            
+
         // }
         const {row} = this.props.location.state != undefined ? this.props.location.state : this.state.Data
-        
+
         return (
 
             <div className="App">
@@ -139,8 +139,8 @@ class pdfGen extends React.Component {
                         </Link>
               </Button>
 
-              
-              
+
+
               <div class="page" ref={ref}>
                 <div class="invoice-card">
                     <div class="invoice-title">
@@ -148,10 +148,10 @@ class pdfGen extends React.Component {
                         <h4>INVOICE</h4>
                         <span>#{typeof row.id != undefined ? row.id : '' }</span>
                         </div>
-                        
+
                         <span id="date">{typeof row.order_time != undefined ? this.onvertDateFormate(row.order_time) : '' }</span>
                     </div>
-                    
+
                     <div class="invoice-details">
                         <table class="invoice-table">
                         <thead>
@@ -161,10 +161,10 @@ class pdfGen extends React.Component {
                             <td>Total AMOUNT</td>
                             </tr>
                         </thead>
-                        
+
                         <tbody>
                             <tr class="row-data">
-                            <td>$ <span>{
+                            <td><span>{
                           row.programID !== null
                           ?
                           this.get_program_name(row.programID)
@@ -177,8 +177,8 @@ class pdfGen extends React.Component {
                           this.get_test_name(row.testID)
                           :
                             this.get_paid_tests_name(row.testID) != ''
-                            ? 
-                            this.get_paid_tests_name(row.testID) 
+                            ?
+                            this.get_paid_tests_name(row.testID)
                             :
                             row.testID
                         }
@@ -197,7 +197,7 @@ class pdfGen extends React.Component {
                             <td colspan="2">Paid Amount</td>
                             <td>{typeof row.amount != undefined ? row.amount : '' }</td>
                             </tr>
-                            
+
                             <tr class="calc-row">
                             <td colspan="2">Pending Amount</td>
                             <td>{typeof row.amount != undefined ? row.totalAmount - row.amount : '' }</td>
@@ -205,13 +205,13 @@ class pdfGen extends React.Component {
                         </tbody>
                         </table>
                     </div>
-                    
+
                 </div>
                 </div>
             </div>
         );
-    }  
-  
+    }
+
 }
 
 const mapStateToProps = state => ({
@@ -226,10 +226,10 @@ const mapStateToProps = state => ({
     allProgram : state.program.allProgram,
     ordered_billings  : state.billing.ordered_billings,
     allServices : state.billing.allServices
-  
-  
+
+
   });
-  
+
   export default withRouter(connect(mapStateToProps)(pdfGen));
 
 // export default pdfGen

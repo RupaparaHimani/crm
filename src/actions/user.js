@@ -303,10 +303,27 @@ export function deleteUser(data) {
       url: config.baseURLApi+"delete_user/"+data.id,
       })
     .then((response) => {
-      dispatch(deleteUserSuccess(response.data.id));
+      if (response.data.message == "Not able to delete this user is used."){
+        Swal.fire({
+            icon: 'error',
+            type: 'error',
+            text: response.data.message,
+            showConfirmButton: true,
+            timer: 2000
+        });
+      }else{
+        dispatch(deleteUserSuccess(response.data.id));
+      }
     })
     .catch((error) => {
+      console.log("fail");
       dispatch(deleteUserFailer(error))
     });
     }
-}
+}Swal.fire({
+    icon: 'success',
+    type: 'success',
+    text: 'Update successfully!',
+    showConfirmButton: true,
+    timer: 2000
+});

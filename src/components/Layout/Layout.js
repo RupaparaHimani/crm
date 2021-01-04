@@ -133,7 +133,7 @@ class Layout extends React.Component {
                 {
                     userLogin != ''
                     ?
-                    userLogin.user_type == null 
+                    userLogin.user_type == "''" 
                     ?
                     <>
                         <Route path="/app/main" exact render={() => <Redirect to="/app/main/counsellor" />}
@@ -148,14 +148,14 @@ class Layout extends React.Component {
                         <Route path="/app/main/staff" exact component={Staff} />
                         <Route path="/app/main/appointment" exact component={Appoiment} />
                         <Route path="/app/main/program" exact component={Programe} />
-                        
+
                         <Route path="/app/main/billing" exact component={Billing} />
                         <Route path="/app/main/payment"  component={Payment} />
                         <Route path="/app/main/test" exact component={Test} />
                     </>
                     :
                     null
-                    
+
                     :
                     null
                 }
@@ -166,7 +166,7 @@ class Layout extends React.Component {
                 {
                     userLogin != ''
                     ?
-                    userLogin.user_type == 'staff' 
+                    userLogin.user_type == 'staff'
                     ?
                     <>
                         {/* <Route path="/app/main" exact render={() => <Redirect to="/app/main/counsellor" />}
@@ -188,7 +188,7 @@ class Layout extends React.Component {
                     </>
                     :
                     null
-                    
+
                     :
                     null
                 }
@@ -199,7 +199,7 @@ class Layout extends React.Component {
                 {
                     userLogin != ''
                     ?
-                    userLogin.user_type == 'doctor' 
+                    userLogin.user_type == 'doctor'
                     ?
                     <>
                         {/* <Route path="/app/main" exact render={() => <Redirect to="/app/main/counsellor" />}
@@ -218,11 +218,11 @@ class Layout extends React.Component {
                         <Route path="/app/main/staff" exact component={Staff} />
                         <Route path="/app/main/billing" exact component={Billing} />
                         <Route path="/app/main/payment"  component={Payment} /> */}
-                        
+
                     </>
                     :
                     null
-                    
+
                     :
                     null
                 }
@@ -241,11 +241,11 @@ class Layout extends React.Component {
                     <Route path="/app/main/staff" exact component={Staff} />
                     <Route path="/app/main/appointment" exact component={Appoiment} />
                     <Route path="/app/main/program" exact component={Programe} />
-                    
+
                     <Route path="/app/main/billing" exact component={Billing} />
                     <Route path="/app/main/payment"  component={Payment} />
                     <Route path="/app/main/test" exact component={Test} /> */}
-                    
+
                     {/* <Route path={"/app/typography"} component={Typography} />
                     <Route path={"/app/tables"} component={Tables} />
                     <Route path={"/app/ui/maps"} component={Maps} />
@@ -255,7 +255,7 @@ class Layout extends React.Component {
                     />
                     <Route path={"/app/ui/icons"} component={Icons} />
                     <Route path={"/app/ui/charts"} component={Charts} /> */}
-                  </Switch> 
+                  </Switch>
                 </CSSTransition>
               </TransitionGroup>
             </main>

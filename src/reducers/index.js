@@ -8,6 +8,7 @@ import test from './test';
 import appoinment from './appoinment';
 import program from './program';
 import billing from './billing';
+import referral from './referral';
 
 export default combineReducers({
   alerts,
@@ -18,5 +19,6 @@ export default combineReducers({
   test,
   appoinment,
   program,
-  billing
+  billing,
+  referral
 });

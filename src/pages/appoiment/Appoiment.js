@@ -58,7 +58,7 @@ class Appoiment extends React.Component {
     this.props.dispatch(fetchDoctors());
     // this.createShiftItemsForDoctors()
   }
-  
+
 
   onFileChange = event => {
     Swal.fire({
@@ -100,7 +100,7 @@ class Appoiment extends React.Component {
     // this.props.dispatch(getAppoinment({id: row.id}));
     // this.props.dispatch(getAppoinmentDrTime({doctorID : row.doctorID}))
 
-    
+
 
     this.setState({ modal: true})
     var date = new Date(row.date);
@@ -189,18 +189,18 @@ class Appoiment extends React.Component {
 
    createIntervalTimeForDoctors = () => {
 
-    
-    
+
+
     // var j = [];
     // var l = parseInt(res[0]);
     // var m = 0;
     // for(var i = 0; i < resTime; i++ ){
     //   l = parseInt(res[0]) + i + 1;
     //   m = parseInt(res[0]) + i;
-      
+
     //   j.push('<li>'+m+'-'+l+'</li>');
     // }
-    
+
 
       let items = [];
       let newItems = []
@@ -211,7 +211,7 @@ class Appoiment extends React.Component {
       var l = parseInt(res[0]);
       var m = 0;
 
-      
+
       if(resTime > 0){
         items.push(<option key={0} value='default'>Default</option>);
         for (let i = 0;  i < resTime; i++) {
@@ -232,7 +232,7 @@ class Appoiment extends React.Component {
           //     // if(formated_Date1 == this.state.ShiftDate){
 
           //       // if(val.doctorID == this.state.user_Doctor){
-                    
+
           //         if(val.patientID == this.state.user_Patient ){
 
           //             // if(opt != val.interval_time){
@@ -247,10 +247,10 @@ class Appoiment extends React.Component {
           //           if(opt != val.interval_time){
 
           //             items.push(<option key={i} value={opt}>{opt}</option>);
-          //             return 
+          //             return
           //           }
           //       }
-                
+
           //     //   }
 
           //     // }
@@ -259,24 +259,24 @@ class Appoiment extends React.Component {
           //         //   items.push(<option key={i} value={opt}>{opt}</option>);
           //         // }
           //         // else if(val.doctorID == this.state.user_Doctor && opt == val.interval_time && formated_Date1 == this.state.ShiftDate ){
-                    
+
           //         // }
           //         // else if(val.doctorID == this.state.user_Doctor && opt != val.interval_time && formated_Date1 == this.state.ShiftDate ){
           //         //   items.push(<option key={i} value={opt}>{opt}</option>);
           //         // }
           //         // else{
-                   
-          //         // }
-                  
 
-                
+          //         // }
+
+
+
           //   })
           // }
           // else{
             // items.push(<option key={i} value={opt}>{opt}</option>);
             newItems.push(opt)
           // }
-            
+
         }
       }
 
@@ -288,7 +288,7 @@ class Appoiment extends React.Component {
 
           // console.log("opts_"+i,key,val,this.state.user_Doctor,this.state.user_Patient,formated_Date1,this.state.ShiftDate,opt,val.interval_time)
 
-                
+
             //   if(val.patientID == this.state.user_Patient ){
 
             //       // if(opt != val.interval_time){
@@ -303,9 +303,9 @@ class Appoiment extends React.Component {
             //     if(opt != val.interval_time){
 
             //       items.push(<option key={i} value={opt}>{opt}</option>);
-            //       return 
+            //       return
             //     }
-            // }              
+            // }
             newItems.forEach((value,index,object)=>{
                   if(value == val.interval_time){
 
@@ -315,13 +315,13 @@ class Appoiment extends React.Component {
                     // else{
                       object.splice(index, 1)
                     // }
-                      
+
                   }
                   // else{
                   //   items.push(<option key={index} value={value}>{value}</option>);
                   // }
             })
-            
+
         })
       }
 
@@ -329,10 +329,10 @@ class Appoiment extends React.Component {
 
 
             items.push(<option key={index} value={value}>{value}</option>);
-          
+
         })
-      
-        
+
+
       console.log("newItems",newItems)
       return items;
    }
@@ -346,7 +346,7 @@ class Appoiment extends React.Component {
        this.setState({user_Doctor: e.target.value, Doctor_shift : ''})
       //  this.createShiftItemsForDoctors()
       // this.props.dispatch(getAppoinmentDrTime({doctorID : this.state.user_Doctor}))
-      
+
    }
 
    onDropdownShiftItemsForDoctors(e) {
@@ -490,7 +490,7 @@ class Appoiment extends React.Component {
       weekDay : '',
       Doctor_shift : '',
       interval_time : '',
-      ShiftDate : '', 
+      ShiftDate : '',
       AllShift : [] ,
       id : 0
     })
@@ -499,7 +499,7 @@ class Appoiment extends React.Component {
     // var date = new Date();
     // var formated_Date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()-1}`
 
-    // this.setState({ 
+    // this.setState({
     //   user_Patient: this.state.patientID,
     //   user_Doctor: this.state.doctorID,
     //   ShiftDate: formated_Date,
@@ -579,13 +579,13 @@ class Appoiment extends React.Component {
   // };
 
   handleClick(e, index) {
-    
+
     e.preventDefault();
 
     this.setState({
       currentPage: index
     });
-    
+
   }
 
   render() {
@@ -643,7 +643,7 @@ class Appoiment extends React.Component {
     //     ),
     //   },
     // ];
-  
+
     return (
       <div className={s.root}>
       <ToastContainer />
@@ -660,10 +660,10 @@ class Appoiment extends React.Component {
             >
               <Table columns={columns} dataSource={appoinments} />
             </Widget>
-            : <p style={{ fontWeight: 700 }}>NO DATA FOUND</p> 
-            
+            : <p style={{ fontWeight: 700 }}>NO DATA FOUND</p>
+
           }
-          
+
           </Col>
         </Row> */}
 
@@ -713,20 +713,20 @@ class Appoiment extends React.Component {
                 </tbody>
               </Table>
               <div className="pagination-wrapper" style={{float: 'right',fontSize: '20px'}} >
-                
+
                 <Pagination aria-label="Page navigation example">
-                  
+
                   <PaginationItem disabled={currentPage <= 0}>
-                    
+
                     <PaginationLink
                       onClick={e => this.handleClick(e, currentPage - 1)}
                       previous
                       href="#"
                     />
-                    
+
                   </PaginationItem>
 
-                  {[...Array(pagesCount)].map((page, i) => 
+                  {[...Array(pagesCount)].map((page, i) =>
                     <PaginationItem active={i === currentPage} key={i}>
                       <PaginationLink onClick={e => this.handleClick(e, i)} href="#">
                         {i + 1}
@@ -735,24 +735,24 @@ class Appoiment extends React.Component {
                   )}
 
                   <PaginationItem disabled={currentPage >= pagesCount - 1}>
-                    
+
                     <PaginationLink
                       onClick={e => this.handleClick(e, currentPage + 1)}
                       next
                       href="#"
                     />
-                    
+
                   </PaginationItem>
-                  
+
                 </Pagination>
-                
+
               </div>
             </Widget>
             : <p style={{ fontWeight: 700 }}>NO DATA FOUND</p> }
           </Col>
         </Row>
         <Modal isOpen={this.state.modal} toggle={this.toggle} >
-          <ModalHeader toggle={this.toggle}>Create Appointment</ModalHeader>
+          <ModalHeader toggle={this.toggle}>{this.state.id == 0 ? 'Create Appointment' : 'Edit Appointment' }</ModalHeader>
           <ModalBody>
             <div className="form-group">
               <label htmlFor="user">Patients</label>
@@ -803,7 +803,7 @@ class Appoiment extends React.Component {
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={(event) => this.createAppoinment(event)}>Create</Button>{' '}
+            <Button color="primary" onClick={(event) => this.createAppoinment(event)}>{this.state.id == 0 ? 'Create' : 'Update' }</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
         </ModalFooter>
       </Modal>

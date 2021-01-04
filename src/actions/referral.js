@@ -3,6 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 export const FETCH_REFERRAL_BEGIN   = 'FETCH_REFERRAL_BEGIN';
 export const FETCH_REFERRAL_SUCCESS = 'FETCH_REFERRAL_SUCCESS';
+export const FETCH_DOCTOR_REFERRAL_SUCCESS = 'FETCH_DOCTOR_REFERRAL_SUCCESS';
 export const EDIT_REFERRAL_SUCCESS = 'EDIT_REFERRAL_SUCCESS';
 export const FETCH_REFERRAL_FAILURE = 'FETCH_REFERRAL_FAILURE';
 export const CREATE_REFERRAL_SUCCESS = 'CREATE_REFERRAL_SUCCESS';
@@ -16,6 +17,11 @@ export const fetchReferralBegin = () => ({
 export const fetchReferralSuccess = (referrals) => ({
   type: FETCH_REFERRAL_SUCCESS,
   payload: { referrals }
+});
+
+export const fetchDoctorReferralSuccess = (doctor_referrals) => ({
+  type: FETCH_DOCTOR_REFERRAL_SUCCESS,
+  payload: { doctor_referrals }
 });
 
 export const updateReferralSuccess = (referral) => ({
@@ -53,6 +59,24 @@ export function fetchReferral() {
         .catch(function (error) {
             dispatch(fetchReferralFailure(error))
         })
+    }
+}
+
+export function fetchDoctorReferral(data) {
+  return (dispatch) => {
+    axios({
+      method: 'get',
+      url: config.baseURLApi+'get_doctors_referrals',
+      params: {
+         refer_to_name: `${data}`,
+      }
+    })
+    .then(function (response) {
+      dispatch(fetchDoctorReferralSuccess(response.data.data));
+    })
+    .catch(function (error) {
+        dispatch(fetchReferralFailure(error))
+    })
     }
 }
 

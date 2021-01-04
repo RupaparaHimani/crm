@@ -78,12 +78,12 @@ class Sidebar extends React.Component {
           </header>
           {/*<h5 className={s.navTitle}>APP</h5> */}
           <ul className={s.nav}>
-        
+
         {/* ADMIN Start */}
           {
             userLogin != ''
             ?
-            userLogin.user_type == null
+            userLogin.user_type == "''"
               ?
               <>
               <LinksGroup
@@ -287,16 +287,16 @@ class Sidebar extends React.Component {
             null
           }
          {/* ADMIN End  */}
-             
 
-            
+
+
 
 
           {
             userLogin != ''
             ?
             userLogin.user_type == 'staff'
-              ? 
+              ?
             <>
               <LinksGroup
                 onActiveSidebarItemChange={activeItem =>
@@ -364,11 +364,11 @@ class Sidebar extends React.Component {
             :
             null
           }
-          
 
 
-          
-          
+
+
+
 
           {
             userLogin != ''
@@ -460,7 +460,7 @@ class Sidebar extends React.Component {
             null
           }
 
-          
+
         </ul>
           {/* <h5 className={s.navTitle}>TEMPLATE</h5>
           <ul className={s.nav}>

@@ -82,16 +82,18 @@ class Counsellor extends React.Component {
     console.log(val)
     const mimeType = 'image/png';
     const buffer = val.image;
-    const b64 = new Buffer(buffer).toString('base64')
-    var url = `data:${mimeType};base64,${b64}`;
-    this.setState({ 
+    var url = ''
+    if(buffer != null){
+      const b64 = new Buffer(buffer).toString('base64')
+      url = `data:${mimeType};base64,${b64}`;
+    }
+    this.setState({
       id : val.id,
-      modal: true, 
+      modal: true,
       updateImage : false,
       title: val.title,
       description: val.description,
       imgUrl : url,
-    
     })
 
 
@@ -119,7 +121,7 @@ class Counsellor extends React.Component {
         {blogs.map((blog) =>
           <Col  style={{ paddingBottom: '10px'}} xl={4} key={blog.id}>
           <Card>
-            <CardImg top width="100%" src={ imageURLs.find(x => x.id === blog.id).url} alt="Card image cap" />
+            <CardImg top width="100%" height="270px" src={ imageURLs.find(x => x.id === blog.id) != undefined ?  imageURLs.find(x => x.id === blog.id).url : require('../../images/blog_default.png')} alt="Card image cap" />
             <CardBody>
               <CardTitle tag="h5">{blog.title}</CardTitle>
               <CardText style={{"display":"-webkit-box","maxWidth":"250px","WebkitLineClamp":"3","WebkitBoxOrient":"vertical","overflow":"hidden","textOverflow":"ellipsis"}}><div dangerouslySetInnerHTML={{__html: blog.description}}></div></CardText>
@@ -136,7 +138,8 @@ class Counsellor extends React.Component {
         ) }
         </Row>
         <Modal isOpen={this.state.modal} toggle={this.toggle} >
-          <ModalHeader toggle={this.toggle}>Create New Blog</ModalHeader>
+          <ModalHeader toggle={this.toggle}>
+          {this.state.id == 0 ? 'Create New Blog' : 'Edit Blog'} </ModalHeader>
           <ModalBody>
           <div className="form-group">
             <label htmlFor="name">Title</label>
@@ -144,16 +147,16 @@ class Counsellor extends React.Component {
           </div>
             <label htmlFor="des">description</label>
             <ReactQuill value={this.state.description} onChange={this.onDescChange} style={{marginBottom: '35px', width: '100%'}}/>
-            {this.state.imgUrl != null ?
+            { /*this.state.imgUrl != null || this.state.imgUrl != '' ?
               <img src={this.state.imgUrl} width="100" height="100" />
-            : ''}
+            : '' */}
             <div className="form-group">
               <label htmlFor="image">Image : </label>
               <input type="file" id="image" onChange={(event) => this.onFileChange(event)}/>
             </div>
             </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={(event) => this.createBlog(event)}>Create</Button>{' '}
+            <Button color="primary" onClick={(event) => this.createBlog(event)}>{this.state.id == 0 ? 'Create' : 'Update'}</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
         </ModalFooter>
       </Modal>

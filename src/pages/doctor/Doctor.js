@@ -3,7 +3,7 @@ import { Row, Col, Modal, ModalHeader, ModalBody, ModalFooter,  Table, Button } 
 import { withRouter, Redirect, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
-import { createReferral } from "../../actions/referral";
+import { createReferral, fetchDoctorReferral } from "../../actions/referral";
 import s from "./Dashboard.module.scss";
 import Widget from "../../components/Widget";
 import stocksImg from "../../images/stocks.svg";
@@ -66,7 +66,18 @@ class Doctor extends React.Component {
 
   componentDidMount() {
     this.props.dispatch(fetchUsers('doctor'));
+    this.props.dispatch(fetchUsers('patient'));
   }
+
+  get_user_name = (condition) => {
+    //console.log("condition",this.props.users,condition);
+    let fname = '';
+      this.props.users.filter((e) => e.id === condition).map((key, i) => (
+        fname = key.first_name + " " + key.last_name
+      ))
+    return fname
+    };
+
 
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -216,31 +227,31 @@ class Doctor extends React.Component {
   onNameChangeFun = (e,name) => {
     this.setState({[name]: e.target.value})
 
-    
-    
+
+
     if(name == 'toTimeMon1' || name == 'fromTimeMon1'){
       //console.log("timeArrtimeArr",this.state.toTimeMon1,this.state.fromTimeMon1)
       var localDate1 = new Date();
       var localDate2 = new Date();
-  
+
       if(name == 'toTimeMon1'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker =  e.target.value;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-        
+
       }
       else if(this.state.toTimeMon1 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeMon1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
+
       if(name == 'fromTimeMon1'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = e.target.value;
@@ -250,13 +261,13 @@ class Doctor extends React.Component {
       }else if(this.state.fromTimeMon1 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeMon1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
-      
+
+
       // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeMon1 != '' && this.state.fromTimeMon1 != ''){
         if(localDate1 > localDate2){
@@ -265,32 +276,32 @@ class Doctor extends React.Component {
           this.setState({[name]: ''})
         }
       }
-      
+
     }
 
     if(name == 'toTimeMon2' || name == 'fromTimeMon2'){
       //console.log("timeArrtimeArr",this.state.toTimeMon2,this.state.fromTimeMon2)
       var localDate3 = new Date();
       var localDate4 = new Date();
-  
+
       if(name == 'toTimeMon2'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker =  e.target.value;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-        
+
       }
       else if(this.state.toTimeMon2 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeMon2;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
+
       if(name == 'fromTimeMon2'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = e.target.value;
@@ -300,27 +311,27 @@ class Doctor extends React.Component {
       }else if(this.state.fromTimeMon2 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeMon2;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
 
-      
+
       if(this.state.toTimeMon1 != '' && this.state.fromTimeMon1 != ''){
         var localDate1 = new Date();
         var localDate2 = new Date();
 
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeMon1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
 
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeMon1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
@@ -335,8 +346,8 @@ class Doctor extends React.Component {
         }
       }
 
-  
-      
+
+
       // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeMon1 != '' && this.state.fromTimeMon1 != ''){
         if(localDate3 > localDate4){
@@ -345,32 +356,32 @@ class Doctor extends React.Component {
           this.setState({[name]: ''})
         }
       }
-      
+
     }
 
     if(name == 'toTimeTue1' || name == 'fromTimeTue1'){
       //console.log("timeArrtimeArr",this.state.toTimeTue1,this.state.fromTimeTue1)
       var localDate1 = new Date();
       var localDate2 = new Date();
-  
+
       if(name == 'toTimeTue1'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker =  e.target.value;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-        
+
       }
       else if(this.state.toTimeTue1 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeTue1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
+
       if(name == 'fromTimeTue1'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = e.target.value;
@@ -380,13 +391,13 @@ class Doctor extends React.Component {
       }else if(this.state.fromTimeTue1 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeTue1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
-      
+
+
       // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeTue1 != '' && this.state.fromTimeTue1 != ''){
         if(localDate1 > localDate2){
@@ -395,32 +406,32 @@ class Doctor extends React.Component {
           this.setState({[name]: ''})
         }
       }
-      
+
     }
-  
+
     if(name == 'toTimeTue2' || name == 'fromTimeTue2'){
       //console.log("timeArrtimeArr",this.state.toTimeTue2,this.state.fromTimeTue2)
       var localDate3 = new Date();
       var localDate4 = new Date();
-  
+
       if(name == 'toTimeTue2'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker =  e.target.value;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-        
+
       }
       else if(this.state.toTimeTue2 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeTue2;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
+
       if(name == 'fromTimeTue2'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = e.target.value;
@@ -430,7 +441,7 @@ class Doctor extends React.Component {
       }else if(this.state.fromTimeTue2 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeTue2;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
@@ -442,14 +453,14 @@ class Doctor extends React.Component {
 
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeTue1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
 
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeTue1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
@@ -463,8 +474,8 @@ class Doctor extends React.Component {
           }
         }
       }
-  
-      
+
+
       // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeTue1 != '' && this.state.fromTimeTue1 != ''){
         if(localDate3 > localDate4){
@@ -473,32 +484,32 @@ class Doctor extends React.Component {
           this.setState({[name]: ''})
         }
       }
-      
+
     }
 
     if(name == 'toTimeWen1' || name == 'fromTimeWen1'){
       //console.log("timeArrtimeArr",this.state.toTimeWen1,this.state.fromTimeWen1)
       var localDate1 = new Date();
       var localDate2 = new Date();
-  
+
       if(name == 'toTimeWen1'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker =  e.target.value;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-        
+
       }
       else if(this.state.toTimeWen1 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeWen1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
+
       if(name == 'fromTimeWen1'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = e.target.value;
@@ -508,13 +519,13 @@ class Doctor extends React.Component {
       }else if(this.state.fromTimeWen1 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeWen1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
-      
+
+
       // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeWen1 != '' && this.state.fromTimeWen1 != ''){
         if(localDate1 > localDate2){
@@ -523,32 +534,32 @@ class Doctor extends React.Component {
           this.setState({[name]: ''})
         }
       }
-      
+
     }
-  
+
     if(name == 'toTimeWen2' || name == 'fromTimeWen2'){
       //console.log("timeArrtimeArr",this.state.toTimeWen2,this.state.fromTimeWen2)
       var localDate3 = new Date();
       var localDate4 = new Date();
-  
+
       if(name == 'toTimeWen2'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker =  e.target.value;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-        
+
       }
       else if(this.state.toTimeWen2 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeWen2;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
+
       if(name == 'fromTimeWen2'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = e.target.value;
@@ -558,7 +569,7 @@ class Doctor extends React.Component {
       }else if(this.state.fromTimeWen2 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeWen2;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
@@ -567,21 +578,21 @@ class Doctor extends React.Component {
       if(this.state.toTimeWen1 != '' && this.state.fromTimeWen1 != ''){
         var localDate1 = new Date();
         var localDate2 = new Date();
-    
+
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeWen1;
-    
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-    
+
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeWen1;
-    
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-    
+
         if(this.state.toTimeWen1 != '' || this.state.fromTimeWen1 != ''){
           if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
             //console.log("TimeChecklocalDate2",localDate1,localDate2)
@@ -591,8 +602,8 @@ class Doctor extends React.Component {
           }
         }
       }
-  
-      
+
+
       // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeWen1 != '' && this.state.fromTimeWen1 != ''){
         if(localDate3 > localDate4){
@@ -601,32 +612,32 @@ class Doctor extends React.Component {
           this.setState({[name]: ''})
         }
       }
-      
+
     }
 
     if(name == 'toTimeThr1' || name == 'fromTimeThr1'){
       //console.log("timeArrtimeArr",this.state.toTimeThr1,this.state.fromTimeThr1)
       var localDate1 = new Date();
       var localDate2 = new Date();
-  
+
       if(name == 'toTimeThr1'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker =  e.target.value;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-        
+
       }
       else if(this.state.toTimeThr1 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeThr1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
+
       if(name == 'fromTimeThr1'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = e.target.value;
@@ -636,13 +647,13 @@ class Doctor extends React.Component {
       }else if(this.state.fromTimeThr1 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeThr1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
-      
+
+
       // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeThr1 != '' && this.state.fromTimeThr1 != ''){
         if(localDate1 > localDate2){
@@ -651,32 +662,32 @@ class Doctor extends React.Component {
           this.setState({[name]: ''})
         }
       }
-      
+
     }
-  
+
     if(name == 'toTimeThr2' || name == 'fromTimeThr2'){
       //console.log("timeArrtimeArr",this.state.toTimeThr2,this.state.fromTimeThr2)
       var localDate3 = new Date();
       var localDate4 = new Date();
-  
+
       if(name == 'toTimeThr2'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker =  e.target.value;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-        
+
       }
       else if(this.state.toTimeThr2 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeThr2;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
+
       if(name == 'fromTimeThr2'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = e.target.value;
@@ -686,7 +697,7 @@ class Doctor extends React.Component {
       }else if(this.state.fromTimeThr2 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeThr2;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
@@ -695,21 +706,21 @@ class Doctor extends React.Component {
       if(this.state.toTimeThr1 != '' && this.state.fromTimeThr1 != ''){
         var localDate1 = new Date();
         var localDate2 = new Date();
-    
+
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeThr1;
-    
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-    
+
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeThr1;
-    
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-    
+
         if(this.state.toTimeThr1 != '' || this.state.fromTimeThr1 != ''){
           if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
             //console.log("TimeChecklocalDate2",localDate1,localDate2)
@@ -719,8 +730,8 @@ class Doctor extends React.Component {
           }
         }
       }
-  
-      
+
+
       // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeThr1 != '' && this.state.fromTimeThr1 != ''){
         if(localDate3 > localDate4){
@@ -729,32 +740,32 @@ class Doctor extends React.Component {
           this.setState({[name]: ''})
         }
       }
-      
+
     }
 
     if(name == 'toTimeFri1' || name == 'fromTimeFri1'){
       //console.log("timeArrtimeArr",this.state.toTimeFri1,this.state.fromTimeFri1)
       var localDate1 = new Date();
       var localDate2 = new Date();
-  
+
       if(name == 'toTimeFri1'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker =  e.target.value;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-        
+
       }
       else if(this.state.toTimeFri1 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeFri1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
+
       if(name == 'fromTimeFri1'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = e.target.value;
@@ -764,13 +775,13 @@ class Doctor extends React.Component {
       }else if(this.state.fromTimeFri1 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeFri1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
-      
+
+
       // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeFri1 != '' && this.state.fromTimeFri1 != ''){
         if(localDate1 > localDate2){
@@ -779,32 +790,32 @@ class Doctor extends React.Component {
           this.setState({[name]: ''})
         }
       }
-      
+
     }
-  
+
     if(name == 'toTimeFri2' || name == 'fromTimeFri2'){
       //console.log("timeArrtimeArr",this.state.toTimeFri2,this.state.fromTimeFri2)
       var localDate3 = new Date();
       var localDate4 = new Date();
-  
+
       if(name == 'toTimeFri2'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker =  e.target.value;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-        
+
       }
       else if(this.state.toTimeFri2 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeFri2;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
+
       if(name == 'fromTimeFri2'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = e.target.value;
@@ -814,7 +825,7 @@ class Doctor extends React.Component {
       }else if(this.state.fromTimeFri2 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeFri2;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
@@ -823,21 +834,21 @@ class Doctor extends React.Component {
       if(this.state.toTimeFri1 != '' && this.state.fromTimeFri1 != ''){
         var localDate1 = new Date();
         var localDate2 = new Date();
-    
+
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeFri1;
-    
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-    
+
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeFri1;
-    
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-    
+
         if(this.state.toTimeFri1 != '' || this.state.fromTimeFri1 != ''){
           if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
             //console.log("TimeChecklocalDate2",localDate1,localDate2)
@@ -847,8 +858,8 @@ class Doctor extends React.Component {
           }
         }
       }
-  
-      
+
+
       // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeFri1 != '' && this.state.fromTimeFri1 != ''){
         if(localDate3 > localDate4){
@@ -857,32 +868,32 @@ class Doctor extends React.Component {
           this.setState({[name]: ''})
         }
       }
-      
+
     }
 
     if(name == 'toTimeSat1' || name == 'fromTimeSat1'){
       //console.log("timeArrtimeArr",this.state.toTimeSat1,this.state.fromTimeSat1)
       var localDate1 = new Date();
       var localDate2 = new Date();
-  
+
       if(name == 'toTimeSat1'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker =  e.target.value;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-        
+
       }
       else if(this.state.toTimeSat1 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeSat1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
+
       if(name == 'fromTimeSat1'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = e.target.value;
@@ -892,13 +903,13 @@ class Doctor extends React.Component {
       }else if(this.state.fromTimeSat1 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeSat1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
-      
+
+
       // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeSat1 != '' && this.state.fromTimeSat1 != ''){
         if(localDate1 > localDate2){
@@ -907,32 +918,32 @@ class Doctor extends React.Component {
           this.setState({[name]: ''})
         }
       }
-      
+
     }
-  
+
     if(name == 'toTimeSat2' || name == 'fromTimeSat2'){
       //console.log("timeArrtimeArr",this.state.toTimeSat2,this.state.fromTimeSat2)
       var localDate3 = new Date();
       var localDate4 = new Date();
-  
+
       if(name == 'toTimeSat2'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker =  e.target.value;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-        
+
       }
       else if(this.state.toTimeSat2 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeSat2;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
+
       if(name == 'fromTimeSat2'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = e.target.value;
@@ -942,7 +953,7 @@ class Doctor extends React.Component {
       }else if(this.state.fromTimeSat2 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeSat2;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
@@ -951,21 +962,21 @@ class Doctor extends React.Component {
       if(this.state.toTimeSat1 != '' && this.state.fromTimeSat1 != ''){
         var localDate1 = new Date();
         var localDate2 = new Date();
-    
+
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeSat1;
-    
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-    
+
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeSat1;
-    
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-    
+
         if(this.state.toTimeSat1 != '' || this.state.fromTimeSat1 != ''){
           if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
             //console.log("TimeChecklocalDate2",localDate1,localDate2)
@@ -975,8 +986,8 @@ class Doctor extends React.Component {
           }
         }
       }
-  
-      
+
+
       // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeSat1 != '' && this.state.fromTimeSat1 != ''){
         if(localDate3 > localDate4){
@@ -985,32 +996,32 @@ class Doctor extends React.Component {
           this.setState({[name]: ''})
         }
       }
-      
+
     }
 
     if(name == 'toTimeSun1' || name == 'fromTimeSun1'){
       //console.log("timeArrtimeArr",this.state.toTimeSun1,this.state.fromTimeSun1)
       var localDate1 = new Date();
       var localDate2 = new Date();
-  
+
       if(name == 'toTimeSun1'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker =  e.target.value;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-        
+
       }
       else if(this.state.toTimeSun1 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeSun1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
+
       if(name == 'fromTimeSun1'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = e.target.value;
@@ -1020,13 +1031,13 @@ class Doctor extends React.Component {
       }else if(this.state.fromTimeSun1 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeSun1;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
-      
+
+
       // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeSun1 != '' && this.state.fromTimeSun1 != ''){
         if(localDate1 > localDate2){
@@ -1035,32 +1046,32 @@ class Doctor extends React.Component {
           this.setState({[name]: ''})
         }
       }
-      
+
     }
-  
+
     if(name == 'toTimeSun2' || name == 'fromTimeSun2'){
       //console.log("timeArrtimeArr",this.state.toTimeSun2,this.state.fromTimeSun2)
       var localDate3 = new Date();
       var localDate4 = new Date();
-  
+
       if(name == 'toTimeSun2'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker =  e.target.value;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-        
+
       }
       else if(this.state.toTimeSun2 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeSun2;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate3 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
+
       if(name == 'fromTimeSun2'){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = e.target.value;
@@ -1070,30 +1081,30 @@ class Doctor extends React.Component {
       }else if(this.state.fromTimeSun2 != ''){
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeSun2;
-  
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate4 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
       }
-  
+
       if(this.state.toTimeSun1 != '' && this.state.fromTimeSun1 != ''){
         var localDate1 = new Date();
         var localDate2 = new Date();
-    
+
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.toTimeSun1;
-    
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate1 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-    
+
         var dateFromPicker = "2020-01-01";
         var timeFromPicker = this.state.fromTimeSun1;
-    
+
         var dateParts = dateFromPicker.split("-");
         var timeParts = timeFromPicker.split(":");
         localDate2 = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
-    
+
         if(this.state.toTimeSun1 != '' || this.state.fromTimeSun1 != ''){
           if(localDate1 > localDate3 || localDate1 > localDate4 || localDate2 > localDate3 || localDate2 > localDate4){
             //console.log("TimeChecklocalDate2",localDate1,localDate2)
@@ -1103,7 +1114,7 @@ class Doctor extends React.Component {
           }
         }
       }
-      
+
       // //console.log("TimeChecklocalDate",localDate1,localDate2)
       if(this.state.toTimeSun1 != '' && this.state.fromTimeSun1 != ''){
         if(localDate3 > localDate4){
@@ -1112,7 +1123,7 @@ class Doctor extends React.Component {
           this.setState({[name]: ''})
         }
       }
-      
+
     }
     //console.log("time",e.target.value)
   }
@@ -1125,21 +1136,25 @@ class Doctor extends React.Component {
     this.setState({ refer_to_number: event.target.value})
   }
 
-  toggle_referral = () => {
+  toggle_referral = (name) => {
     this.setState({ refer_to_name: '', refer_to_number: '' })
     this.setState({ modal_referral: !this.state.modal_referral})
+
   }
 
   createRefer = (event) => {
     event.preventDefault();
-    this.props.dispatch(createReferral({from: this.state.from, referral: this.state.id, refer_to_name: this.state.refer_to_name, refer_to_number: this.state.refer_to_number}))
+    this.props.dispatch(createReferral({from: this.state.from, referral: this.state.id, refer_to_name: this.state.refer_to_name.toLowerCase(), refer_to_number: this.state.refer_to_number}))
     this.setState({ modal_referral: false})
   }
 
-  onRefer = (event, id) => {
+  onRefer = (event, id, name) => {
     event.preventDefault();
     this.setState({ id: id})
     this.setState({ modal_referral: true})
+    console.log(name);
+    console.log(name.toLowerCase());
+    this.props.dispatch(fetchDoctorReferral(name.toLowerCase()));
   }
 
 
@@ -1190,6 +1205,7 @@ class Doctor extends React.Component {
       sData : []
     })
     this.setState({ modal: !this.state.modal})
+    console.log("==========state", this.state);
   }
 
   onEdit = (event, id) => {
@@ -1206,7 +1222,7 @@ class Doctor extends React.Component {
   }
 
   render() {
-    const { users, user } = this.props;
+    const { users, user, doctor_referrals  } = this.props;
     //console.log("userrrrr", users);
     //console.log("toTimeMon1", this.state.toTimeMon1);
     return (
@@ -1248,7 +1264,7 @@ class Doctor extends React.Component {
                       <td>
                         <a onClick={event => this.onEdit(event, row.id)}><img src={require("../../images/edit.png")} width="20" height="25" /></a>
                         <a onClick={event => this.onDelete(event, row.id)}><img src={require("../../images/delete.png")} width="40" height="25"/></a>
-                        <a onClick={event => this.onRefer(event, row.id)} title="Referral"><img src={require("../../images/referral.png")} width="20" height="25"/></a>
+                        <a onClick={event => this.onRefer(event, row.id, row.first_name+" "+row.last_name)} title="Referral"><img src={require("../../images/referral.png")} width="20" height="25"/></a>
                       </td>
                     </tr>
                   )): 'NO DATA FOUND'}
@@ -1286,7 +1302,7 @@ class Doctor extends React.Component {
                   <input className="form-control" id="number"  value={ this.state.number} onChange={(event) => this.onNumberChange(event)}/>
                 </div>
               </Col>
-              { user == null ?
+              { this.state.is_create == true ?
                 <>
               <Col xl={6}>
                 <div className="form-group">
@@ -1302,7 +1318,7 @@ class Doctor extends React.Component {
               </Col>
               </> : '' }
               </Row>
-              
+
               <Row>
                 <Col xl={2}>
                   <div className="form-group">
@@ -1493,6 +1509,36 @@ class Doctor extends React.Component {
             <Button color="primary" onClick={(event) => this.createRefer(event)}>Create</Button>
             <Button color="secondary" onClick={this.toggle_referral}>Cancel</Button>
         </ModalFooter>
+
+
+        <Row>
+          <Col xl={12}>
+            <Widget
+              title={<p style={{ fontWeight: 700 }}>Referrals</p>}
+            >
+            {doctor_referrals.length > 0 ?
+              <Table responsive>
+                <thead>
+                  <tr className="fs-sm">
+                    <th className="hidden-sm-down">#</th>
+                    <th className="hidden-sm-down">Name</th>
+                    <th className="hidden-sm-down">Contact Number</th>
+                    <th />
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* doctor_referrals.map(row => (
+                    <tr key={row.id}>
+                      <td>{row.id}</td>
+                      <td>{this.get_user_name(row.referral)}</td>
+                      <td>{row.refer_to_number}</td>
+                    </tr>
+                  )) */}
+                </tbody>
+              </Table> : 'NO REFERRAL FOUND'}
+            </Widget>
+          </Col>
+        </Row>
       </Modal>
       </div>
     )
@@ -1502,7 +1548,8 @@ class Doctor extends React.Component {
 const mapStateToProps = state => ({
   users: state.auth.users,
   user: state.auth.user,
-  edit: state.auth.edit
+  edit: state.auth.edit,
+  doctor_referrals: state.referral.doctor_referrals
 });
 
 export default withRouter(connect(mapStateToProps)(Doctor));

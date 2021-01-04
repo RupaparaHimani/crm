@@ -52,23 +52,6 @@ class BreadcrumbHistory extends Component {
             </Col>
             {this.props.url === "/app/main/dashboard" ? (
               <Col lg={7} className={`d-flex align-items-start justify-content-center pr-0 ${s.dashboardButtons} mt-1`}>
-                <UncontrolledButtonDropdown className={"ml-lg-auto ml-md-0"}>
-                  <DropdownToggle
-                    caret
-                    color="default"
-                    className={`dropdown-toggle-split ${s.customDropdown}`}
-                  >
-                    {this.state.date}&nbsp;&nbsp;
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    <DropdownItem>14 Jan 2020</DropdownItem>
-                    <DropdownItem>13 Jan 2020</DropdownItem>
-                    <DropdownItem>12 Jan 2020</DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledButtonDropdown>
-                <Button color={"danger"} className={`${s.btnShadow}`}>
-                  Download Report
-                </Button>
               </Col>
             ) : null}
           </Row>

@@ -5,13 +5,15 @@ import {
   CREATE_REFERRAL_SUCCESS,
   UPDATE_REFERRAL_SUCCESS,
   EDIT_REFERRAL_SUCCESS,
-  DELETE_REFERRAL_SUCCESS
+  DELETE_REFERRAL_SUCCESS,
+  FETCH_DOCTOR_REFERRAL_SUCCESS
 } from '../actions/referral';
 
 const initialState = {
   referrals: [],
   referral: null,
   temp: [],
+  doctor_referrals: [],
   edit: false,
 };
 
@@ -30,6 +32,11 @@ export default function referralReducer(state = initialState, action) {
     case FETCH_REFERRAL_SUCCESS:
       return Object.assign({}, state, {
           referrals: action.payload.referrals,
+      });
+
+    case FETCH_DOCTOR_REFERRAL_SUCCESS:
+      return Object.assign({}, state, {
+          doctor_referrals: action.payload.doctor_referrals,
       });
 
     case CREATE_REFERRAL_SUCCESS:
